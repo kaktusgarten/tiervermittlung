@@ -13,7 +13,6 @@ export default function AboutPage() {
             <li>Typescript</li>
             <li>React</li>
             <li>TailwindCss</li>
-            <li>DailyUi: -- Login Modal -- Theme Colors</li>
             <li>React-Router</li>
             <li>Prodected-Layout (React-Router)</li>
             <li>createContext() - React Context API</li>
