@@ -10,7 +10,7 @@ export default function ProtectedLayout() {
 
   useEffect(() => {
     if (!token) {
-      alert(
+      console.log(
         "Erst anmelden! Dieser Bereich ist geschützt. Siehe 'ProdectedLayout.tsx' Datei"
       );
       navigate("/login");

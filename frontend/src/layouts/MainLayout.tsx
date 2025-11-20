@@ -5,8 +5,8 @@ export default function MainLayout() {
   return (
     <>
       <div className="page flex flex-col min-h-screen">
-        <div className="py-4 sticky top-0">
-          <div className="container m-auto border">
+        <div className="py-4 sticky top-0 bg-white border-b shadow-xl z-100">
+          <div className="container m-auto">
             <Header></Header>
           </div>
         </div>

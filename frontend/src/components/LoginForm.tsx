@@ -1,8 +1,12 @@
 import { Link, useNavigate } from "react-router";
-import { useActionState } from "react";
+import { useActionState, use } from "react";
+import { GesamtseitenContext } from "../context/GesamtseitenContext";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+
+  const { setMyToken } = use(GesamtseitenContext);
+
   //
   //
   // FORM ACTION **********************************************
@@ -21,8 +25,15 @@ export default function LoginForm() {
       await new Promise((resolve) => {
         setTimeout(resolve, 1000);
       });
+
+
+      setMyToken("MeinTollerToken");
+      console.log("Token gesetzt");
+
       // Close Modal!
-      (document.getElementById("loginModal") as HTMLDialogElement | null)?.close();
+      (
+        document.getElementById("loginModal") as HTMLDialogElement | null
+      )?.close();
 
       // Alles gut, Tschüss..
       navigate("/");
