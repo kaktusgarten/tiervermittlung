@@ -4,7 +4,6 @@ export default function Header() {
   return (
     <>
       <header className="p-4">
-        <h1 className="text-5xl text-white">Die Tiervermittlung</h1>
         <nav className="pt-5">
           <ul className="flex gap-5 text-white">
             <li>
