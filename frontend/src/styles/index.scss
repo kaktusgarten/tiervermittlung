@@ -1,0 +1,11 @@
+/* WENN kein SCSS verwendet werden soll, dann auch nix in die index.css schreiben. (Wegen Überschreibungsgefahr) */
+/* Sobald scss-Datei geändert wird überschreibt sie alles was in der index.css noch so stand */
+/* Alles kann ohne scss am besten einfach in die App.css geschrieben werden, oder in einen andere Datei die dann dort importiert wird.. */
+/* SCSS Compiler kann mit "npm run sass:watch" gestartet werden.. */
+
+.scssGehtInDiesemProjekt {
+  .compiler-einschalten-nicht-vergessen {
+    /* "npm run sass:watch" */
+    color: hotpink;
+  }
+}
