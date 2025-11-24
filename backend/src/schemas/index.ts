@@ -1,1 +1,2 @@
-export * from './inputSchemas.ts';
+export * from "./inputSchemas.ts";
+export * from "./categorySchemas.ts";
