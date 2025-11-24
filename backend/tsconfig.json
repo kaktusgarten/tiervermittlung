@@ -12,8 +12,8 @@
     "verbatimModuleSyntax": true, // Keeps import/export syntax as-is for Node.js
     /* Strictness */
     "strict": true, // Enables all strict type-checking options
-    "noUncheckedIndexedAccess": true, // Adds undefined to object access via index if type not declared
-    "noImplicitOverride": true, // Requires override keyword when overriding methods
+    "noUncheckedIndexedAccess": true, // Adds 'undefined' to object access via index if type not declared
+    "noImplicitOverride": true, // Requires 'override' keyword when overriding methods
     /* Node Options*/
     "allowImportingTsExtensions": true, // Allows importing files with .ts extensions
     "rewriteRelativeImportExtensions": true, // Rewrites relative imports with correct extensions
@@ -23,7 +23,7 @@
     /* Paths */
     "baseUrl": "./src", // Base path for module resolution
     "paths": {
-      "#*": ["*"] // Defines internal path aliases with # to avoid conflict with @
+      "#*": ["*"] // Defines internal path aliases with '#' to avoid conflict with '@'
     }
   },
   "include": ["src"] // Files to include in compilation
