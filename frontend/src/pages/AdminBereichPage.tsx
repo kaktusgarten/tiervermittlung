@@ -2,11 +2,8 @@ export default function AdminBereichPage() {
   return (
     <>
       <main className="p-4">
-        <h2 className="mb-2 text-3xl">Admin-Bereich</h2>
-
-        <div className="p-5">
-          Dieser Bereich ist nur über ein Login zugänglich..
-        </div>
+        <h2 className="mb-2 text-5xl font-bold pt-5">Admin Bereich</h2>
+        <p className="my-10 text-xl">Hier ist alles für den Admin zu finden.</p>
       </main>
     </>
   );
