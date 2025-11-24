@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "file_upload",
-    resource_type: "raw",
+    resource_type: "auto",
     allowedFormats: ["jpg", "jpeg", "png", "gif", "pdf"],
     public_id: () => `tiervermittlung-${Date.now().toString()}`,
     limits: {
