@@ -11,7 +11,7 @@ export default function MainLayout() {
           </div>
         </div>
 
-        <div className="container m-auto flex-1 my-4 border rounded-xl bg-base-100">
+        <div className="container m-auto flex-1 my-4 border rounded-xl bg-base-100 md:p-8 ">
           <Outlet></Outlet>
         </div>
 

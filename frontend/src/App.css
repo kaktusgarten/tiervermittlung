@@ -27,3 +27,25 @@
 }
 
 @import "./styles/index.css";
+
+/* BACKGROUND VERLAUF FÜR THEME "Dark" und "Light" ################### */
+
+html[data-theme="light"] .page {
+  background: #b2e3a6;
+  background: linear-gradient(
+    329deg,
+    rgba(178, 227, 166, 1) 0%,
+    rgba(18, 64, 17, 1) 56%,
+    rgba(51, 102, 59, 1) 100%
+  );
+}
+
+html[data-theme="dark"] .page {
+  background: #284a24;
+  background: linear-gradient(
+    329deg,
+    rgba(40, 74, 36, 1) 0%,
+    rgba(16, 43, 16, 1) 56%,
+    rgba(6, 26, 9, 1) 100%
+  );
+}
