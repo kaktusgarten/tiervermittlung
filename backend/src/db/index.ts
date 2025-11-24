@@ -1,11 +1,12 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+
+const MONGO_URI = process.env.MONGO_URI!;
 
 try {
-  await mongoose.connect(process.env.MONGODB_URI!, {
-    dbName: process.env.DB_NAME,
-  });
-  console.log("\x1b[35m✅ MongoDB connected via Mongoose\x1b[0m");
+  const db = await mongoose.connect(MONGO_URI);
+  console.log('✔️  connected to MongoDB');
+  console.log(`📦 using db: ${db.connection.name}`);
 } catch (error) {
-  console.error("❌ MongoDB connection error:", error);
+  console.error('❌ MongoDB connection error:', error);
   process.exit(1);
 }
