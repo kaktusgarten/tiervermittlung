@@ -8,7 +8,7 @@ export default function AddAnimalPage() {
         <p className="my-10 text-xl">
           Hier kannst Du die Informationen zu deinem Tier einstellen
         </p>
-        <section className="grid grid-cols-2 gap-5">
+        <section className="grid md:grid-cols-2 gap-5">
           <div>
             <AnimalForm></AnimalForm>
           </div>

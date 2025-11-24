@@ -26,6 +26,14 @@
   --color-base-background: #000;
 }
 
+/* STANDARD Schriftgröße für alle <p> Tags festlegen: */
+@layer base {
+  p {
+    font-size: 1.25rem; /* text-xl */
+    line-height: 1.75rem;
+  }
+}
+
 @import "./styles/index.css";
 
 /* BACKGROUND VERLAUF FÜR THEME "Dark" und "Light" ################### */

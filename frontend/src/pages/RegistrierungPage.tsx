@@ -9,7 +9,7 @@ export default function RegistrierungPage() {
           Hier kannst Du dich registrieren um ein Tier auf unserer Seite
           einzustellen.
         </p>
-        <section className="grid grid-cols-2 gap-5">
+        <section className="grid md:grid-cols-2 gap-5">
           <div>
             <RegistryForm></RegistryForm>
           </div>
