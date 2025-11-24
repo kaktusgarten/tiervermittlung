@@ -23,6 +23,11 @@ export default function RegistrierungPage() {
               Name des Interessenten an dich weiter gegeben und sind in deinem
               Kontobereich einsehbar.
             </p>
+            <img
+              src="./img/tierglueck-vermittlung.png"
+              title="Die Tierglückvermittlung"
+              className="border rounded-2xl w-[100%]"
+            ></img>
           </div>
         </section>
         <article className="py-10">

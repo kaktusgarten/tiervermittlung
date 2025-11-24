@@ -9,7 +9,7 @@ function validateRegistration(data: Record<string, string>) {
     errors.animalName = "Der Name des Tieres ist erforderlich";
   if (!data.animalSpezies)
     errors.animalSpezies = "Tierspezies ist erforderlich";
-  // UND SO WEITER......
+  // TODO: UND SO WEITER, hier Felder eintragen....
 
   return errors;
 }
@@ -29,14 +29,14 @@ export default function AnimalForm() {
     }
 
     try {
-      console.log("Registriere Benutzer:", data);
+      console.log("Tier-Daten zur Registrierung:", data);
 
       // POST-Request an Backend ###############################################################
-      const { password2, ...sendData } = data; // password2 nicht speichern
-      const res = await fetch("http://localhost:3000/animal/register", {
+
+      const res = await fetch("http://localhost:3000/animals", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(sendData),
+        body: JSON.stringify(data),
       });
 
       console.log("Animal-Registrierungs-Response ist: ");
@@ -85,7 +85,7 @@ export default function AnimalForm() {
           </p>
         )}
 
-        {/* Speziel */}
+        {/* Speziel / Tierart */}
         <label className="label mt-2">Spezies</label>
         <input
           defaultValue={formState.input?.animalSpezies}
@@ -99,6 +99,55 @@ export default function AnimalForm() {
             {formState.errors.animalSpezies}
           </p>
         )}
+
+        {/* Rasse */}
+        <label className="label mt-2">Rasse</label>
+        <input
+          defaultValue={formState.input?.animalRasse}
+          name="animalRasse"
+          className="input w-full"
+          placeholder="Rasse"
+          disabled={isPending}
+        />
+        {formState.errors?.spezies && (
+          <p className="text-sm text-red-400 mt-1">
+            {formState.errors.animalRasse}
+          </p>
+        )}
+
+        {/* Alter */}
+        <label className="label mt-2">Alter</label>
+        <input
+          defaultValue={formState.input?.animalAge}
+          name="animalAge"
+          className="input w-full"
+          placeholder="Alter"
+          disabled={isPending}
+        />
+        {formState.errors?.spezies && (
+          <p className="text-sm text-red-400 mt-1">
+            {formState.errors.animalAge}
+          </p>
+        )}
+
+        {/* Geschlecht */}
+        <label className="label mt-2">Geschlecht</label>
+        <input
+          defaultValue={formState.input?.animalSex}
+          name="animalSex"
+          className="input w-full"
+          placeholder="Geschlecht"
+          disabled={isPending}
+        />
+        {formState.errors?.animalSex && (
+          <p className="text-sm text-red-400 mt-1">
+            {formState.errors.animalSex}
+          </p>
+        )}
+
+        {/* ########################################################## */}
+        {/* TODO: Beschreibung, Eigenschaften-[], Bilderupload-[], Besitzer-User-ID */}
+        {/* ########################################################## */}
 
         <button
           type="submit"

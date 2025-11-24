@@ -25,6 +25,11 @@ export default function AddAnimalPage() {
               Kontaktaufnahme zwischen dem Einsteller und dem Interessenten
               persönlich, per Telefon oder per Mail ab.
             </p>
+            <img
+              src="./img/tierglueck-vermittlung.png"
+              title="Die Tierglückvermittlung"
+              className="border rounded-2xl w-[100%]"
+            ></img>
           </div>
         </section>
         <article className="py-10">
