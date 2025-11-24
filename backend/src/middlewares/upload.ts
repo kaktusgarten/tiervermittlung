@@ -14,7 +14,7 @@ const storage = new CloudinaryStorage({
     folder: "file_upload",
     resource_type: "raw",
     allowedFormats: ["jpg", "jpeg", "png", "gif", "pdf"],
-    public_id: () => `test-${Date.now().toString()}`,
+    public_id: () => `tiervermittlung-${Date.now().toString()}`,
     limits: {
       fileSize: 8 * 1024 * 1024, // 8MB
     },
