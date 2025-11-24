@@ -3,7 +3,13 @@ import cookieParser from "cookie-parser";
 import swaggerUI from "swagger-ui-express";
 import cors from "cors";
 import "#db";
-import { authRoutes, postRoutes, userRoutes, categoryRoutes } from "#routes";
+import {
+  authRoutes,
+  postRoutes,
+  userRoutes,
+  categoryRoutes,
+  characteristicRoutes,
+} from "#routes";
 import { errorHandler } from "#middlewares";
 import { openapiSpec } from "#docs";
 
@@ -30,6 +36,7 @@ app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/categories", categoryRoutes);
+app.use("/characteristics", characteristicRoutes);
 
 // DOCs
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(openapiSpec));

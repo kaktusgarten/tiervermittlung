@@ -19,7 +19,7 @@ categoryRoutes.post(
   "/",
   authenticate,
   authorize(Category),
-  //validateBodyZod(categoryInputSchema),
+  validateBodyZod(categoryInputSchema),
   createCategory
 );
 

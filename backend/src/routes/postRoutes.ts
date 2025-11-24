@@ -27,7 +27,7 @@ postRoutes.put(
   "/:id",
   authenticate,
   authorize(Post),
-  // upload.array('image', 5),
+  upload.array("image", 5),
   validateBodyZod(postInputSchema),
   updatePost
 );
