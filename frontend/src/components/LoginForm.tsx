@@ -26,7 +26,6 @@ export default function LoginForm() {
         setTimeout(resolve, 1000);
       });
 
-
       setMyToken("MeinTollerToken");
       console.log("Token gesetzt");
 
@@ -57,7 +56,7 @@ export default function LoginForm() {
   return (
     <>
       <form action={formAction}>
-        <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+        <fieldset className="fieldset bg-base-100 border-base rounded-box border p-4">
           <legend className="fieldset-legend">Login</legend>
 
           <label className="label">Email</label>

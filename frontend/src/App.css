@@ -12,6 +12,7 @@
   --color-secondary-content: #fff;
   --color-base: oklch(20% 0.05 240);
   --color-base-content: #000;
+  --color-base-background: #fff;
 }
 @plugin "daisyui/theme" {
   name: "dark";
@@ -22,6 +23,7 @@
   --color-secondary-content: #fff;
   --color-base: oklch(20% 0.05 240);
   --color-base-content: #fff;
+  --color-base-background: #000;
 }
 
 @import "./styles/index.css";
