@@ -15,8 +15,8 @@ export default function MainLayout() {
           <Outlet></Outlet>
         </div>
 
-        <div className="bg-gray-900 py-4">
-          <div className="container m-auto border">
+        <div className="bg-base-100 py-4 min-h-[200px]">
+          <div className="container m-auto">
             <Footer></Footer>
           </div>
         </div>
