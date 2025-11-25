@@ -40,6 +40,23 @@ const authorize = (Model: any): RequestHandler => {
         );
       }
     }
+    // Überprüfe, ob der angemeldete Benutzer
+    // der Absender der Nachricht
+    // oder der Besitzer des Tiers ist
+    if (Model.modelName === "Message") {
+      const senderId = model.sender.toString();
+      const ownerId = model.animal.owner.toString();
+      const userId = req.user?.id;
+
+      if (senderId === userId || ownerId === userId) return next();
+
+      return next(
+        new Error("Forbidden, you cannot modify this", {
+          cause: { status: 403 },
+        })
+      );
+    }
+
     // Überprüfe, ob der angemeldete Benutzer der Besitzer des Posts ist
     if (!model.author) return next();
     const ownerId = model.author?.toString?.() ?? model._id.toString();
