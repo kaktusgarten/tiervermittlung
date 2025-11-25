@@ -78,9 +78,9 @@ export default function Footer() {
           </div>
         </section>
 
-        <section className="bg-[#594856] py-1 min-h-[10px] text-white">
+        {/* <section className="bg-[#000] py-1 min-h-[10px] text-white">
           <div className="container m-auto grid grid-cols-[1fr_auto] gap-4"></div>
-        </section>
+        </section> */}
       </footer>
     </>
   );
