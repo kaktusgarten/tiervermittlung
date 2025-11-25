@@ -4,22 +4,19 @@ import Footer from "../components/Footer";
 export default function MainLayout() {
   return (
     <>
-      <div className="page flex flex-col min-h-screen bg-[#a0c2b5]">
-        <div className="py-4 sticky top-0 bg-base-100 border-b z-100 -translate-y-2 shadow-[0_0_30px_#000] border-[#715bd6]">
+      <div className="page flex flex-col min-h-screen">
+        <div className="py-4 sticky top-0 bg-[#1D3349] border-b z-100 -translate-y-2 shadow-[0_0_20px_#000] border-[#000]">
           <div className="container m-auto">
             <Header></Header>
           </div>
         </div>
 
-        <div className="container m-auto flex-1 my-4 border rounded-xl bg-base-100 md:p-8 ">
+        <div className="container m-auto flex-1 mb-10 bg-base-100 md:p-8 ">
           <Outlet></Outlet>
         </div>
 
-        <div className="bg-base-100 py-4 min-h-[200px]">
-          <div className="container m-auto">
-            <Footer></Footer>
-          </div>
-        </div>
+        <Footer></Footer>
+       
       </div>
     </>
   );

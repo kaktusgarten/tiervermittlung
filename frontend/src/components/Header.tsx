@@ -5,7 +5,7 @@ export default function Header() {
     <>
       <header className="p-4">
         <nav className="">
-          <ul className="flex gap-5 text-base">
+          <ul className="flex gap-5 text-base text-white">
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
