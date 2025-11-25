@@ -7,7 +7,7 @@ export default function Footer() {
           <div className="container m-auto">
             <div className="grid md:grid-cols-3 gap-5">
               {/* Spalte 1 #################################### */}
-              <section className="p-4 py-10">
+              <section className="p-4 sm:py-10 py-4">
                 <h3 className="text-white">Wir lieben Tiere</h3>
                 <span>
                   Da wir dieses Angebot aus reiner Tierliebe, ohne kommerziellen
@@ -17,7 +17,7 @@ export default function Footer() {
               </section>
 
               {/* Spalte 2 #################################### */}
-              <section className="p-4 py-10">
+              <section className="p-4 sm:py-10 py-4">
                 <h3 className="text-white">Websites zum Thema:</h3>
                 <span>
                   <ul className="list-[disc] pl-5">
@@ -25,6 +25,7 @@ export default function Footer() {
                       <a
                         href="https://www.bremer-tierschutzverein.de/tiervermittlung/unsere-tiere.html"
                         title="Bremer Tierschutzverein e.V."
+                        target="_blank"
                         className="underline italic"
                       >
                         Tierschutz Bremen
@@ -34,6 +35,7 @@ export default function Footer() {
                       <a
                         href="https://deguhilfe-sued.de/"
                         title="Deguhilfe Süd"
+                        target="_blank"
                         className="underline italic"
                       >
                         Deguhilfe Süd
@@ -44,7 +46,7 @@ export default function Footer() {
               </section>
 
               {/* Spalte 3 #################################### */}
-              <section className="p-4 py-10">
+              <section className="p-4 sm:py-10 py-4">
                 <h3 className="text-white">Kontakt</h3>
                 <span>
                   Gerne könnt Ihr uns eine Nachricht oder andere Infos über die

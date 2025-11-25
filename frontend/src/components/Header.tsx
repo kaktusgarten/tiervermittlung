@@ -68,10 +68,10 @@ export default function Header() {
         </nav>
       </header> */}
 
-      <div className="py-4 sticky top-0 bg-[#1D3349] text-white border-b z-100 -translate-y-2 shadow-[0_0_20px_#000] border-[#000]">
+      <header className="py-4 sticky top-0 bg-[#1D3349] text-white border-b z-100 -translate-y-2 shadow-[0_0_20px_#000] border-[#000]">
         <div className="container m-auto">
           {/* HEADER INHALT */}
-          <header className="overflow-auto min-h-[40px]">
+          <div className="overflow-auto min-h-[40px]">
             <div className="grid md:grid-cols-3">
               <div className="NAVI-1">
                 <nav>
@@ -155,9 +155,9 @@ export default function Header() {
                 </nav>
               </div>
             </div>
-          </header>
+          </div>
         </div>
-      </div>
+      </header>
     </>
   );
 }
