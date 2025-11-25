@@ -2,8 +2,7 @@ export default function AboutPage() {
   return (
     <>
       <main className="p-4">
-        <h2 className="mb-2 text-3xl">Ich bin die ABOUT PAGE</h2>
-        <h2>Hallo!</h2>
+        <h1 className="mb-2">Ich bin die ABOUT PAGE</h1>
         <div className="p-5">
           <p className="text-xl">
             1. Auf dieser Base React Site wurde folgendes verwendet:
