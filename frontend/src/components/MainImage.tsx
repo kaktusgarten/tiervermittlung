@@ -12,7 +12,7 @@ export default function MainImage() {
         }}
       >
         <h1
-          className="mb-5 text-white"
+          className="mb-5 text-white text-6xl"
           style={{ textShadow: "1px 1px 2px black" }}
         >
           Tierglück Vermittlung
@@ -21,7 +21,7 @@ export default function MainImage() {
           className="italic mb-6 text-2xl text-white"
           style={{ textShadow: "1px 1px 2px black" }}
         >
-          Finde ein neues Zuhause für dein Tier
+          Finde ein neues Zuhause für dein Tier - Wir helfen!
         </p>
       </div>
     </>
