@@ -3,8 +3,14 @@ import cookieParser from "cookie-parser";
 import swaggerUI from "swagger-ui-express";
 import cors from "cors";
 import "#db";
-import { animalRoutes, authRoutes, postRoutes, userRoutes } from "#routes";
-import { errorHandler, upload } from "#middlewares";
+import {
+  authRoutes,
+  postRoutes,
+  userRoutes,
+  categoryRoutes,
+  characteristicRoutes,
+} from "#routes";
+import { errorHandler } from "#middlewares";
 import { openapiSpec } from "#docs";
 
 const app = express();
@@ -30,7 +36,8 @@ app.use(
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
-app.use("/animals", animalRoutes);
+app.use("/categories", categoryRoutes);
+app.use("/characteristics", characteristicRoutes);
 
 // DOCs
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(openapiSpec));

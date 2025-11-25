@@ -4,34 +4,41 @@ import {
   getAllUsers,
   getUserById,
   updateUser,
-} from '#controllers';
-import { authenticate, authorize, validateBodyZod } from '#middlewares';
-import { User } from '#models';
-import { changePasswordSchema, userInputSchema } from '#schemas';
-import { Router } from 'express';
+} from "#controllers";
+import { authenticate, authorize, validateBodyZod } from "#middlewares";
+import { User } from "#models";
+import {
+  changePasswordSchema,
+  userInputSchema,
+  userInputSchema2,
+} from "#schemas";
+import { Router } from "express";
 
 const userRoutes = Router();
 
 // PUBLIC
-userRoutes.get('/', getAllUsers);
-userRoutes.get('/:id', getUserById);
+userRoutes.get("/", getAllUsers);
+userRoutes.get("/:id", getUserById);
 
 userRoutes.put(
-  '/:id',
+  "/:id",
   authenticate,
   authorize(User),
-  validateBodyZod(userInputSchema),
+  // Update Post User
+  // validateBodyZod(userInputSchema),
+  //Update Tiervermittlung User
+  validateBodyZod(userInputSchema2),
   updateUser
 );
 
 userRoutes.patch(
-  '/:id/password',
+  "/:id/password",
   authenticate,
   authorize(User),
   validateBodyZod(changePasswordSchema),
   changePassword
 );
 
-userRoutes.delete('/:id', authenticate, authorize(User), deleteUser);
+userRoutes.delete("/:id", authenticate, authorize(User), deleteUser);
 
 export default userRoutes;
