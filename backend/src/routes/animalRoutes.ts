@@ -1,6 +1,5 @@
 import {
-  //   changePassword,
-  //   deleteUser,
+  deleteAnimal,
   getAllAnimals,
   getAnimalById,
   updateAnimal,
@@ -31,18 +30,11 @@ animalRoutes.put(
   "/:id",
   authenticate,
   authorize(Animal),
+  upload.array("image", 4),
   validateBodyZod(animalInputSchema),
   updateAnimal
 );
 
-// userRoutes.patch(
-//   '/:id/password',
-//   authenticate,
-//   authorize(User),
-//   validateBodyZod(changePasswordSchema),
-//   changePassword
-// );
-
-//animalRoutes.delete('/:id', authenticate, authorize(Animal), deleteAnimal);
+animalRoutes.delete("/:id", authenticate, authorize(Animal), deleteAnimal);
 
 export default animalRoutes;

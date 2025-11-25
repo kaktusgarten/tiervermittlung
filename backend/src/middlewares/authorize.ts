@@ -27,6 +27,13 @@ const authorize = (Model: any): RequestHandler => {
     if (Model.modelName === "Animal") {
       if (!model.owner) return next();
       const ownerId = model.owner?.toString?.() ?? model._id.toString();
+      if (ownerId !== req.user?.id) {
+        return next(
+          new Error("Forbidden, you cannot modify this", {
+            cause: { status: 403 },
+          })
+        );
+      }
     }
 
     // Überprüfe, ob der angemeldete Benutzer der zu bearbeitende Benutzer ist

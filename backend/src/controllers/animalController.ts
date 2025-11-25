@@ -83,11 +83,10 @@ export const createAnimal: RequestHandler<
     handycap: handycap,
   });
 
-  console.log("cloudinary upload results", files);
   res.status(201).json(newAnimal);
 };
 
-// GET AN SPECIAL ANIMAL
+// GET SINGLE ANIMAL
 export const getAnimalById: RequestHandler<
   { id: string },
   AnimalDTO,
@@ -100,14 +99,13 @@ export const getAnimalById: RequestHandler<
   res.status(201).json(animal);
 };
 
-// Update
+// UPDATE SINGLE ANIMAL
 export const updateAnimal: RequestHandler<
   { id: string },
   AnimalDTO,
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
-  console.log("Body: ", req.body);
   const {
     name,
     category,
@@ -118,6 +116,14 @@ export const updateAnimal: RequestHandler<
     description,
     handycap,
   } = req.body;
+
+  const files = (req.files as Express.Multer.File[]) || [];
+  let imageUrl: string[];
+  if (files.length === 0) {
+    imageUrl = [];
+  } else {
+    imageUrl = files.map((file) => file.path);
+  }
 
   const updatedAnimal = await Animal.findByIdAndUpdate(
     id,
@@ -130,6 +136,7 @@ export const updateAnimal: RequestHandler<
       characteristics,
       description,
       handycap,
+      image_url: imageUrl,
     },
     { new: true, runValidators: true }
   );
@@ -137,4 +144,18 @@ export const updateAnimal: RequestHandler<
   res.status(201).json(updatedAnimal);
 };
 
-// Delete
+// DELETE SINGLE ANIMAL
+export const deleteAnimal: RequestHandler<
+  { id: string },
+  AnimalDTO,
+  AnimalInputDTO
+> = async (req, res) => {
+  const { id } = req.params;
+
+  const deletedAnimal = await Animal.findByIdAndDelete(id, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(201).json(deletedAnimal);
+};

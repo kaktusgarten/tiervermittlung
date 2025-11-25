@@ -9,6 +9,7 @@ import {
   userRoutes,
   categoryRoutes,
   characteristicRoutes,
+  animalRoutes,
 } from "#routes";
 import { errorHandler } from "#middlewares";
 import { openapiSpec } from "#docs";
@@ -38,6 +39,7 @@ app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/characteristics", characteristicRoutes);
+app.use("/animals", animalRoutes);
 
 // DOCs
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(openapiSpec));
