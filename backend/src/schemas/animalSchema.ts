@@ -4,15 +4,15 @@ export const animalInputSchema = z
   .object({
     name: z
       .string({ error: "name must be a string" })
-      .min(2, { message: "name must be at least 5 characters long" }),
+      .min(2, { message: "name must be at least 2 characters long" }),
 
     category: z
       .string({ error: "category must be a string" })
-      .min(5, { message: "category must be at least 5 characters long" }),
+      .min(2, { message: "category must be at least 2 characters long" }),
 
     race: z
       .string({ error: "race must be a string" })
-      .min(5, { message: "race must be at least 5 characters long" }),
+      .min(2, { message: "race must be at least 2 characters long" }),
 
     // age: z
     //   .number({ error: "age must be a number" })
