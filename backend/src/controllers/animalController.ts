@@ -99,6 +99,20 @@ export const getAnimalById: RequestHandler<
   res.status(201).json(animal);
 };
 
+// GET ANIMALS (Query)
+export const getAnimals: RequestHandler<
+  unknown,
+  AnimalDTO,
+  AnimalInputDTO
+> = async (req, res) => {
+  const { query } = req.query;
+
+  //  const animal = await Animal.findById(id);
+
+  //  res.status(201).json(animal);
+  res.status(201);
+};
+
 // UPDATE SINGLE ANIMAL
 export const updateAnimal: RequestHandler<
   { id: string },
