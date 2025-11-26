@@ -11,6 +11,7 @@ import AddAnimalPage from "./pages/AddAnimalPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import AnimalDetailPage from "./pages/AnimalDetailPage";
 import SearchAnimalPage from "./pages/SearchAnimalPage";
+import ImpressumAgbPage from "./pages/ImpressumAgbPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/tier-suchen" element={<SearchAnimalPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/impressum" element={<ImpressumAgbPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/details" element={<AnimalDetailPage />} />
           <Route path="/registrierung" element={<RegistrierungPage />} />

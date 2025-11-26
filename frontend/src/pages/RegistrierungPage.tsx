@@ -3,7 +3,7 @@ import RegistryForm from "../components/RegistryForm";
 export default function RegistrierungPage() {
   return (
     <>
-      <main className="p-4">
+      <main className="">
         <h1 className="mb-2">Registrierung</h1>
         <p className="my-10 text-xl">
           Hier kannst Du dich registrieren um ein Tier auf unserer Seite

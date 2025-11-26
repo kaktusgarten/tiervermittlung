@@ -1,7 +1,17 @@
+import MainImage from "../components/MainImage";
+
 export default function AboutPage() {
   return (
     <>
-      <main className="p-4">
+      <main className="">
+        <div className="mb-10">
+          <MainImage
+            image="./img/Maeuse.jpg"
+            headline="Über uns"
+            textColor="white"
+            text="Wir möchten helfen - Vermittlungsseite ohne kosten und kommerziellen Hintergedanken"
+          />
+        </div>
         <h1 className="mb-2">Ich bin die ABOUT PAGE</h1>
         <div className="p-5">
           <p className="text-xl">

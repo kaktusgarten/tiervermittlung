@@ -1,8 +1,8 @@
 export default function AnimalDetailPage() {
   return (
     <>
-      <main className="p-4">
-        <h2 className="mb-2 text-3xl">Tier Detail Seite</h2>
+      <main className="">
+        <h1 className="mt-10 mb-4">Tier Detail Seite</h1>
       </main>
     </>
   );

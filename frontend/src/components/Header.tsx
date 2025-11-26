@@ -90,7 +90,7 @@ export default function Header() {
                             <NavLink to="/about">Über uns</NavLink>
                           </li>
                           <li>
-                            <NavLink to="/about">Impressum</NavLink>
+                            <NavLink to="/impressum">Impressum</NavLink>
                           </li>
                         </ul>
                       </details>

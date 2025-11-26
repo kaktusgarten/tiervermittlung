@@ -69,7 +69,10 @@ export default function Footer() {
                     <NavLink to="/tier-suchen">Tierfinder</NavLink>
                   </li>
                   <li>
-                    <NavLink to="/about">Über uns / Impressum</NavLink>
+                    <NavLink to="/about">Über uns</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/impressum">Impressum</NavLink>
                   </li>
                 </ul>
               </nav>
