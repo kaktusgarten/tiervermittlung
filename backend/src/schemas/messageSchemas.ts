@@ -11,10 +11,5 @@ export const messageInputSchema = z.object({
   animal: z
     .string({ message: "Tier-ID ist erforderlich" })
     .min(3, { message: "Tier-ID muss mindestens 3 Zeichen lang sein" }),
-  status: z.discriminatedUnion("type", [
-    z.object({ type: z.literal("active") }),
-    z.object({ type: z.literal("revoked") }),
-    z.object({ type: z.literal("declined") }),
-    z.object({ type: z.literal("archived") }),
-  ]),
+  status: z.enum(["active", "revoked", "declined", "archived"]),
 });

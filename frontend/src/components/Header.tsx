@@ -1,11 +1,26 @@
-import { NavLink } from "react-router";
+import { useNavigate, NavLink } from "react-router";
 import { useEffect } from "react";
-import LoginModal from "./LoginModal";
+import { useAuth } from "../context";
+//import LoginModal from "./LoginModal";
 export default function Header() {
   const categories = [{ _id: "1", name: "Hund" }];
+  const { signedIn, handleSignOut } = useAuth();
+  const navigate = useNavigate();
 
-  const logout = () => {
-    alert("abmelden.....");
+  const logout = async () => {
+    //alert("abmelden.....");
+    try {
+      await handleSignOut();
+      navigate("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        //toast.error(error.message);
+        console.log(error.message);
+      } else {
+        //toast.error("Error logging out");
+        console.log("Error logging out");
+      }
+    }
   };
 
   useEffect(() => {
@@ -99,20 +114,21 @@ export default function Header() {
                     <li>
                       <NavLink to="/mein-konto">Meine Kontodaten</NavLink>
                     </li>
-                    {"anmelden" === "abmelden" ? (
+                    {signedIn ? (
                       <li>
                         <a onClick={logout}>Abmelden</a>
                       </li>
                     ) : (
-                      <li>
-                        <NavLink to="/login">Anmelden</NavLink>
-                      </li>
+                      <>
+                        <li>
+                          <NavLink to="/login">Anmelden</NavLink>
+                        </li>
+
+                        <li>
+                          <NavLink to="/registrierung">Registrieren</NavLink>
+                        </li>
+                      </>
                     )}
-
-                    <li>
-                      <NavLink to="/registrierung">Registrieren</NavLink>
-                    </li>
-
                     {/* {userData?.roles?.[0] === "admin" && (
                   <li>
                     <NavLink to="/admin-bereich" className="text-[orange]">
