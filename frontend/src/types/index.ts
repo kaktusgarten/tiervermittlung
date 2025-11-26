@@ -39,7 +39,7 @@ declare global {
     age?: number | string;
     sex?: "männlich" | "weiblich" | "unbekannt";
     race?: string;
-    images?: string[]; // URLs
+    image_url?: string[]; // URLs
     owner?: User | string; // full user or user id
     category?: Category | string;
     characteristics?: Characteristic[] | string[];
