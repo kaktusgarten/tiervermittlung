@@ -4,7 +4,11 @@ export default function HomePage() {
   return (
     <>
       <main className="">
-        <MainImage></MainImage>
+        <MainImage
+          image="./img/mood-bild-1.png"
+          headline="Die Tierglück Vermittlung"
+          text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
+        />
         <h1 className="mb-2">Wir lieben Tiere....</h1>
         <div className="p-5">Hier entsteht unsere Tiervermittlungsseite</div>
 
