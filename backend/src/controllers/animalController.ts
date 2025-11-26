@@ -38,7 +38,8 @@ type AnimalDTO = Document<
 // GET ALL ANIMALS ####################################################
 
 export const getAllAnimals: RequestHandler = async (req, res) => {
-  const animals = await Animal.find().select("name category race age sex");
+  // const animals = await Animal.find().select("name category race age sex");
+  const animals = await Animal.find();
 
   if (!animals.length) {
     throw new Error("No Animals found", { cause: { status: 404 } });

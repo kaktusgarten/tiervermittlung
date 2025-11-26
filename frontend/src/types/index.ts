@@ -18,7 +18,7 @@ declare global {
 
   type Category = {
     _id: string;
-    name: string;
+    categoryName: string;
     createdAt?: string;
     updatedAt?: string;
     __v?: number;
@@ -39,7 +39,7 @@ declare global {
     age?: number | string;
     sex?: "männlich" | "weiblich" | "unbekannt";
     race?: string;
-    images?: string[]; // URLs
+    image_url?: string[]; // URLs
     owner?: User | string; // full user or user id
     category?: Category | string;
     characteristics?: Characteristic[] | string[];
