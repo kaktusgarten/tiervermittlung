@@ -37,37 +37,6 @@ export default function Header() {
 
   return (
     <>
-      {/* <header className="p-4">
-        <nav className="">
-          <ul className="flex gap-5 text-base text-white">
-            <li>
-              <NavLink to="/">Home</NavLink>
-            </li>
-            <li>
-              <NavLink to="/tier-suchen">Tierfinder</NavLink>
-            </li>
-            <li>
-              <NavLink to="/tier-einstellen">Tier-einstellen</NavLink>
-            </li>
-            <li>
-              <NavLink to="/about">About</NavLink>
-            </li>
-            <li>
-              <NavLink to="/login">Anmelden</NavLink>
-            </li>
-            <li>
-              <NavLink to="/registrierung">Registrierung</NavLink>
-            </li>
-            <li>
-              <NavLink to="/mein-konto">Mein Konto</NavLink>
-            </li>
-            <li>
-              <NavLink to="/admin-bereich">Admin Bereich</NavLink>
-            </li>
-          </ul>
-        </nav>
-      </header> */}
-
       <header className="py-4 sticky top-0 bg-[#1D3349] text-white border-b z-100 -translate-y-2 shadow-[0_0_20px_#000] border-[#000]">
         <div className="container m-auto">
           {/* HEADER INHALT */}

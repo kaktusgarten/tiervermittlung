@@ -4,7 +4,15 @@ export default function HomePage() {
   return (
     <>
       <main className="">
-        <MainImage></MainImage>
+        <div className="mb-10">
+          <MainImage
+            image="./img/mood-bild-1.png"
+            headline="Die Tierglück Vermittlung"
+            textColor="white"
+            text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
+          />
+        </div>
+
         <h1 className="mb-2">Wir lieben Tiere....</h1>
         <div className="p-5">Hier entsteht unsere Tiervermittlungsseite</div>
 
@@ -21,6 +29,14 @@ export default function HomePage() {
             Ich bin eine Grid Kachel
           </div>
         </section>
+        <div className="mt-10">
+          <MainImage
+            image="./img/tierglueck-vermittlung.png"
+            headline="Helfen kann jeder, dass ein Tier glücklich ist"
+            textColor="white"
+            text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
+          />
+        </div>
       </main>
     </>
   );
