@@ -9,6 +9,7 @@ import {
   userRoutes,
   categoryRoutes,
   characteristicRoutes,
+  messageRoutes,
 } from "#routes";
 import { errorHandler } from "#middlewares";
 import { openapiSpec } from "#docs";
@@ -25,7 +26,11 @@ app.use(cookieParser());
 // app.use(cors());
 app.use(
   cors({
-    origin: process.env.CLIENT_BASE_URL,
+    origin: [
+      //process.env.CLIENT_BASE_URL!,
+      "http://localhost:5173",
+      "http://localhost:4173",
+    ],
     credentials: true,
     exposedHeaders: ["WWW-Authenticate"],
   })
@@ -35,6 +40,7 @@ app.use(
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+app.use("/messages", messageRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/characteristics", characteristicRoutes);
 

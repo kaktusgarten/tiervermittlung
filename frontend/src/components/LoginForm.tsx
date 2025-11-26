@@ -1,88 +1,78 @@
 import { Link, useNavigate } from "react-router";
-import { useActionState, use } from "react";
-import { GesamtseitenContext } from "../context/GesamtseitenContext";
+//import { useActionState, use, useState } from "react";
+import React, { useState } from "react";
+//import { GesamtseitenContext } from "../context/GesamtseitenContext";
+import { useAuth } from "../context";
+//import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const navigate = useNavigate();
 
-  const { setMyToken } = use(GesamtseitenContext);
+  const { signedIn, handleSignIn } = useAuth();
+  const [{ email, password }, setForm] = useState<LoginInput>({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
 
-  //
-  //
-  // FORM ACTION **********************************************
-  async function submitAction(_prevState: any, formData: FormData) {
-    // Klasisch eigentlich so:
-    // const formData = new FormData(e.currentTarget);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-    const data = Object.fromEntries(formData.entries());
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      if (!email || !password) throw new Error("All fields are required");
+      setLoading(true);
 
-    // Validierung
-    if (1 === 1) {
-      // WENN ALLES OK, ABSENDEN...
-      console.log("ABSENDEN");
-      console.log("FormData:", data);
-      // Check ob pending funktioniert, 1Sekunde warten:
-      await new Promise((resolve) => {
-        setTimeout(resolve, 1000);
-      });
+      await handleSignIn({ email, password });
+      //toast.success("Login successful!");
 
-      setMyToken("MeinTollerToken");
-      console.log("Token gesetzt");
-
-      // Close Modal!
-      (
-        document.getElementById("loginModal") as HTMLDialogElement | null
-      )?.close();
-
-      // Alles gut, Tschüss..
       navigate("/");
-      // Kein Rückgabewert ans Formular
-      return {};
-    } else {
-      // Fehler, kein Absenden:
-      alert("FEHLER");
-      // Formdaten zurück ans Formular:
-      return {
-        input: data,
-      };
+    } catch (error: unknown) {
+      alert("Fehler beim Anmelden!");
+      const message = (error as { message: string }).message;
+      console.log(message);
+
+      //toast.error(message);
+    } finally {
+      setLoading(false);
+
+      if (signedIn) {
+        navigate("/");
+      }
     }
-  }
-
-  // ENDE- ****************************************************
-
-  // useActionState() HOOK
-  const [formState, formAction, isPending] = useActionState(submitAction, {});
+  };
 
   return (
     <>
-      <form action={formAction}>
+      <form onSubmit={handleSubmit}>
         <fieldset className="fieldset bg-base-100 border-base rounded-box border p-4">
           <legend className="fieldset-legend">Login</legend>
 
           <label className="label">Email</label>
           <input
-            defaultValue={formState.input?.email}
+            onChange={handleChange}
             name="email"
             type="email"
             placeholder="E-Mail"
             className="input w-[100%]"
-            disabled={isPending}
+            disabled={loading}
           />
 
           <label className="label">Passwort</label>
           <input
-            defaultValue={formState.input?.password}
+            onChange={handleChange}
             name="password"
             type="password"
             className="input  w-[100%]"
             placeholder="Passwort"
-            disabled={isPending}
+            disabled={loading}
           />
 
           <button
             type="submit"
             className="btn btn-primary mt-4"
-            disabled={isPending}
+            disabled={loading}
           >
             Anmelden
           </button>

@@ -44,11 +44,18 @@ const authorize = (Model: any): RequestHandler => {
     // der Absender der Nachricht
     // oder der Besitzer des Tiers ist
     if (Model.modelName === "Message") {
-      const senderId = model.sender.toString();
-      const ownerId = model.animal.owner.toString();
-      const userId = req.user?.id;
+      if (model) {
+        const senderId = model.sender.toString();
+        const ownerId = model.animal.owner.toString();
+        const userId = req.user?.id;
 
-      if (senderId === userId || ownerId === userId) return next();
+        if (senderId === userId || ownerId === userId) return next();
+      } else {
+        const senderId = req.body.sender;
+        const userId = req.user?.id;
+
+        if (senderId === userId) return next();
+      }
 
       return next(
         new Error("Forbidden, you cannot modify this", {
