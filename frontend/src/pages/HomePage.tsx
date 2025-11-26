@@ -31,7 +31,7 @@ export default function HomePage() {
         </section>
         <div className="mt-10">
           <MainImage
-            image="./img/tierglueck-vermittlung.png"
+            image="./img/Maeuse.jpg"
             headline="Helfen kann jeder, dass ein Tier glücklich ist"
             textColor="white"
             text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
