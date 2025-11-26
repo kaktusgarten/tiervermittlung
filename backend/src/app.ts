@@ -3,7 +3,15 @@ import cookieParser from "cookie-parser";
 import swaggerUI from "swagger-ui-express";
 import cors from "cors";
 import "#db";
-import { authRoutes, postRoutes, userRoutes, categoryRoutes } from "#routes";
+import {
+  authRoutes,
+  postRoutes,
+  userRoutes,
+  categoryRoutes,
+  characteristicRoutes,
+  animalRoutes,
+  messageRoutes,
+} from "#routes";
 import { errorHandler } from "#middlewares";
 import { openapiSpec } from "#docs";
 
@@ -13,13 +21,18 @@ const port = 3000;
 // COOKIE & BODY PARSER
 app.use(express.json());
 app.use(cookieParser());
+// laut Stackoverflow wegen multipart/form-data     https://stackoverflow.com/questions/71617579/node-js-req-body-undefined-in-form-data-content-type
 
 //CORS POLICY
 // simple version when credentials not needed
 // app.use(cors());
 app.use(
   cors({
-    origin: process.env.CLIENT_BASE_URL,
+    origin: [
+      //process.env.CLIENT_BASE_URL!,
+      "http://localhost:5173",
+      "http://localhost:4173",
+    ],
     credentials: true,
     exposedHeaders: ["WWW-Authenticate"],
   })
@@ -29,7 +42,10 @@ app.use(
 app.use("/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+app.use("/messages", messageRoutes);
 app.use("/categories", categoryRoutes);
+app.use("/characteristics", characteristicRoutes);
+app.use("/animals", animalRoutes);
 
 // DOCs
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(openapiSpec));

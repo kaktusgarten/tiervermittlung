@@ -7,11 +7,11 @@ import LoginPage from "./pages/LoginPage";
 import RegistrierungPage from "./pages/RegistrierungPage";
 import AdminBereichPage from "./pages/AdminBereichPage";
 import ProtectedLayout from "./layouts/ProtectedLayout";
-import AddAnimalPage
-  from "./pages/AddAnimalPage";
-import UserProfilePage from "./pages/UserProfilePage";  
+import AddAnimalPage from "./pages/AddAnimalPage";
+import UserProfilePage from "./pages/UserProfilePage";
 import AnimalDetailPage from "./pages/AnimalDetailPage";
 import SearchAnimalPage from "./pages/SearchAnimalPage";
+import ImpressumAgbPage from "./pages/ImpressumAgbPage";
 
 function App() {
   return (
@@ -20,14 +20,16 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/tier-suchen" element={<SearchAnimalPage />} />
+          <Route path="/tier-suchen/:slug" element={<SearchAnimalPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/impressum" element={<ImpressumAgbPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/details" element={<AnimalDetailPage />} />
           <Route path="/registrierung" element={<RegistrierungPage />} />
           <Route element={<ProtectedLayout />}>
             <Route path="/admin-bereich" element={<AdminBereichPage />} />
-            <Route path="/tier-einstellen" element={<AddAnimalPage/>} />
-            <Route path="/mein-konto" element={<UserProfilePage/>} />
+            <Route path="/tier-einstellen" element={<AddAnimalPage />} />
+            <Route path="/mein-konto" element={<UserProfilePage />} />
           </Route>
         </Route>
       </Routes>

@@ -32,6 +32,23 @@
     font-size: 1.25rem; /* text-xl */
     line-height: 1.75rem;
   }
+  h1 {
+    font-size: 2.8rem;
+    font-style: italic;
+    line-height: 3.2rem;
+  }
+  h2 {
+    font-size: 2.8rem;
+    font-style: italic;
+    line-height: 2.5rem;
+  }
+  h3 {
+    font-weight: 500;
+    font-size: 1.5rem;
+    font-style: normal;
+    line-height: 1.8rem;
+    padding-bottom: 0.6em;
+  }
 }
 
 @import "./styles/index.css";
@@ -39,21 +56,21 @@
 /* BACKGROUND VERLAUF FÜR THEME "Dark" und "Light" ################### */
 
 html[data-theme="light"] .page {
-  background: #b2e3a6;
-  background: linear-gradient(
+  background: #c7c0ca;
+  /* background: linear-gradient(
     329deg,
     rgba(178, 227, 166, 1) 0%,
     rgba(18, 64, 17, 1) 56%,
     rgba(51, 102, 59, 1) 100%
-  );
+  ); */
 }
 
 html[data-theme="dark"] .page {
-  background: #284a24;
+  /* background: #284a24;
   background: linear-gradient(
     329deg,
     rgba(40, 74, 36, 1) 0%,
     rgba(16, 43, 16, 1) 56%,
     rgba(6, 26, 9, 1) 100%
-  );
+  ); */
 }

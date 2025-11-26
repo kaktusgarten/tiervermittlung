@@ -25,7 +25,7 @@ function validateRegistration(data: Record<string, string>) {
   if (!data.password) {
     errors.password = "Passwort ist erforderlich.";
   } else if (data.password.length < 6) {
-    errors.password = "Passwort muss mindestens 6 Zeichen lang sein.";
+    errors.password = "Passwort min. 6 Zeichen, Sonderzeichen, Großzeichen";
   }
   if (!data.password2) {
     errors.password2 = "Bitte wiederhole dein Passwort.";
@@ -54,7 +54,7 @@ export default function RegistryForm() {
 
       // POST-Request an Backend ###############################################################
       const { password2, ...sendData } = data; // password2 nicht speichern
-      const res = await fetch("http://localhost:3000/api/auth/register", {
+      const res = await fetch("http://localhost:3000/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(sendData),
