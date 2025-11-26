@@ -32,7 +32,7 @@ export default function HomePage() {
         <div className="mt-10">
           <MainImage
             image="./img/Maeuse.jpg"
-            headline="Helfen kann jeder, dass ein Tier glücklich ist"
+            headline="Helfen kann jeder, damit ein Tier glücklich ist"
             textColor="white"
             text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
           />
