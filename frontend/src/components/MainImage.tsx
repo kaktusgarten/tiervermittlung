@@ -28,7 +28,7 @@ export default function MainImage({
       </h1>
 
       <p
-        className={`italic mb-6 text-2xl text-${textColor}`}
+        className={`italic mb-6 text-3xl text-${textColor}`}
         style={{ textShadow: "1px 1px 2px black" }}
       >
         {text}
