@@ -20,6 +20,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/tier-suchen" element={<SearchAnimalPage />} />
+          <Route path="/tier-suchen/:slug" element={<SearchAnimalPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/impressum" element={<ImpressumAgbPage />} />
           <Route path="/login" element={<LoginPage />} />

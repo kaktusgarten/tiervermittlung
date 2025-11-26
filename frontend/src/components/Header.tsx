@@ -1,9 +1,13 @@
 import { useNavigate, NavLink } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context";
 //import LoginModal from "./LoginModal";
 export default function Header() {
-  const categories = [{ _id: "1", name: "Hund" }];
+
+  // const categories = [{ categoryName: "Hunde", name: "Hund" }];
+
+  const [categories, setCategories] = useState<Category[]>();
+
   const { signedIn, handleSignOut } = useAuth();
   const navigate = useNavigate();
 
@@ -24,17 +28,18 @@ export default function Header() {
   };
 
   useEffect(() => {
-    // FETCH CATEGORIES (immer)
-    // const fetchCategories = async () => {
-    //   try {
-    //     const res = await fetch(`${import.meta.env.VITE_API_URL}/categories`);
-    //     const data = await res.json();
-    //     setCategories(data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // fetchCategories();
+    
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_APP_AUTH_SERVER_URL}/categories`);
+        const data = await res.json();
+        setCategories(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    fetchCategories();
 
     // Menu schließt alle Submenüs bei Klick:
     const handleClick = (e: Event) => {
@@ -74,8 +79,8 @@ export default function Header() {
                           </li>
                           {categories?.map((cat) => (
                             <li key={cat._id}>
-                              <NavLink to={`/tier-suchen/${cat._id}`}>
-                                {cat.name}
+                              <NavLink to={`/tier-suchen/${cat.categoryName.toLocaleLowerCase()}`}>
+                                {cat.categoryName}
                               </NavLink>
                             </li>
                           ))}
