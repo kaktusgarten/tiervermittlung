@@ -9,6 +9,7 @@ import {
   userRoutes,
   categoryRoutes,
   characteristicRoutes,
+  animalRoutes,
   messageRoutes,
 } from "#routes";
 import { errorHandler } from "#middlewares";
@@ -20,6 +21,7 @@ const port = 3000;
 // COOKIE & BODY PARSER
 app.use(express.json());
 app.use(cookieParser());
+// laut Stackoverflow wegen multipart/form-data     https://stackoverflow.com/questions/71617579/node-js-req-body-undefined-in-form-data-content-type
 
 //CORS POLICY
 // simple version when credentials not needed
@@ -43,6 +45,7 @@ app.use("/posts", postRoutes);
 app.use("/messages", messageRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/characteristics", characteristicRoutes);
+app.use("/animals", animalRoutes);
 
 // DOCs
 app.use("/docs", swaggerUI.serve, swaggerUI.setup(openapiSpec));
