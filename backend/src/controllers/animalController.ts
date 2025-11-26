@@ -107,6 +107,8 @@ export const getAnimals: RequestHandler<
 > = async (req, res) => {
   const { query } = req.query;
 
+  console.log("req.query", req.query);
+
   //  const animal = await Animal.findById(id);
 
   //  res.status(201).json(animal);
