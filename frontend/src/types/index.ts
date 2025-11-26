@@ -18,7 +18,7 @@ declare global {
 
   type Category = {
     _id: string;
-    name: string;
+    categoryName: string;
     createdAt?: string;
     updatedAt?: string;
     __v?: number;
