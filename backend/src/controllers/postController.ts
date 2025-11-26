@@ -40,7 +40,6 @@ export const createPost: RequestHandler<unknown, any, PostInputDTO> = async (
     image_url: imageUrl,
   });
 
-  console.log("cloudinary upload results", files);
   res.status(201).json(newPost);
 };
 

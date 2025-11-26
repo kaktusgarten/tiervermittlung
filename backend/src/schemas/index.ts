@@ -4,4 +4,5 @@ export * from "./characteristicSchemas.ts";
 export * from "./authSchemas.ts";
 export * from "./userSchemas.ts";
 export * from "./postSchemas.ts";
+export * from "./animalSchema.ts";
 export * from "./messageSchemas.ts";
