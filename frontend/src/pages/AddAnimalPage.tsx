@@ -3,8 +3,8 @@ import AnimalForm from "../components/AnimalForm";
 export default function AddAnimalPage() {
   return (
     <>
-      <main className="p-4">
-        <h1 className="mb-2">Registrier dein Tier</h1>
+      <main className="">
+        <h1 className="mt-10 mb-4">Registrier dein Tier</h1>
         <p className="my-10 text-xl">
           Hier kannst Du die Informationen zu deinem Tier einstellen
         </p>
