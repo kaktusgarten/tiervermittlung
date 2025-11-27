@@ -1,4 +1,5 @@
 import MainImage from "../components/MainImage";
+import { Link } from "react-router-dom";
 
 export default function AboutPage() {
   return (
@@ -20,7 +21,7 @@ export default function AboutPage() {
             Über uns & unser Projekt
           </h1>
 
-          <div className="space-y-6 text-lg leading-relaxed bg-base-200 p-8 rounded-xl shadow-md">
+          <div className="space-y-6 text-lg leading-relaxed bg-[#A094A6] p-8 rounded-xl shadow-md">
             <p>
               Wir sind vier Webentwickler-Studierende, die ihre Leidenschaft für
               Technik mit ihrer Liebe zu Tieren verbinden wollten. Im Rahmen
@@ -61,7 +62,7 @@ export default function AboutPage() {
         </section>
 
         {/* Zeitstrahl / Steps */}
-        <section className="max-w-3xl mx-auto px-6">
+        <section className="max-w-3xl mx-auto px-6 mt-24">
           <h2 className="text-3xl font-bold text-center mb-10">
             Dein Weg zur Adoption
           </h2>
@@ -74,7 +75,7 @@ export default function AboutPage() {
               ["--tw-step-border" as any]: "#3abf73", // Farbe der Linie
             }}
           >
-            <li className="step step-primary ">Tier finden</li>
+            <li className="step step-primary">Tier finden</li>
             <li className="step step-primary">Kontakt aufnehmen</li>
             <li className="step step-primary">Adoption</li>
           </ul>
@@ -82,15 +83,27 @@ export default function AboutPage() {
           {/* Texte unter Steps */}
           <div className="grid lg:grid-cols-3 gap-10 text-center">
             <div>
-              <h3 className="font-semibold mb-2">1. Tier finden</h3>
+              <h3 className="font-semibold mb-2 text-base lg:text-lg whitespace-nowrap">
+                1. Tier finden
+              </h3>
+
               <p className="text-sm opacity-80 leading-relaxed">
-                Durchstöbere unsere Vermittlungsseite und entdecke Tiere aus
-                ganz Deutschland.
+                Durchstöbere unsere{" "}
+                <Link
+                  to="/tier-suchen"
+                  className="text-[#1D3349] underline hover:text-[#594856]"
+                >
+                  Vermittlungsseite
+                </Link>{" "}
+                und entdecke Tiere aus ganz Deutschland.
               </p>
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">2. Kontakt aufnehmen</h3>
+              <h3 className="font-semibold mb-2 text-base lg:text-lg whitespace-nowrap">
+                2. Kontakt aufnehmen
+              </h3>
+
               <p className="text-sm opacity-80 leading-relaxed">
                 Melde dich direkt beim Tierheim oder der Privatperson – ohne
                 Zwischenstelle.
@@ -98,13 +111,23 @@ export default function AboutPage() {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">3. Adoption</h3>
+              <h3 className="font-semibold mb-2 text-base lg:text-lg whitespace-nowrap">
+                3. Adoption
+              </h3>
               <p className="text-sm opacity-80 leading-relaxed">
                 Wenn alles passt – willkommen in deiner neuen Familie! 🐾
               </p>
             </div>
           </div>
         </section>
+
+        <div className="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-screen mt-20">
+          <img
+            src="/img/Paws.jpg"
+            alt="Tiere"
+            className="h-80 w-full object-cover"
+          />
+        </div>
       </main>
     </>
   );
