@@ -42,7 +42,7 @@ export default function HomePage() {
             Wir lieben Tiere – und wir möchten helfen!
           </h2>
           <div
-            className="flex gap-4 p-6 my-6 bg-[#594856] text-white rounded-2xl italic"
+            className="flex gap-4 p-6 my-6 bg-[#594856] text-white rounded-2xl italic -translate-y-2 shadow-[0_5px_5px_#000] border-[#000]"
             style={{
               background: "#736a6a",
               backgroundImage:
