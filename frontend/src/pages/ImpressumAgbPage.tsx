@@ -1,7 +1,15 @@
+import MainImage from "../components/MainImage";
+
 export default function ImpressumAgbPage() {
   return (
     <>
-      <main className="px-20">
+      <MainImage
+        image="./img/Maeuse.jpg"
+        headline="Impressum - AGB´s - Datenschutz"
+        textColor="white"
+        text="Info´s zu unserem Tiervermittlungsprojekt"
+      />
+      <main className="lg:px-20">
         {/* Impressum ############################################################ */}
         <div className="">
           <section className="mb-8 pt-10">
