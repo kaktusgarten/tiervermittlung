@@ -1,42 +1,77 @@
+import CardAnimal from "../components/CardAnimal";
 import MainImage from "../components/MainImage";
+import { useEffect, useState } from "react";
 
 export default function HomePage() {
+  const [animals, setAnimals] = useState<Animal[]>();
+
+  useEffect(() => {
+    const fetchAnimals = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals`
+        );
+        const data = await res.json();
+        setAnimals(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAnimals();
+  }, []);
+
   return (
     <>
       <main className="">
-        <div className="mb-10">
+        {/* HEADER Image ############################################ */}
+        <section className="mb-10">
           <MainImage
             image="./img/mood-bild-1.png"
             headline="Die Tierglück Vermittlung"
             textColor="white"
             text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
           />
-        </div>
+        </section>
 
-        <h1 className="mb-2">Wir lieben Tiere....</h1>
-        <div className="p-5">Hier entsteht unsere Tiervermittlungsseite</div>
+        {/* Einleigungstext '''''''''''''########################### */}
+        <section>
+          <h2 className="mb-2 font-semibold">
+            Wir lieben Tiere – und wir möchten helfen!
+          </h2>
+          <p className="p-6 my-6 bg-[#594856] text-white rounded-2xl  italic">
+            Tiervermittlung ohne Werbung, ohne Gewinnabsicht, einfach aus
+            Überzeugung.<br></br> Diese Seite entsteht aus Herzblut und dem
+            Wunsch, Tieren ein passendes Zuhause zu schenken.
+          </p>
+        </section>
 
-        <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-3">
-          <div className="border min-h-[500px] p-2">
-            Ich bin eine Grid Kachel
-          </div>
-
-          <div className="border min-h-[500px] p-2">
-            Ich bin eine Grid Kachel
-          </div>
-
-          <div className="border min-h-[500px] p-2">
-            Ich bin eine Grid Kachel
+        {/* AKTUELLE VERMITTLUNGSANFRAGEN ########################### */}
+        <section>
+          <h2 className="pb-10 pt-10">Neueste Vermittlungsanfragen</h2>
+          <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
+            {!animals || animals.length === 0 ? (
+              <h2>Keine Tiere gefunden.</h2>
+            ) : (
+              animals
+                .slice(0, 3)
+                .map((animal, index) => (
+                  <CardAnimal key={animal._id || index} animal={animal} />
+                ))
+            )}
           </div>
         </section>
-        <div className="mt-10">
+
+        {/* FOOTER Image ############################################ */}
+        <section className="mt-20">
           <MainImage
             image="./img/Maeuse.jpg"
             headline="Helfen kann jeder, damit ein Tier glücklich ist"
             textColor="white"
             text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
           />
-        </div>
+        </section>
       </main>
     </>
   );
