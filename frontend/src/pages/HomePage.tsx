@@ -35,16 +35,26 @@ export default function HomePage() {
           />
         </section>
 
-        {/* Einleigungstext '''''''''''''########################### */}
+        {/* Einleigungstext ########################################## */}
         <section>
           <h2 className="mb-2 font-semibold">
             Wir lieben Tiere – und wir möchten helfen!
           </h2>
-          <p className="p-6 my-6 bg-[#594856] text-white rounded-2xl  italic">
-            Tiervermittlung ohne Werbung, ohne Gewinnabsicht, einfach aus
-            Überzeugung.<br></br> Diese Seite entsteht aus Herzblut und dem
-            Wunsch, Tieren ein passendes Zuhause zu schenken.
-          </p>
+          <div className="flex gap-4 p-6 my-6 bg-[#594856] text-white rounded-2xl italic">
+            <div className="bg-white p-3 rounded-[200px] flex">
+              <img
+                src="./img/Logo-Tiervermittlung-transparent.png"
+                className="w-[80px] object-contain"
+              />
+            </div>
+            <p className="flex-1 flex items-center">
+              Tiervermittlung ohne Werbung, ohne Gewinnabsicht, einfach aus
+              Überzeugung.
+              <br />
+              Diese Seite entsteht aus Herzblut und dem Wunsch, Tieren ein
+              passendes Zuhause zu schenken.
+            </p>
+          </div>
         </section>
 
         {/* AKTUELLE VERMITTLUNGSANFRAGEN ########################### */}
