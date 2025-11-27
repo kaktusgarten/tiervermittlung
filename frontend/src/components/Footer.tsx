@@ -5,7 +5,17 @@ export default function Footer() {
       <footer>
         <section className="bg-[#594856] py-4 min-h-[20px] text-white">
           <div className="container m-auto">
-            <div className="grid md:grid-cols-3 gap-5">
+            <div className="grid md:grid-cols-4 gap-5">
+              
+              <div className="flex justify-center justify-start">
+                <div className="bg-white p-3 rounded-[100px]  w-[120px] h-[120px]">
+                  <img
+                    src="./img/Logo-Tiervermittlung-transparent.png"
+                    className="w-[100px] object-contain"
+                  />
+                </div>
+              </div>
+
               {/* Spalte 1 #################################### */}
               <section className="p-4 sm:py-10 py-4">
                 <h3 className="text-white">Wir lieben Tiere</h3>
