@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context";
 //import LoginModal from "./LoginModal";
 export default function Header() {
-
   // const categories = [{ categoryName: "Hunde", name: "Hund" }];
 
   const [categories, setCategories] = useState<Category[]>();
@@ -28,17 +27,18 @@ export default function Header() {
   };
 
   useEffect(() => {
-    
     const fetchCategories = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_APP_AUTH_SERVER_URL}/categories`);
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/categories`
+        );
         const data = await res.json();
         setCategories(data);
       } catch (error) {
         console.log(error);
       }
     };
-    
+
     fetchCategories();
 
     // Menu schließt alle Submenüs bei Klick:
@@ -79,7 +79,9 @@ export default function Header() {
                           </li>
                           {categories?.map((cat) => (
                             <li key={cat._id}>
-                              <NavLink to={`/tier-suchen/${cat.categoryName.toLocaleLowerCase()}`}>
+                              <NavLink
+                                to={`/tier-suchen?category=${cat.categoryName.toLocaleLowerCase()}`}
+                              >
                                 {cat.categoryName}
                               </NavLink>
                             </li>
