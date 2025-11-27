@@ -26,8 +26,8 @@ export default function SearchAnimalPage() {
   return (
     <>
       <main className="">
-        <h1 className="mt-10 mb-4">
-          Suchseite - Finde Dein neues Haustier - {slug}
+        <h1 className="mt-10 mb-10">
+          Wir suchen ein Zuhause {slug && `- Rubrik: ${slug.toUpperCase()}`}
         </h1>
 
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
@@ -44,9 +44,8 @@ export default function SearchAnimalPage() {
 
               <div className="p-5 font-medium">
                 <div className="flex items-center mb-7">
-                  <img src="/" className="mr-2" />
                   <h3 className="text-1xl font-bold inline">
-                    Ich bin {animal.name}
+                    ❤ Ich bin {animal.name}
                   </h3>
                 </div>
 
@@ -54,7 +53,7 @@ export default function SearchAnimalPage() {
                   {/*  Rasse ################################  */}
                   <div className="flex">
                     <img
-                      src="img/room-icon.svg"
+                      src="./img/icon-standort.svg"
                       className="bg-white rounded mr-2"
                     />
                     <span>Rasse: {animal.race}</span>
@@ -63,7 +62,7 @@ export default function SearchAnimalPage() {
                   {/*  Alter ################################  */}
                   <div className="flex">
                     <img
-                      src="./img/icon-location.svg"
+                      src="./img/icon-standort.svg"
                       className="bg-white rounded mr-2"
                     />
                     <span>Alter: {animal.age} Jahre</span>
