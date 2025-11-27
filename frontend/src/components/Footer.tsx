@@ -57,7 +57,7 @@ export default function Footer() {
           </div>
         </section>
 
-        <section className="bg-[#000] px-4 py-2">
+        <section className="bg-[#161814] px-4 py-2">
           <div className="container m-auto grid grid-cols-[1fr_auto] gap-4">
             <div className="p-2">
               <nav className="">

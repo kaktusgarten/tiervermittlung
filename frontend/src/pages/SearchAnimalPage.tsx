@@ -34,7 +34,7 @@ export default function SearchAnimalPage() {
           {animals?.map((animal) => (
             <article
               key={animal._id}
-              className="CARD rounded-2xl bg-[#c7c0ca] flex flex-col"
+              className="CARD rounded-2xl bg-[#c7c0ca] text-black flex flex-col"
             >
               <img
                 src={animal.image_url[0]}
@@ -63,7 +63,7 @@ export default function SearchAnimalPage() {
                   {/*  Alter ################################  */}
                   <div className="flex">
                     <img
-                      src="img/measure-icon.svg"
+                      src="./img/icon-location.svg"
                       className="bg-white rounded mr-2"
                     />
                     <span>Alter: {animal.age} Jahre</span>
@@ -74,7 +74,7 @@ export default function SearchAnimalPage() {
                   <button className="rounded-md bg-[#2B1B12] text-white px-4 py-2 cursor-pointer">
                     Details
                   </button>
-                  <strong>Rubrtik: "TIERART"</strong>
+                  <strong>Standort: Berlin</strong>
                 </div>
               </div>
             </article>
