@@ -41,7 +41,14 @@ export default function HomePage() {
           <h2 className="mb-2 font-semibold">
             Wir lieben Tiere – und wir möchten helfen!
           </h2>
-          <div className="flex gap-4 p-6 my-6 bg-[#594856] text-white rounded-2xl italic">
+          <div
+            className="flex gap-4 p-6 my-6 bg-[#594856] text-white rounded-2xl italic"
+            style={{
+              background: "#736a6a",
+              backgroundImage:
+                "linear-gradient(327deg, rgba(115,106,106,1) 0%, rgba(89,72,86,1) 56%, rgba(29,51,73,1) 100%)",
+            }}
+          >
             <div className="">
               <img
                 src="./img/logo-rund-weiss.png"
