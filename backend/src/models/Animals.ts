@@ -23,7 +23,7 @@ const animalSchema = new Schema(
     },
 
     sex: {
-      type: Number,
+      type: String,
       required: true,
     },
 
