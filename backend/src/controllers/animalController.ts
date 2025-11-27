@@ -2,7 +2,12 @@ import type { RequestHandler } from "express";
 import { Animal } from "#models";
 import type { z } from "zod";
 import type { animalInputSchema } from "#schemas";
-import type { DefaultTimestampProps, Document, Types } from "mongoose";
+import {
+  isValidObjectId,
+  type DefaultTimestampProps,
+  type Document,
+  type Types,
+} from "mongoose";
 
 type AnimalInputDTO = z.infer<typeof animalInputSchema>;
 type AnimalDTO = Document<
@@ -38,8 +43,53 @@ type AnimalDTO = Document<
 // GET ALL ANIMALS ####################################################
 
 export const getAllAnimals: RequestHandler = async (req, res) => {
+  let animals = {};
+  const query = req.query;
+  const { category, race, age, sex, handycap } = req.query;
+
   // const animals = await Animal.find().select("name category race age sex");
-  const animals = await Animal.find();
+
+  if (!category && !race && !age && !sex && !handycap) {
+    console.log("get all animals.");
+    animals = await Animal.find();
+  } else {
+    console.log("have a query.");
+    //    animals = await Animal.find(req.query); Alle Spalten baer case sensitive!
+    // Eine Spalte case insensitive
+    // animals = await Animal.find({
+    //   category: {
+    //     $regex: category,
+    //     $options: "i",
+    //   },
+    // });
+    let newQuery = [];
+    if (category) {
+      newQuery.push({ category: { $regex: category, $options: "i" } });
+    }
+    if (race) {
+      newQuery.push({ race: { $regex: race, $options: "i" } });
+    }
+    if (age) {
+      newQuery.push({ age: age });
+    }
+    if (sex) {
+      newQuery.push({ sex: { $regex: sex, $options: "i" } });
+    }
+    if (handycap) {
+      newQuery.push({ handycap: handycap });
+    }
+
+    console.log("newQuery: ", newQuery);
+
+    animals = await Animal.find({ $and: newQuery });
+
+    // animals = await Animal.find({
+    //   $and: [
+    //     { category: { $regex: category, $options: "i" } },
+    //     { race: { $regex: race, $options: "i" } },
+    //   ],
+    // });
+  }
 
   if (!animals.length) {
     throw new Error("No Animals found", { cause: { status: 404 } });
@@ -95,9 +145,34 @@ export const getAnimalById: RequestHandler<
 > = async (req, res) => {
   const { id } = req.params;
 
+  if (!isValidObjectId(id)) {
+    throw new Error(`Ungültige Eigenschaft-ID: ${id}`, {
+      cause: { status: 400 },
+    });
+  }
+
   const animal = await Animal.findById(id);
+  if (!animal) {
+    throw new Error("Tier nicht gefunden", { cause: { status: 404 } });
+  }
 
   res.status(201).json(animal);
+};
+
+// GET ANIMALS (Query)
+export const getAnimalsByQuery: RequestHandler<
+  unknown,
+  AnimalDTO,
+  AnimalInputDTO
+> = async (req, res) => {
+  const { query } = req.query;
+
+  console.log("req.query", req.query);
+
+  //  const animal = await Animal.findById(id);
+
+  //  res.status(201).json(animal);
+  res.status(201);
 };
 
 // UPDATE SINGLE ANIMAL
