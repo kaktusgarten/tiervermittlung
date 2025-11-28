@@ -4,9 +4,9 @@ export default function UserProfilePage() {
   return (
     <>
       <main className="p-4 mb-12">
-        <h2 className="mt-6 mb-10 text-3xl">
+        <h1 className="mt-6 mb-10">
           Meine Kontodaten und Tieranfragen
-        </h2>
+        </h1>
 
         {/* Kontobox */}
 
