@@ -58,7 +58,22 @@
 /* BACKGROUND VERLAUF FÜR THEME "Dark" und "Light" ################### */
 
 html[data-theme="light"] .page {
-  background: #c7c0ca;
+  background: #e0dcdc;
+  /* background-image: linear-gradient(
+    to right,
+    #c7c0ca,
+    #b7adb6,
+    #a89aa2,
+    #98888d,
+    #887679,
+    #887679,
+    #887679,
+    #887679,
+    #98888d,
+    #a89aa2,
+    #b7adb6,
+    #c7c0ca
+  ); */
   /* background: linear-gradient(
     329deg,
     rgba(178, 227, 166, 1) 0%,
