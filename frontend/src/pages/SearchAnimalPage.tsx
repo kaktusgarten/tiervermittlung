@@ -1,5 +1,5 @@
 import { useActionState, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 
 import MainImage from "../components/MainImage";
 import CardAnimal from "../components/CardAnimal";
@@ -13,25 +13,35 @@ export default function SearchAnimalPage() {
   const [state, formAction] = useActionState(action, null);
 
   const { slug } = useParams<{ slug?: string }>();
+  const [searchParms, setSearchParms] = useSearchParams();
 
-  let navigate = useNavigate();
+  //  let navigate = useNavigate();
 
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
+        const fullSearch = !searchString
+          ? `?category=${searchParms.get("category")}`
+          : searchString;
+
         const res = await fetch(
-          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
+          //          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`
         );
         const data = await res.json();
         setAnimals(data);
-        console.log(data);
+        // Letzte Auswahl zurücksetzen
+        if (!searchString) {
+          setSearchString("");
+        }
       } catch (error) {
+        setAnimals([]);
         console.log(error);
       }
     };
 
     fetchAnimals();
-  }, [searchString]);
+  }, [searchString, searchParms]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -88,7 +98,7 @@ export default function SearchAnimalPage() {
           "&"
         );
       });
-      resultString = resultString.substring(1, resultString.length - 1);
+      resultString = resultString.substring(0, resultString.length - 1);
     }
     if (!(category.substring(0, 2) === "--")) {
       if (resultString.length > 1) {
@@ -115,8 +125,6 @@ export default function SearchAnimalPage() {
       resultString = resultString.concat("race=", race);
     }
     setSearchString(resultString);
-    console.log("resultString: ", resultString);
-    navigate("/tier-suchen");
   }
 
   return (
