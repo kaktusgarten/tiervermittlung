@@ -1,4 +1,10 @@
+import { useNavigate } from "react-router";
+
 export default function CardAnimal({ animal }) {
+  const navigate = useNavigate();
+  const handleDetailsClick = () => {
+    navigate(`/details/${animal._id}`);
+  };
   return (
     <>
       <article
@@ -38,8 +44,11 @@ export default function CardAnimal({ animal }) {
             </div>
           </div>
 
-          <div className="flex justify-between ">
-            <button className="rounded-md bg-[#2B1B12] text-white px-4 py-2 cursor-pointer">
+          <div className="flex justify-between">
+            <button
+              className="rounded-md bg-[#2B1B12] text-white px-4 py-2 cursor-pointer"
+              onClick={handleDetailsClick}
+            >
               Details
             </button>
 

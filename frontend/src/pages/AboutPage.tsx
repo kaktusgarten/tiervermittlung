@@ -17,12 +17,12 @@ export default function AboutPage() {
         </div>
 
         {/* Team Intro */}
-        <section className="max-w-6xl mx-auto mb-16 mt-6">
+        <section className=" max-w-6xl mx-auto mb-16 mt-6">
           <h1 className="text-4xl font-bold mb-6 text-center">
             Über uns & unser Projekt
           </h1>
 
-          <div className="space-y-6 leading-relaxed bg-[#d2ced3] p-12 rounded-xl shadow-md mt-10">
+          <div className="aboutInfoBox space-y-6 leading-relaxed bg-[#d2ced3] p-12 rounded-xl shadow-md mt-10">
             <p>
               Wir sind vier Webentwickler-Studierende, die ihre Leidenschaft für
               Technik mit ihrer Liebe zu Tieren verbinden wollten. Im Rahmen
