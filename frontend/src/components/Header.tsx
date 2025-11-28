@@ -62,18 +62,19 @@ export default function Header() {
         <div className="container m-auto flex align-middle items-center">
           {/* LOGO ############################## */}
           <div className="pl-2 sm:pr-5">
-            <img
-              src="./img/logo-rund-weiss.png"
-              className="w-16 min-w-16 object-contain "
-            />
+            <NavLink to="/">
+              <img
+                src="./img/logo-rund-weiss.png"
+                title="HOME"
+                alt="HOME"
+                className="w-16 min-w-16 object-contain "
+              />
+            </NavLink>
           </div>
 
           {/* NAVIGATION ######################## */}
           <nav>
             <ul className="menu menu-horizontal ">
-              <li>
-                <NavLink to="/">Home</NavLink>
-              </li>
               <li>
                 <details>
                   <summary>Tier suchen</summary>
