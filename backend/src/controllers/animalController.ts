@@ -140,7 +140,7 @@ export const createAnimal: RequestHandler<
 // GET SINGLE ANIMAL
 export const getAnimalById: RequestHandler<
   { id: string },
-  AnimalDTO,
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
@@ -151,7 +151,7 @@ export const getAnimalById: RequestHandler<
     });
   }
 
-  const animal = await Animal.findById(id);
+  const animal = await Animal.findById(id).populate("owner", "_id");
   if (!animal) {
     throw new Error("Tier nicht gefunden", { cause: { status: 404 } });
   }

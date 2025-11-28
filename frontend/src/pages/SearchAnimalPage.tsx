@@ -35,7 +35,7 @@ export default function SearchAnimalPage() {
 
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
           {animals?.map((animal) => (
-            <CardAnimal animal={animal}></CardAnimal>
+            <CardAnimal key={animal._id} animal={animal}></CardAnimal>
           ))}
         </section>
 

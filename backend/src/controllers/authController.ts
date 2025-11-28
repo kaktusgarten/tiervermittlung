@@ -226,7 +226,7 @@ export const logout: RequestHandler = async (req, res) => {
   res
     .clearCookie("accessToken")
     .clearCookie("refreshToken")
-    .json({ message: "looged out" });
+    .json({ message: "logged out" });
 };
 
 // LOGOUT ALL ################################################

@@ -40,13 +40,13 @@ const animalSchema = new Schema(
     // Array
     image_url: {
       type: [String],
-      required: false,
+      required: true,
     },
 
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: false,
+      required: true,
     },
 
     handycap: {
