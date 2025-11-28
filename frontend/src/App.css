@@ -76,3 +76,12 @@ html[data-theme="dark"] .page {
     rgba(6, 26, 9, 1) 100%
   ); */
 }
+
+header a,
+summary {
+  font-size: 1.4em;
+
+  @media only screen and (max-width: 1290px) {
+    font-size: small;
+  }
+}
