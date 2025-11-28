@@ -22,7 +22,7 @@ export default function AboutPage() {
             Über uns & unser Projekt
           </h1>
 
-          <div className="space-y-6 leading-relaxed bg-[#bbb3be] p-12 rounded-xl shadow-md mt-10">
+          <div className="space-y-6 leading-relaxed bg-[#d2ced3] p-12 rounded-xl shadow-md mt-10">
             <p>
               Wir sind vier Webentwickler-Studierende, die ihre Leidenschaft für
               Technik mit ihrer Liebe zu Tieren verbinden wollten. Im Rahmen
