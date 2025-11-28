@@ -1,6 +1,7 @@
 import { useNavigate, NavLink } from "react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context";
+import DarkThemeSchalter from "./DarkThemeSchalter";
 //import LoginModal from "./LoginModal";
 export default function Header() {
   // const categories = [{ categoryName: "Hunde", name: "Hund" }];
@@ -57,96 +58,91 @@ export default function Header() {
 
   return (
     <>
-      <header className="py-4 sticky top-0 bg-[#1D3349] text-white border-b z-100 -translate-y-2 shadow-[0_0_20px_#000] border-[#000]">
-        <div className="container m-auto">
-          {/* HEADER INHALT */}
-          <div className="overflow-auto min-h-[40px]">
-            <div className="grid md:grid-cols-3">
-              <div className="NAVI-1">
-                <nav>
-                  <ul className="menu menu-horizontal bg-[#1D3349]  absolute">
-                    <li>
-                      <NavLink to="/">Home</NavLink>
-                    </li>
-                    <li>
-                      <details>
-                        <summary>Tier suchen</summary>
-                        <ul className="bg-[#fff] text-black font-semibold border border-[#1D3349] -translate-y-1 shadow-[4px_4px_8px_#c7c0ca]">
-                          <li>
-                            <NavLink to="/tier-suchen">
-                              Alle&nbsp;Tiere&nbsp;zeigen
-                            </NavLink>
-                          </li>
-                          {categories?.map((cat) => (
-                            <li key={cat._id}>
-                              <NavLink
-                                to={`/tier-suchen?category=${cat.categoryName.toLocaleLowerCase()}`}
-                              >
-                                {cat.categoryName}
-                              </NavLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </details>
-                    </li>
-                    <li>
-                      <details>
-                        <summary>Über uns</summary>
-                        <ul className="bg-[#fff] text-black font-semibold border border-[#1D3349] -translate-y-1 shadow-[4px_4px_8px_#c7c0ca]">
-                          <li>
-                            <NavLink to="/about">Über uns</NavLink>
-                          </li>
-                          <li>
-                            <NavLink to="/impressum">Impressum</NavLink>
-                          </li>
-                        </ul>
-                      </details>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-              <div className="NAVI-2">
-                <nav>
-                  <ul className="menu menu-horizontal bg-[#1D3349] lg:mb-64  absolute">
-                    <li>
-                      <NavLink to="/tier-einstellen">Tier vermitteln</NavLink>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+      <header className="pt-4 pb-2 sticky top-0 bg-[#1D3349] text-white border-b z-100 -translate-y-2 shadow-[0_0_20px_#000] border-[#000]">
+        <div className="container m-auto flex align-middle items-center">
+          {/* LOGO ############################## */}
+          <div className="pl-2 sm:pr-5">
+            <img
+              src="./img/logo-rund-weiss.png"
+              className="w-16 min-w-16 object-contain "
+            />
+          </div>
 
-              <div className="NAVI-3">
-                <nav>
-                  <ul className="menu menu-horizontal bg-[#1D3349]  lg:mb-64  absolute">
+          {/* NAVIGATION ######################## */}
+          <nav>
+            <ul className="menu menu-horizontal ">
+              <li>
+                <NavLink to="/">Home</NavLink>
+              </li>
+              <li>
+                <details>
+                  <summary>Tier suchen</summary>
+                  <ul className="bg-[#fff] text-black font-semibold border border-[#1D3349] -translate-y-1 shadow-[4px_4px_8px_#c7c0ca]">
                     <li>
-                      <NavLink to="/mein-konto">Meine Kontodaten</NavLink>
+                      <NavLink to="/tier-suchen">
+                        Alle&nbsp;Tiere&nbsp;zeigen
+                      </NavLink>
                     </li>
-                    {signedIn ? (
-                      <li>
-                        <a onClick={logout}>Abmelden</a>
+                    {categories?.map((cat) => (
+                      <li key={cat._id}>
+                        <NavLink
+                          to={`/tier-suchen?category=${cat.categoryName.toLocaleLowerCase()}`}
+                        >
+                          {cat.categoryName}
+                        </NavLink>
                       </li>
-                    ) : (
-                      <>
-                        <li>
-                          <NavLink to="/login">Anmelden</NavLink>
-                        </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+              <li>
+                <details>
+                  <summary>Über uns</summary>
+                  <ul className="bg-[#fff] text-black font-semibold border border-[#1D3349] -translate-y-1 shadow-[4px_4px_8px_#c7c0ca]">
+                    <li>
+                      <NavLink to="/about">Über uns</NavLink>
+                    </li>
+                    <li>
+                      <NavLink to="/impressum">Impressum</NavLink>
+                    </li>
+                  </ul>
+                </details>
+              </li>
+              <li>
+                <NavLink to="/tier-einstellen">Tier vermitteln</NavLink>
+              </li>
 
-                        <li>
-                          <NavLink to="/registrierung">Registrieren</NavLink>
-                        </li>
-                      </>
-                    )}
-                    {/* {userData?.roles?.[0] === "admin" && (
+              <li>
+                <NavLink to="/mein-konto">Meine Kontodaten</NavLink>
+              </li>
+              {signedIn ? (
+                <li>
+                  <a onClick={logout}>Abmelden</a>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <NavLink to="/login">Anmelden</NavLink>
+                  </li>
+
+                  <li>
+                    <NavLink to="/registrierung">Registrieren</NavLink>
+                  </li>
+                </>
+              )}
+              {/* {userData?.roles?.[0] === "admin" && (
                   <li>
                     <NavLink to="/admin-bereich" className="text-[orange]">
                       Admin Bereich
                     </NavLink>
                   </li>
                 )} */}
-                  </ul>
-                </nav>
-              </div>
-            </div>
+            </ul>
+          </nav>
+
+          {/* DARK MODE SCHALTER ################ */}
+          <div className="flex-1 flex justify-end">
+            <DarkThemeSchalter></DarkThemeSchalter>
           </div>
         </div>
       </header>

@@ -34,20 +34,20 @@
   }
   h1 {
     font-size: 3rem;
-    font-style: italic;
     line-height: 4rem;
-    font-weight: 500;
+    font-weight: 800;
   }
+
   h2 {
-    font-size: 2.8rem;
-    font-style: italic;
+    font-size: 2.5rem;
     line-height: 3.5rem;
     font-weight: 500;
+    font-family: "Gill Sans", "Gill Sans MT", "Calibri", "Trebuchet MS",
+      sans-serif;
   }
   h3 {
-    font-weight: 500;
+    font-weight: 800;
     font-size: 1.5rem;
-    font-style: normal;
     line-height: 1.8rem;
     padding-bottom: 0.6em;
   }
@@ -58,21 +58,24 @@
 /* BACKGROUND VERLAUF FÜR THEME "Dark" und "Light" ################### */
 
 html[data-theme="light"] .page {
-  background: #c7c0ca;
-  /* background: linear-gradient(
-    329deg,
-    rgba(178, 227, 166, 1) 0%,
-    rgba(18, 64, 17, 1) 56%,
-    rgba(51, 102, 59, 1) 100%
-  ); */
+  background: #faf8f8;
 }
 
 html[data-theme="dark"] .page {
-  /* background: #284a24;
-  background: linear-gradient(
-    329deg,
-    rgba(40, 74, 36, 1) 0%,
-    rgba(16, 43, 16, 1) 56%,
-    rgba(6, 26, 9, 1) 100%
-  ); */
+}
+
+header a,
+summary {
+  font-size: 1.4em;
+}
+
+header li {
+  padding: 0 10px;
+}
+
+@media only screen and (max-width: 1290px) {
+  h1 {
+    font-size: 2.5rem; /* statt 2% */
+    line-height: 3rem;
+  }
 }

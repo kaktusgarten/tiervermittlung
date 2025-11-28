@@ -1,4 +1,4 @@
-export default function CardAnimal({animal}) {
+export default function CardAnimal({ animal }) {
   return (
     <>
       <article
@@ -22,8 +22,8 @@ export default function CardAnimal({animal}) {
             {/*  Rasse ################################  */}
             <div className="flex">
               <img
-                src="./img/icon-standort.svg"
-                className="bg-white rounded mr-2"
+                src="./img/icon-rasse.png"
+                className="mr-2 w-[25px] object-contain"
               />
               <span>Rasse: {animal.race}</span>
             </div>
@@ -31,18 +31,25 @@ export default function CardAnimal({animal}) {
             {/*  Alter ################################  */}
             <div className="flex">
               <img
-                src="./img/icon-standort.svg"
-                className="bg-white rounded mr-2"
+                src="./img/icon-age.svg"
+                className="mr-2 w-[20px] object-contain"
               />
               <span>Alter: {animal.age} Jahre</span>
             </div>
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between ">
             <button className="rounded-md bg-[#2B1B12] text-white px-4 py-2 cursor-pointer">
               Details
             </button>
-            <strong>Standort: Berlin</strong>
+
+            <div className="flex items-center">
+              <img
+                src="./img/icon-standort.svg"
+                className="mr-2 w-[20px] object-contain"
+              />
+              <strong>Standort: xxxxx</strong>
+            </div>
           </div>
         </div>
       </article>
