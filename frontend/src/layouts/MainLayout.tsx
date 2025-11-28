@@ -9,7 +9,7 @@ export default function MainLayout() {
         <div className="page flex flex-col min-h-screen">
           <Header></Header>
 
-          <div className="container m-auto flex-1 mb-10 bg-base-100 md:px-8 px-3">
+          <div className="container m-auto flex-1 mb-10 md:px-8 px-3">
             <Outlet></Outlet>
           </div>
 
