@@ -35,14 +35,14 @@ declare global {
   type Animal = {
     _id: string;
     name: string;
-    description?: string;
-    age?: number | string;
-    sex?: "männlich" | "weiblich" | "unbekannt";
-    race?: string;
-    image_url?: string[]; // URLs
-    owner?: User | string; // full user or user id
-    category?: Category | string;
-    characteristics?: Characteristic[] | string[];
+    description: string;
+    age: number | string;
+    sex: "männlich" | "weiblich" | "unbekannt";
+    race: string;
+    image_url: string[]; // URLs
+    owner: User; // full user or user id
+    category: string;
+    characteristics: Characteristic[] | string[];
     handycap?: boolean;
     createdAt?: string;
     updatedAt?: string;
@@ -54,8 +54,8 @@ declare global {
     message: string;
     sender: User | string;
     animal: Animal | string;
-    status: "active" | "revoked" | "declined" | "archived";
-    // Mongoose may add these — keep optional if present
+    owner: string;
+    status: "active" | "declined";
     createdAt?: string;
     updatedAt?: string;
     __v?: number;

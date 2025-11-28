@@ -24,7 +24,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/impressum" element={<ImpressumAgbPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/details" element={<AnimalDetailPage />} />
+          <Route path="/details/:slug" element={<AnimalDetailPage />} />
           <Route path="/registrierung" element={<RegistrierungPage />} />
           <Route element={<ProtectedLayout />}>
             <Route path="/admin-bereich" element={<AdminBereichPage />} />

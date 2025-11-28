@@ -5,7 +5,9 @@ import {
   getMessageById,
   updateMessage,
   declineMessage,
-  revokeMessage,
+  // revokeMessage,
+  getMessagesByAnimalId,
+  getMessagesBySenderId,
 } from "#controllers";
 import { authenticate, authorize, validateBodyZod } from "#middlewares";
 import { Message } from "#models";
@@ -16,7 +18,8 @@ const messageRoutes = Router();
 
 messageRoutes.get("/", getAllMessages);
 messageRoutes.get("/:id", getMessageById);
-
+messageRoutes.get("/animal/:id", getMessagesByAnimalId);
+messageRoutes.get("/sender/:id", getMessagesBySenderId);
 messageRoutes.post(
   "/",
   authenticate,
@@ -34,18 +37,18 @@ messageRoutes.put(
 );
 
 messageRoutes.put(
-  "/:id/decline",
+  "/decline/:id",
   authenticate,
   authorize(Message),
   declineMessage
 );
 
-messageRoutes.put(
-  "/:id/revoke",
-  authenticate,
-  authorize(Message),
-  revokeMessage
-);
+// messageRoutes.put(
+//   "/revoke/:id",
+//   authenticate,
+//   authorize(Message),
+//   revokeMessage
+// );
 
 messageRoutes.delete("/:id", authenticate, authorize(Message), deleteMessage);
 
