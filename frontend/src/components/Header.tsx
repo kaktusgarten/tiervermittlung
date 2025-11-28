@@ -1,6 +1,7 @@
 import { useNavigate, NavLink } from "react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context";
+import DarkThemeSchalter from "./DarkThemeSchalter";
 //import LoginModal from "./LoginModal";
 export default function Header() {
   // const categories = [{ categoryName: "Hunde", name: "Hund" }];
@@ -59,13 +60,15 @@ export default function Header() {
     <>
       <header className="pt-4 pb-2 sticky top-0 bg-[#1D3349] text-white border-b z-100 -translate-y-2 shadow-[0_0_20px_#000] border-[#000]">
         <div className="container m-auto flex align-middle items-center">
-          {/* HEADER INHALT */}
+          {/* LOGO ############################## */}
           <div className="pl-2 sm:pr-5">
             <img
               src="./img/logo-rund-weiss.png"
               className="w-16 min-w-16 object-contain "
             />
           </div>
+
+          {/* NAVIGATION ######################## */}
           <nav>
             <ul className="menu menu-horizontal ">
               <li>
@@ -136,6 +139,11 @@ export default function Header() {
                 )} */}
             </ul>
           </nav>
+
+          {/* DARK MODE SCHALTER ################ */}
+          <div className="flex-1 flex justify-end">
+            <DarkThemeSchalter></DarkThemeSchalter>
+          </div>
         </div>
       </header>
     </>
