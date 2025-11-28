@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
+import MainImage from "../components/MainImage";
+import CardAnimal from "../components/CardAnimal";
+
 export default function SearchAnimalPage() {
   const [animals, setAnimals] = useState<Animal[]>();
 
@@ -26,24 +29,24 @@ export default function SearchAnimalPage() {
   return (
     <>
       <main className="">
-        <h1 className="mt-10 mb-4">
-          Suchseite - Finde Dein neues Haustier - {slug}
+        <h1 className="mt-10 mb-10">
+          Wir suchen ein Zuhause {slug && `- Rubrik: ${slug.toUpperCase()}`}
         </h1>
-        <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-3 mb-2">
+
+        <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
           {animals?.map((animal) => (
-            <article key={animal._id} className="border min-h-[500px] p-2">
-              <h2 className="mb-4">{animal.name}</h2>
-              <img
-                src={animal.image_url[0]}
-                title=""
-                className="w-full object-cover h-[340px] border mb-4"
-              ></img>
-              <p>Tierart: </p>
-              <p>Rasse: {animal.race}</p>
-              <p>Alter: {animal.age}</p>
-            </article>
+            <CardAnimal animal={animal}></CardAnimal>
           ))}
         </section>
+
+        <div className="mt-10">
+          <MainImage
+            image="./img/Maeuse.jpg"
+            headline="Tier vermitteln, Tier ein zu Hause geben"
+            textColor="white"
+            text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
+          />
+        </div>
       </main>
     </>
   );

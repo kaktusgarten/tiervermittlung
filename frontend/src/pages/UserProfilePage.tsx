@@ -1,11 +1,45 @@
+import FormChangeUserData from "../components/FormChangeUserData";
+
 export default function UserProfilePage() {
   return (
     <>
-      <main className="">
-        <h1 className="mt-10 mb-4">Benutzerprofil Seite</h1>
-        <p className="my-10 text-xl">
-          Hier kannst Du alle Infos zu deinem Konto
-        </p>
+      <main className="p-4 mb-12">
+        <h1 className="mt-6 mb-10">
+          Meine Kontodaten und Tieranfragen
+        </h1>
+
+        {/* Kontobox */}
+
+        <div className="grid md:grid-cols-3 gap-10 border rounded-2xl p-7 ">
+          {/* MEINE KONTO DATAN ######################################### */}
+          <div className="md:col-span-1 col-span-2">
+            <h3 className="mt-6">Meine Kontodaten:</h3>
+            <FormChangeUserData />
+          </div>
+          <section className="col-span-2">
+            {/* Meine Anfragen ############################################ */}
+            <div className="mb-10">
+              <h3 className="mb-4 mt-6">
+                Meine gestellten Anfragen zur Tieradoption:
+              </h3>
+              <section className="border p-2">
+                Folgende Mitteilungen habe ich gesendet
+                {/* <AnfragenUebersicht /> */}
+              </section>
+            </div>
+
+            {/* Interessenten Nachrichten ################################# */}
+            <div className="">
+              <h3 className="mb-4 my-6">
+                Interessenten für mein eingestelltes Tier:
+              </h3>
+              <section className="border p-2">
+                Folgende Personen haben ihnen geschrieben
+              </section>
+              {/* <AntwortenUebersicht /> */}
+            </div>
+          </section>
+        </div>
       </main>
     </>
   );
