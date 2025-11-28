@@ -64,6 +64,10 @@ html[data-theme="light"] .page {
 html[data-theme="dark"] .page {
 }
 
+html[data-theme="dark"] .aboutInfoBox {
+  background: #000;
+}
+
 header a,
 summary {
   font-size: 1.4em;
