@@ -4,7 +4,7 @@ export default function RegistrierungPage() {
   return (
     <>
       <main className="">
-        <h1 className="mb-2">Registrierung</h1>
+        <h1 className="mb-2 mt-10">Registrierung</h1>
         <p className="my-10 text-xl">
           Hier kannst Du dich registrieren um ein Tier auf unserer Seite
           einzustellen.

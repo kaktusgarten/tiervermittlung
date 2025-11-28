@@ -14,7 +14,7 @@ export default function AddAnimalPage() {
           </div>
           <div>
             <h3 className="text-xl py-5 font-bold">
-              Info zur Tier einstellung
+              Info´s zur Tier Einstellung
             </h3>
             <p className="mb-5 text-xl">
               Fülle bitte alle Felder aus, damit wir dein Tier schnell und

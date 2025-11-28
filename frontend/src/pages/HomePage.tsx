@@ -1,4 +1,5 @@
 import CardAnimal from "../components/CardAnimal";
+import MainImageHomePage from "../components/MainImageHomePage";
 import MainImage from "../components/MainImage";
 import { useEffect, useState } from "react";
 
@@ -27,7 +28,7 @@ export default function HomePage() {
       <main className="">
         {/* HEADER Image ############################################ */}
         <section className="mb-10">
-          <MainImage
+          <MainImageHomePage
             image="./img/mood-bild-1.png"
             headline="Die Tierglück Vermittlung"
             textColor="white"
@@ -37,13 +38,18 @@ export default function HomePage() {
 
         {/* Einleigungstext ########################################## */}
         <section>
-          <h2 className="mb-2 font-semibold">
-            Wir lieben Tiere – und wir möchten helfen!
-          </h2>
-          <div className="flex gap-4 p-6 my-6 bg-[#594856] text-white rounded-2xl italic">
-            <div className="bg-white p-3 rounded-[200px] flex">
+          <h2 className="mb-2">Wir lieben Tiere – und wir möchten helfen!</h2>
+          <div
+            className="flex gap-4 p-6 my-6 bg-[#594856] text-white rounded-2xl italic -translate-y-2 shadow-[0_5px_5px_#000] border-[#000]"
+            style={{
+              background: "#736a6a",
+              backgroundImage:
+                "linear-gradient(327deg, rgba(115,106,106,1) 0%, rgba(89,72,86,1) 56%, rgba(29,51,73,1) 100%)",
+            }}
+          >
+            <div className="">
               <img
-                src="./img/Logo-Tiervermittlung-transparent.png"
+                src="./img/logo-rund-weiss.png"
                 className="w-[80px] object-contain"
               />
             </div>

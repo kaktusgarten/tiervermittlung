@@ -5,15 +5,12 @@ export default function Footer() {
       <footer>
         <section className="bg-[#594856] py-4 min-h-[20px] text-white">
           <div className="container m-auto">
-            <div className="grid md:grid-cols-4 gap-5">
-              
+            <div className="grid md:grid-cols-[150px_1fr_1fr_1fr] gap-5">
               <div className="flex justify-center justify-start">
-                <div className="bg-white p-3 rounded-[100px]  w-[120px] h-[120px]">
-                  <img
-                    src="./img/Logo-Tiervermittlung-transparent.png"
-                    className="w-[100px] object-contain"
-                  />
-                </div>
+                <img
+                  src="./img/logo-rund-weiss.png"
+                  className="w-[100px] object-contain m-7"
+                />
               </div>
 
               {/* Spalte 1 #################################### */}
@@ -67,6 +64,7 @@ export default function Footer() {
           </div>
         </section>
 
+        {/* FOOTER - GANG UNTEN ############################### */}
         <section className="bg-[#161814] px-4 py-2">
           <div className="container m-auto grid grid-cols-[1fr_auto] gap-4">
             <div className="p-2">
@@ -90,10 +88,6 @@ export default function Footer() {
             <div className="p-2 text-white">© 2025</div>
           </div>
         </section>
-
-        {/* <section className="bg-[#000] py-1 min-h-[10px] text-white">
-          <div className="container m-auto grid grid-cols-[1fr_auto] gap-4"></div>
-        </section> */}
       </footer>
     </>
   );

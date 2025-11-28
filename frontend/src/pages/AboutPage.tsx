@@ -1,5 +1,6 @@
 import MainImage from "../components/MainImage";
 import { Link } from "react-router-dom";
+import MainImageHomePage from "../components/MainImageHomePage";
 
 export default function AboutPage() {
   return (
@@ -16,12 +17,12 @@ export default function AboutPage() {
         </div>
 
         {/* Team Intro */}
-        <section className="max-w-4xl mx-auto px-6 mb-16">
+        <section className=" max-w-6xl mx-auto mb-16 mt-6">
           <h1 className="text-4xl font-bold mb-6 text-center">
             Über uns & unser Projekt
           </h1>
 
-          <div className="space-y-6 text-lg leading-relaxed bg-[#A094A6] p-8 rounded-xl shadow-md">
+          <div className="aboutInfoBox space-y-6 leading-relaxed bg-[#d2ced3] p-12 rounded-xl shadow-md mt-10">
             <p>
               Wir sind vier Webentwickler-Studierende, die ihre Leidenschaft für
               Technik mit ihrer Liebe zu Tieren verbinden wollten. Im Rahmen
@@ -62,10 +63,8 @@ export default function AboutPage() {
         </section>
 
         {/* Zeitstrahl / Steps */}
-        <section className="max-w-3xl mx-auto px-6 mt-24">
-          <h2 className="text-3xl font-bold text-center mb-10">
-            Dein Weg zur Adoption
-          </h2>
+        <section className="mx-auto px-6 mt-24">
+          <h2 className="font-bold text-center mb-10">Dein Weg zur Adoption</h2>
 
           {/* Steps */}
           <ul
@@ -120,15 +119,15 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-
-        <div className="relative left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] w-screen mt-20">
-          <img
-            src="/img/Paws.jpg"
-            alt="Tiere"
-            className="h-80 w-full object-cover"
-          />
-        </div>
       </main>
+      <section className="">
+        <MainImageHomePage
+          image="./img/mood-bild-1.png"
+          headline=""
+          textColor="white"
+          text=""
+        />
+      </section>
     </>
   );
 }
