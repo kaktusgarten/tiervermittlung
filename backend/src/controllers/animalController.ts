@@ -45,11 +45,11 @@ type AnimalDTO = Document<
 export const getAllAnimals: RequestHandler = async (req, res) => {
   let animals = {};
   const query = req.query;
-  const { category, race, age, sex, handycap } = req.query;
+  const { category, race, age, sex, handycap, characteristics } = req.query;
 
   // const animals = await Animal.find().select("name category race age sex");
 
-  if (!category && !race && !age && !sex && !handycap) {
+  if (!category && !race && !age && !sex && !handycap && !characteristics) {
     console.log("get all animals.");
     animals = await Animal.find();
   } else {
@@ -77,6 +77,9 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
     }
     if (handycap) {
       newQuery.push({ handycap: handycap });
+    }
+    if (characteristics) {
+      newQuery.push({ characteristics: characteristics });
     }
 
     console.log("newQuery: ", newQuery);

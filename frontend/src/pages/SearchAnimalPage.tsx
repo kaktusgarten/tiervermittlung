@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useActionState, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 
 import MainImage from "../components/MainImage";
 import CardAnimal from "../components/CardAnimal";
@@ -8,14 +8,19 @@ export default function SearchAnimalPage() {
   const [animals, setAnimals] = useState<Animal[]>();
   const [categories, setCategories] = useState<Category[]>();
   const [characteristics, setCharacteristics] = useState<Characteristic[]>();
+  const [value, setValue] = useState("");
+  const [searchString, setSearchString] = useState("");
+  const [state, formAction] = useActionState(action, null);
 
   const { slug } = useParams<{ slug?: string }>();
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals`
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
         );
         const data = await res.json();
         setAnimals(data);
@@ -26,7 +31,7 @@ export default function SearchAnimalPage() {
     };
 
     fetchAnimals();
-  }, []);
+  }, [searchString]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -51,7 +56,6 @@ export default function SearchAnimalPage() {
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/characteristics`
         );
         const data = await res.json();
-        console.log("Daten: ", data);
         setCharacteristics(data);
       } catch (error) {
         console.log(error);
@@ -61,9 +65,59 @@ export default function SearchAnimalPage() {
     fetchCharacteristics();
   }, []);
 
-  const formAction = () => {
-    alert("formAction");
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const result = event.target?.value.replace(/\D/g, "");
+
+    setValue(result);
   };
+
+  async function action(previousState, formData: FormData) {
+    let resultString = "?";
+    const selectedCharacteristics = formData.getAll("characteristics");
+    const category = formData.get("selectedCategory");
+    const sex = formData.get("selectedSex");
+    const age = formData.get("inputAge");
+    const race = formData.get("inputRace");
+
+    if (selectedCharacteristics.length > 0) {
+      selectedCharacteristics.forEach((Char) => {
+        const Chara = characteristics?.find((c) => c._id === Char.toString());
+        resultString = resultString.concat(
+          "characteristics=",
+          Chara?.characteristic,
+          "&"
+        );
+      });
+      resultString = resultString.substring(1, resultString.length - 1);
+    }
+    if (!(category.substring(0, 2) === "--")) {
+      if (resultString.length > 1) {
+        resultString = resultString.concat("&");
+      }
+      resultString = resultString.concat("category=", category);
+    }
+    if (!(sex.substring(0, 2) === "--")) {
+      if (resultString.length > 1) {
+        resultString = resultString.concat("&");
+      }
+      resultString = resultString.concat("sex=", sex);
+    }
+    if (age.length > 0) {
+      if (resultString.length > 1) {
+        resultString = resultString.concat("&");
+      }
+      resultString = resultString.concat("age=", age);
+    }
+    if (race.length > 0) {
+      if (resultString.length > 1) {
+        resultString = resultString.concat("&");
+      }
+      resultString = resultString.concat("race=", race);
+    }
+    setSearchString(resultString);
+    console.log("resultString: ", resultString);
+    navigate("/tier-suchen");
+  }
 
   return (
     <>
@@ -73,32 +127,89 @@ export default function SearchAnimalPage() {
         </h1>
 
         <section id="Auswahl" className="mb-2">
-          <h3>Test</h3>
           <form action={formAction}>
             <fieldset>
-              <div className="w-52">
-                <legend className="fieldset-legend">
-                  Auswahl Characteristic
-                </legend>
-                <label className="label">
-                  <input type="checkbox" className="checkbox" />
-                  C1
-                </label>
+              <div className="w-full">
+                <div className="border border-amber-600">
+                  <legend className="fieldset-legend">
+                    Auswahl Characteristic
+                  </legend>
+                  {/* Checkboxen Characteristik */}
+                  {!characteristics
+                    ? ""
+                    : characteristics?.map((char) => (
+                        <label className="label mr-1" key={char._id}>
+                          <input
+                            name="characteristics"
+                            value={char._id}
+                            type="checkbox"
+                            className="checkbox"
+                            id={char._id}
+                          />
+                          {char.characteristic}
+                        </label>
+                      ))}
+                </div>
+                <div className="border border-blue-600">
+                  {/* Auswahl Kategorien */}
+                  <label htmlFor="Category" className="select w-20 mr-1 ">
+                    Kategorie
+                  </label>
+
+                  <select
+                    name="selectedCategory"
+                    defaultValue="Auswahl Kategorie"
+                    className="select w-44"
+                  >
+                    <option>-- Kategorie wählen --</option>
+                    {!categories
+                      ? ""
+                      : categories?.map((cat) => (
+                          <option key={cat._id}>{cat.categoryName}</option>
+                        ))}
+                  </select>
+                  {/* Auswahl Geschlecht */}
+                  <label
+                    htmlFor="Sex"
+                    className="input border border-amber-500 w-24 mr-1"
+                  >
+                    Geschlecht
+                  </label>
+                  <select
+                    name="selectedSex"
+                    defaultValue="Auswahl Geschlecht"
+                    className="select w-44"
+                  >
+                    <option>-- Bitte wählen --</option>
+                    <option key="männlich">männlich</option>
+                    <option key="weiblich">weiblich</option>
+                    <option key="egal">egal</option>
+                  </select>
+                  {/* Eingabe Alter */}
+                  <label htmlFor="Age">
+                    Alter
+                    <input
+                      name="inputAge"
+                      type="text"
+                      value={value}
+                      onChange={handleChange}
+                      className="input w-18 mr-3"
+                    />
+                  </label>
+                  {/* Eingabe Rasse */}
+                  <label htmlFor="Race">
+                    Rasse
+                    <input
+                      name="inputRace"
+                      type="text"
+                      className="input w-50 mr-3"
+                    />
+                  </label>
+                  <button type="submit" className="btn btn-neutral">
+                    Tiere suchen
+                  </button>
+                </div>
               </div>
-
-              <label htmlFor="Category" className="input w-18 mr-3">
-                Kategorie
-              </label>
-              <select defaultValue="Auswahl Kategorie" className="select">
-                <option disabled={true}>Kategorie</option>
-                {categories?.map((cat) => (
-                  <option>{cat.categoryName}</option>
-                ))}
-              </select>
-
-              <button type="submit" className="btn">
-                Tiere suchen
-              </button>
             </fieldset>
           </form>
         </section>
