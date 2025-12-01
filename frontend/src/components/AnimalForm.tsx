@@ -16,23 +16,23 @@ function validateRegistration(data: Record<string, string>) {
 
 export default function AnimalForm() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState<string>("");
-  const [images, setImages] = useState<File[]>([]);
+  // const [userId, setUserId] = useState<string>("");
+  const [image, setImages] = useState<File[]>([]);
   const [categories, setCategories] = useState<Category[]>();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/auth/me`, {
-          credentials: "include",
-        });
-        if (!res.ok) throw new Error("User-Daten konnten nicht geladen werden");
-        const data = await res.json();
-        setUserId(data.user._id);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    // const fetchUser = async () => {
+    //   try {
+    //     const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/auth/me`, {
+    //       credentials: "include",
+    //     });
+    //     if (!res.ok) throw new Error("User-Daten konnten nicht geladen werden");
+    //     const data = await res.json();
+    //     setUserId(data.user._id);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
 
     const fetchCategories = async () => {
       try {
@@ -47,12 +47,12 @@ export default function AnimalForm() {
     };
 
     fetchCategories();
-    fetchUser();
+    // fetchUser();
   }, []);
 
   async function submitAction(_prevState: any, formData: FormData) {
     // Bilder ins FormData einfügen
-    images.forEach((img) => formData.append("images", img));
+    image.forEach((img) => formData.append("image", img));
 
     // Alter als Zahl setzen (String → Number)
     const ageStr = formData.get("animalAge") as string | null;
@@ -185,9 +185,9 @@ export default function AnimalForm() {
           disabled={isPending}
         >
           <option value="">-- bitte auswählen --</option>
-          <option value="Männlich">Männlich</option>
-          <option value="Weiblich">Weiblich</option>
-          <option value="Unbekannt">Unbekannt</option>
+          <option value="männlich">Männlich</option>
+          <option value="weiblich">Weiblich</option>
+          <option value="unbekannt">Unbekannt</option>
         </select>
         {formState.errors?.sex && (
           <p className="text-sm text-red-400 mt-1">{formState.errors.sex}</p>
@@ -213,16 +213,16 @@ export default function AnimalForm() {
           <legend className="fieldset-legend">Bilder hochladen</legend>
           <input
             type="file"
-            name="images"
+            name="image"
             className="file-input"
             accept="image/*"
             multiple
             onChange={handleFileChange}
             disabled={isPending}
           />
-          {images.length > 0 && (
+          {image.length > 0 && (
             <div className="mt-3 flex gap-2 flex-wrap">
-              {images.map((img, idx) => (
+              {image.map((img, idx) => (
                 <img
                   key={idx}
                   src={URL.createObjectURL(img)}
@@ -234,8 +234,15 @@ export default function AnimalForm() {
           )}
         </fieldset>
 
-        {/* Hidden User */}
-        <input type="hidden" name="owner" value={userId} />
+        {/* Characteristics */}
+        <label className="label mt-2">Eigenschaften</label>
+        <input
+          defaultValue={formState.input?.characteristics}
+          name="characteristics"
+          className="input w-full"
+          placeholder="Eigenschaften"
+          disabled={isPending}
+        />
 
         <button
           type="submit"
