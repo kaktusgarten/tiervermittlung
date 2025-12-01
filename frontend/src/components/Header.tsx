@@ -259,14 +259,16 @@ export default function Header() {
           </div>
 
           {/* DESKTOP NAVIGATION */}
-          <div className="hidden min-[768px]:flex items-center gap-4">
+          <div className="hidden min-[768px]:flex items-center gap-4 hyphens-none">
             <ul className="menu menu-horizontal font-semibold">
               <li>
                 <details>
                   <summary>Tier suchen</summary>
                   <ul className="bg-white text-black border border-[#1D3349] -translate-y-1 shadow-lg">
                     <li>
-                      <NavLink to="/tier-suchen">Alle Tiere zeigen</NavLink>
+                      <NavLink to="/tier-suchen">
+                        Alle&nbsp;Tiere&nbsp;zeigen
+                      </NavLink>
                     </li>
                     {categories?.map((cat) => (
                       <li key={cat._id}>
@@ -286,7 +288,7 @@ export default function Header() {
                   <summary>Über uns</summary>
                   <ul className="bg-white text-black border border-[#1D3349] -translate-y-1 shadow-lg">
                     <li>
-                      <NavLink to="/about">Über uns</NavLink>
+                      <NavLink to="/about">Über&nbsp;uns</NavLink>
                     </li>
                     <li>
                       <NavLink to="/impressum">Impressum</NavLink>
