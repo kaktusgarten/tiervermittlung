@@ -10,31 +10,35 @@ function validateRegistration(data: Record<string, string>) {
   if (!data.category) errors.category = "Spezies ist erforderlich";
   if (!data.sex) errors.sex = "Geschlecht ist erforderlich";
   if (!data.description) errors.description = "Beschreibung ist erforderlich";
+  if (!data.age) errors.age = "Ungefähres Alter des Tieres angeben";
+  if (!data.race) errors.race = "Welche Tierrasse?";
+  if (!data.characteristics)
+    errors.characteristics = "Eigenschaften des Tieres?";
+  if (!data.handycap) errors.handycap = "Hat das Tier eine Behinderung?";
 
   return errors;
 }
 
 export default function AnimalForm() {
   const navigate = useNavigate();
-  // const [userId, setUserId] = useState<string>("");
-  const [image, setImages] = useState<File[]>([]);
-  const [categories, setCategories] = useState<Category[]>();
+  const [images, setImages] = useState<File[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
+  // ⭐ Controlled Form State
+  const [formData, setFormData] = useState({
+    name: "",
+    category: "",
+    race: "",
+    age: "",
+    sex: "",
+    description: "",
+    characteristics: "",
+    handycap: "",
+  });
+
+  // Kategorien laden
   useEffect(() => {
-    // const fetchUser = async () => {
-    //   try {
-    //     const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/auth/me`, {
-    //       credentials: "include",
-    //     });
-    //     if (!res.ok) throw new Error("User-Daten konnten nicht geladen werden");
-    //     const data = await res.json();
-    //     setUserId(data.user._id);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-
-    const fetchCategories = async () => {
+    async function load() {
       try {
         const res = await fetch(
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/categories`
@@ -42,46 +46,45 @@ export default function AnimalForm() {
         const data = await res.json();
         setCategories(data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
-    };
-
-    fetchCategories();
-    // fetchUser();
+    }
+    load();
   }, []);
 
-  async function submitAction(_prevState: any, formData: FormData) {
-    // Bilder ins FormData einfügen
-    image.forEach((img) => formData.append("image", img));
+  // FormAction Handler
+  async function submitAction(_prevState: any, formDataSubmit: FormData) {
+    // Bilder an FormData anhängen
+    images.forEach((img) => formDataSubmit.append("image", img));
 
-    // Alter als Zahl setzen (String → Number)
-    const ageStr = formData.get("animalAge") as string | null;
+    // Alter in Zahl umwandeln
+    const ageStr = formDataSubmit.get("age") as string | null;
     if (ageStr) {
-      formData.set("animalAge", Number(ageStr).toString());
+      formDataSubmit.set("age", Number(ageStr).toString());
     }
 
-    const dataObj = Object.fromEntries(formData.entries()) as Record<
+    const dataObj = Object.fromEntries(formDataSubmit.entries()) as Record<
       string,
       string
     >;
 
+    // Validieren
     const validationErrors = validateRegistration(dataObj);
     if (Object.keys(validationErrors).length > 0) {
       return { errors: validationErrors, input: dataObj };
     }
 
+    // API Request
     try {
       const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/animals`, {
         method: "POST",
-        body: formData,
+        body: formDataSubmit,
         credentials: "include",
       });
 
-      if (!res.ok) throw new Error("Anmeldung des Tieres fehlgeschlagen");
+      if (!res.ok) throw new Error("Tier-Registrierung fehlgeschlagen");
 
-      const result = await res.json();
-      console.log("Tier-Registrierung erfolgreich:", result);
-
+      await res.json();
       navigate("/");
       return {};
     } catch (error) {
@@ -98,6 +101,13 @@ export default function AnimalForm() {
 
   const [formState, formAction, isPending] = useActionState(submitAction, {});
 
+  // ⭐ Wenn Fehler → FormData aktualisieren
+  useEffect(() => {
+    if (formState.input) {
+      setFormData((prev) => ({ ...prev, ...formState.input }));
+    }
+  }, [formState.input]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setImages(Array.from(e.target.files));
@@ -111,29 +121,32 @@ export default function AnimalForm() {
           Registrierungsdaten eingeben:
         </legend>
 
-        {/* Tier Name */}
+        {/* Name */}
         <label className="label">Tiername</label>
         <input
-          defaultValue={formState.input?.name}
           name="name"
           className="input w-full"
-          placeholder="Name deines Tieres"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           disabled={isPending}
         />
         {formState.errors?.name && (
           <p className="text-sm text-red-400 mt-1">{formState.errors.name}</p>
         )}
 
-        {/* Kategorie / Spezies */}
+        {/* Kategorie */}
         <label className="label mt-2">Spezies</label>
         <select
-          defaultValue={formState.input?.category || ""}
           name="category"
           className="select w-full"
+          value={formData.category}
+          onChange={(e) =>
+            setFormData({ ...formData, category: e.target.value })
+          }
           disabled={isPending}
         >
           <option value="">-- bitte auswählen --</option>
-          {categories?.map((cat) => (
+          {categories.map((cat) => (
             <option key={cat._id} value={cat.categoryName}>
               {cat.categoryName}
             </option>
@@ -148,40 +161,37 @@ export default function AnimalForm() {
         {/* Rasse */}
         <label className="label mt-2">Rasse</label>
         <input
-          defaultValue={formState.input?.animalRasse}
           name="race"
           className="input w-full"
-          placeholder="Rasse"
+          value={formData.race}
+          onChange={(e) => setFormData({ ...formData, race: e.target.value })}
           disabled={isPending}
         />
-        {formState.errors?.animalRasse && (
-          <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalRasse}
-          </p>
+        {formState.errors?.race && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.race}</p>
         )}
 
         {/* Alter */}
         <label className="label mt-2">Alter</label>
         <input
           type="number"
-          defaultValue={formState.input?.animalAge}
           name="age"
           className="input w-full"
-          placeholder="Alter"
+          value={formData.age}
+          onChange={(e) => setFormData({ ...formData, age: e.target.value })}
           disabled={isPending}
         />
-        {formState.errors?.animalAge && (
-          <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalAge}
-          </p>
+        {formState.errors?.age && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.age}</p>
         )}
 
         {/* Geschlecht */}
         <label className="label mt-2">Geschlecht</label>
         <select
-          defaultValue={formState.input?.sex || ""}
           name="sex"
           className="select w-full"
+          value={formData.sex}
+          onChange={(e) => setFormData({ ...formData, sex: e.target.value })}
           disabled={isPending}
         >
           <option value="">-- bitte auswählen --</option>
@@ -196,10 +206,12 @@ export default function AnimalForm() {
         {/* Beschreibung */}
         <label className="label mt-2">Beschreibung</label>
         <textarea
-          defaultValue={formState.input?.description}
           name="description"
           className="textarea w-full"
-          placeholder="Beschreibung des Tieres"
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
           disabled={isPending}
         />
         {formState.errors?.description && (
@@ -211,34 +223,46 @@ export default function AnimalForm() {
         {/* Characteristics */}
         <label className="label mt-2">Eigenschaften</label>
         <input
-          defaultValue={formState.input?.characteristics}
           name="characteristics"
           className="input w-full"
-          placeholder="Eigenschaften"
+          value={formData.characteristics}
+          onChange={(e) =>
+            setFormData({ ...formData, characteristics: e.target.value })
+          }
           disabled={isPending}
         />
+        {formState.errors?.characteristics && (
+          <p className="text-sm text-red-400 mt-1">
+            {formState.errors.characteristics}
+          </p>
+        )}
 
         {/* Handicap */}
         <label className="label mt-2">Handicap</label>
         <select
-          defaultValue={formState.input?.handycap || ""}
           name="handycap"
           className="select w-full"
+          value={formData.handycap}
+          onChange={(e) =>
+            setFormData({ ...formData, handycap: e.target.value })
+          }
           disabled={isPending}
         >
           <option value="">-- bitte auswählen --</option>
           <option value="true">Ja</option>
           <option value="false">Nein</option>
         </select>
+
         {formState.errors?.handycap && (
           <p className="text-sm text-red-400 mt-1">
             {formState.errors.handycap}
           </p>
         )}
 
-        {/* Bilder Upload */}
+        {/* Bilder */}
         <fieldset className="fieldset mt-4">
           <legend className="fieldset-legend">Bilder hochladen</legend>
+
           <input
             type="file"
             name="image"
@@ -248,9 +272,10 @@ export default function AnimalForm() {
             onChange={handleFileChange}
             disabled={isPending}
           />
-          {image.length > 0 && (
+
+          {images.length > 0 && (
             <div className="mt-3 flex gap-2 flex-wrap">
-              {image.map((img, idx) => (
+              {images.map((img, idx) => (
                 <img
                   key={idx}
                   src={URL.createObjectURL(img)}
@@ -262,6 +287,7 @@ export default function AnimalForm() {
           )}
         </fieldset>
 
+        {/* Submit */}
         <button
           type="submit"
           className="btn btn-primary mt-4 w-full"
@@ -269,6 +295,7 @@ export default function AnimalForm() {
         >
           {isPending ? "Tier registrieren..." : "Tier registrieren"}
         </button>
+
         {formState.errors?.button && (
           <p className="text-sm text-red-400 mt-1">{formState.errors.button}</p>
         )}
