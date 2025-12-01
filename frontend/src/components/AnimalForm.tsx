@@ -1,52 +1,87 @@
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { useNavigate } from "react-router";
 
-//  Validierungs-Funktion
+// Validierungs-Funktion
 function validateRegistration(data: Record<string, string>) {
   const errors: Record<string, string> = {};
 
-  if (!data.animalName)
-    errors.animalName = "Der Name des Tieres ist erforderlich";
-  if (!data.animalSpezies)
-    errors.animalSpezies = "Tierspezies ist erforderlich";
-  // TODO: UND SO WEITER, hier Felder eintragen....
+  if (!data.name) errors.name = "Der Name des Tieres ist erforderlich";
+  if (!data.category) errors.category = "Spezies ist erforderlich";
+  if (!data.sex) errors.sex = "Geschlecht ist erforderlich";
+  if (!data.description) errors.description = "Beschreibung ist erforderlich";
 
   return errors;
 }
 
 export default function AnimalForm() {
   const navigate = useNavigate();
+  const [userId, setUserId] = useState<string>("");
+  const [images, setImages] = useState<File[]>([]);
+  const [categories, setCategories] = useState<Category[]>();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/auth/me`, {
+          credentials: "include",
+        });
+        if (!res.ok) throw new Error("User-Daten konnten nicht geladen werden");
+        const data = await res.json();
+        setUserId(data.user._id);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/categories`
+        );
+        const data = await res.json();
+        setCategories(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchCategories();
+    fetchUser();
+  }, []);
 
   async function submitAction(_prevState: any, formData: FormData) {
-    const data = Object.fromEntries(formData.entries()) as Record<
+    // Bilder ins FormData einfügen
+    images.forEach((img) => formData.append("images", img));
+
+    // Alter als Zahl setzen (String → Number)
+    const ageStr = formData.get("animalAge") as string | null;
+    if (ageStr) {
+      formData.set("animalAge", Number(ageStr).toString());
+    }
+
+    const dataObj = Object.fromEntries(formData.entries()) as Record<
       string,
       string
     >;
 
-    const validationErrors = validateRegistration(data);
+    const validationErrors = validateRegistration(dataObj);
     if (Object.keys(validationErrors).length > 0) {
-      return { errors: validationErrors, input: data };
+      return { errors: validationErrors, input: dataObj };
     }
 
     try {
-      console.log("Tier-Daten zur Registrierung:", data);
-
-      // POST-Request an Backend ###############################################################
-
-      const res = await fetch("http://localhost:3000/animals", {
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/animals`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
+        credentials: "include",
       });
 
-      console.log("Animal-Registrierungs-Response ist: ");
-      console.log(res);
       if (!res.ok) throw new Error("Anmeldung des Tieres fehlgeschlagen");
 
       const result = await res.json();
       console.log("Tier-Registrierung erfolgreich:", result);
 
-      // NACH LOGIN WEITERLEITEN ##############################
       navigate("/");
       return {};
     } catch (error) {
@@ -56,15 +91,21 @@ export default function AnimalForm() {
           button:
             "Tier-Registrierung fehlgeschlagen. Bitte überprüfe deine Eingaben.",
         },
-        input: data,
+        input: dataObj,
       };
     }
   }
 
   const [formState, formAction, isPending] = useActionState(submitAction, {});
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImages(Array.from(e.target.files));
+    }
+  };
+
   return (
-    <form action={formAction}>
+    <form action={formAction} encType="multipart/form-data">
       <fieldset className="fieldset bg-base-100 border-base rounded-box border p-4">
         <legend className="fieldset-legend">
           Registrierungsdaten eingeben:
@@ -73,30 +114,34 @@ export default function AnimalForm() {
         {/* Tier Name */}
         <label className="label">Tiername</label>
         <input
-          defaultValue={formState.input?.animalName}
-          name="animalName"
+          defaultValue={formState.input?.name}
+          name="name"
           className="input w-full"
           placeholder="Name deines Tieres"
           disabled={isPending}
         />
-        {formState.errors?.animalName && (
-          <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalName}
-          </p>
+        {formState.errors?.name && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.name}</p>
         )}
 
-        {/* Speziel / Tierart */}
+        {/* Kategorie / Spezies */}
         <label className="label mt-2">Spezies</label>
-        <input
-          defaultValue={formState.input?.animalSpezies}
-          name="animalSpezies"
-          className="input w-full"
-          placeholder="Tier Spezies (Hund, Katze, Maus)"
+        <select
+          defaultValue={formState.input?.category || ""}
+          name="category"
+          className="select w-full"
           disabled={isPending}
-        />
-        {formState.errors?.spezies && (
+        >
+          <option value="">-- bitte auswählen --</option>
+          {categories?.map((cat) => (
+            <option key={cat._id} value={cat.categoryName}>
+              {cat.categoryName}
+            </option>
+          ))}
+        </select>
+        {formState.errors?.category && (
           <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalSpezies}
+            {formState.errors.category}
           </p>
         )}
 
@@ -104,12 +149,12 @@ export default function AnimalForm() {
         <label className="label mt-2">Rasse</label>
         <input
           defaultValue={formState.input?.animalRasse}
-          name="animalRasse"
+          name="race"
           className="input w-full"
           placeholder="Rasse"
           disabled={isPending}
         />
-        {formState.errors?.spezies && (
+        {formState.errors?.animalRasse && (
           <p className="text-sm text-red-400 mt-1">
             {formState.errors.animalRasse}
           </p>
@@ -118,13 +163,14 @@ export default function AnimalForm() {
         {/* Alter */}
         <label className="label mt-2">Alter</label>
         <input
+          type="number"
           defaultValue={formState.input?.animalAge}
-          name="animalAge"
+          name="age"
           className="input w-full"
           placeholder="Alter"
           disabled={isPending}
         />
-        {formState.errors?.spezies && (
+        {formState.errors?.animalAge && (
           <p className="text-sm text-red-400 mt-1">
             {formState.errors.animalAge}
           </p>
@@ -132,22 +178,64 @@ export default function AnimalForm() {
 
         {/* Geschlecht */}
         <label className="label mt-2">Geschlecht</label>
-        <input
-          defaultValue={formState.input?.animalSex}
-          name="animalSex"
-          className="input w-full"
-          placeholder="Geschlecht"
+        <select
+          defaultValue={formState.input?.sex || ""}
+          name="sex"
+          className="select w-full"
+          disabled={isPending}
+        >
+          <option value="">-- bitte auswählen --</option>
+          <option value="Männlich">Männlich</option>
+          <option value="Weiblich">Weiblich</option>
+          <option value="Unbekannt">Unbekannt</option>
+        </select>
+        {formState.errors?.sex && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.sex}</p>
+        )}
+
+        {/* Beschreibung */}
+        <label className="label mt-2">Beschreibung</label>
+        <textarea
+          defaultValue={formState.input?.description}
+          name="description"
+          className="textarea w-full"
+          placeholder="Beschreibung des Tieres"
           disabled={isPending}
         />
-        {formState.errors?.animalSex && (
+        {formState.errors?.description && (
           <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalSex}
+            {formState.errors.description}
           </p>
         )}
 
-        {/* ########################################################## */}
-        {/* TODO: Beschreibung, Eigenschaften-[], Bilderupload-[], Besitzer-User-ID */}
-        {/* ########################################################## */}
+        {/* Bilder Upload */}
+        <fieldset className="fieldset mt-4">
+          <legend className="fieldset-legend">Bilder hochladen</legend>
+          <input
+            type="file"
+            name="images"
+            className="file-input"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+            disabled={isPending}
+          />
+          {images.length > 0 && (
+            <div className="mt-3 flex gap-2 flex-wrap">
+              {images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={URL.createObjectURL(img)}
+                  alt="preview"
+                  className="w-24 h-24 object-cover rounded"
+                />
+              ))}
+            </div>
+          )}
+        </fieldset>
+
+        {/* Hidden User */}
+        <input type="hidden" name="owner" value={userId} />
 
         <button
           type="submit"
