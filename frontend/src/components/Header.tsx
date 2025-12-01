@@ -69,7 +69,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="pt-4 pb-2 sticky top-0 border-b z-100 bg-[#1D3349] text-white shadow-[0_0_20px_#000] border-[#000]">
+      <header className="pt-2 pb-2 sticky top-0 border-b z-100 bg-[#1D3349] text-white shadow-[0_0_20px_#000] border-[#000]">
         <div className="container m-auto flex items-center justify-between">
           {/* MOBILE NAVIGATION */}
           <div className="relative min-[768px]:hidden mobile-menu-area">
@@ -96,7 +96,11 @@ export default function Header() {
             </button>
 
             {isMenuOpen && (
-              <ul className="menu menu-lg absolute left-0 top-full bg-[#1D3349] text-white rounded-box z-[1] mt-3 w-52 shadow-lg border-t-4 border-[#182a3b] max-h-[70vh] overflow-y-auto overflow-hidden scrollbar-thin scrollbar-thumb-base-300 scrollbar-track-transparent">
+              <ul
+                className="menu menu-lg absolute left-0 top-full  text-white z-[1] mt-5 w-[80vw]
+              border-t-4 border-[#182a3b] min-h-[68vh] overflow-y-auto overflow-hidden scrollbar-thin scrollbar-thumb-base-300 scrollbar-track-transparent"
+                style={{ backgroundColor: "rgba(29, 51, 73, 0.98)" }}
+              >
                 {/* MAIN MOBILE MENU */}
                 <div
                   className={`transition-transform duration-300 ${
@@ -178,7 +182,7 @@ export default function Header() {
 
                 {/* SUBMENU: TIER SUCHEN */}
                 <div
-                  className={`absolute top-0 left-0 w-full bg-[#1D3349] text-white rounded-box transition-transform duration-300 ${
+                  className={`absolute top-0 left-0 w-full bg-[#1D3349] text-white transition-transform duration-300 ${
                     activeSubmenu === "tiersuchen"
                       ? "translate-x-0"
                       : "translate-x-full"
@@ -211,7 +215,7 @@ export default function Header() {
 
                 {/* SUBMENU: ÜBER UNS */}
                 <div
-                  className={`absolute top-0 left-0 w-full bg-[#1D3349] text-white rounded-box transition-transform duration-300 ${
+                  className={`absolute top-0 left-0 w-full bg-[#1D3349] text-white transition-transform duration-300 ${
                     activeSubmenu === "ueberuns"
                       ? "translate-x-0"
                       : "translate-x-full"
