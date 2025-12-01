@@ -208,6 +208,34 @@ export default function AnimalForm() {
           </p>
         )}
 
+        {/* Characteristics */}
+        <label className="label mt-2">Eigenschaften</label>
+        <input
+          defaultValue={formState.input?.characteristics}
+          name="characteristics"
+          className="input w-full"
+          placeholder="Eigenschaften"
+          disabled={isPending}
+        />
+
+        {/* Handicap */}
+        <label className="label mt-2">Handicap</label>
+        <select
+          defaultValue={formState.input?.handycap || ""}
+          name="handycap"
+          className="select w-full"
+          disabled={isPending}
+        >
+          <option value="">-- bitte auswählen --</option>
+          <option value="true">Ja</option>
+          <option value="false">Nein</option>
+        </select>
+        {formState.errors?.handycap && (
+          <p className="text-sm text-red-400 mt-1">
+            {formState.errors.handycap}
+          </p>
+        )}
+
         {/* Bilder Upload */}
         <fieldset className="fieldset mt-4">
           <legend className="fieldset-legend">Bilder hochladen</legend>
@@ -233,16 +261,6 @@ export default function AnimalForm() {
             </div>
           )}
         </fieldset>
-
-        {/* Characteristics */}
-        <label className="label mt-2">Eigenschaften</label>
-        <input
-          defaultValue={formState.input?.characteristics}
-          name="characteristics"
-          className="input w-full"
-          placeholder="Eigenschaften"
-          disabled={isPending}
-        />
 
         <button
           type="submit"
