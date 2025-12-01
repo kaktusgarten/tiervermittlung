@@ -140,7 +140,7 @@ export default function SearchAnimalPage() {
               <div className="w-full">
                 <div className="border p-8 rounded-xl">
                   <h3 className="mb-3">
-                    Filter für angegebene Charaktereigenschaften des Tieres
+                    Filter für eingegebene Charaktereigenschaften des Tieres
                   </h3>
                   {/* Checkboxen Characteristik */}
                   {!characteristics
@@ -163,7 +163,7 @@ export default function SearchAnimalPage() {
                     Hier können sie nach einer Tierart filtern
                   </h3>
                   {/* Auswahl Kategorien */}
-                  <label htmlFor="Category" className="ml-6 mr-3">
+                  <label htmlFor="Category" className="pl-5 pr-3">
                     Kategorie:
                   </label>
 
@@ -180,7 +180,7 @@ export default function SearchAnimalPage() {
                         ))}
                   </select>
                   {/* Auswahl Geschlecht */}
-                  <label htmlFor="Sex" className="ml-6 mr-3">
+                  <label htmlFor="Sex" className="pl-5 pr-3">
                     Geschlecht:
                   </label>
                   <select
@@ -194,7 +194,7 @@ export default function SearchAnimalPage() {
                     <option key="egal">egal</option>
                   </select>
                   {/* Eingabe Alter */}
-                  <label htmlFor="Age" className="ml-6 mr-3">
+                  <label htmlFor="Age" className="pl-5 pr-3">
                     Alter:
                   </label>
                   <input
@@ -204,9 +204,8 @@ export default function SearchAnimalPage() {
                     onChange={handleChange}
                     className="input w-18 mr-3"
                   />
-
                   {/* Eingabe Rasse */}
-                  <label htmlFor="Race" className="ml-6 mr-3">
+                  <label htmlFor="Race" className="pl-5 pr-3">
                     Rasse:
                   </label>
                   <input
