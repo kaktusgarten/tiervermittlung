@@ -163,8 +163,8 @@ export default function SearchAnimalPage() {
                     Hier können sie nach einer Tierart filtern
                   </h3>
                   {/* Auswahl Kategorien */}
-                  <label htmlFor="Category" className="select w-20 mr-1 ">
-                    Kategorie
+                  <label htmlFor="Category" className="ml-6 mr-3">
+                    Kategorie:
                   </label>
 
                   <select
@@ -180,11 +180,8 @@ export default function SearchAnimalPage() {
                         ))}
                   </select>
                   {/* Auswahl Geschlecht */}
-                  <label
-                    htmlFor="Sex"
-                    className="input border border-amber-500 w-24 mr-1"
-                  >
-                    Geschlecht
+                  <label htmlFor="Sex" className="ml-6 mr-3">
+                    Geschlecht:
                   </label>
                   <select
                     name="selectedSex"
@@ -197,25 +194,26 @@ export default function SearchAnimalPage() {
                     <option key="egal">egal</option>
                   </select>
                   {/* Eingabe Alter */}
-                  <label htmlFor="Age">
-                    Alter
-                    <input
-                      name="inputAge"
-                      type="text"
-                      value={value}
-                      onChange={handleChange}
-                      className="input w-18 mr-3"
-                    />
+                  <label htmlFor="Age" className="ml-6 mr-3">
+                    Alter:
                   </label>
+                  <input
+                    name="inputAge"
+                    type="text"
+                    value={value}
+                    onChange={handleChange}
+                    className="input w-18 mr-3"
+                  />
+
                   {/* Eingabe Rasse */}
-                  <label htmlFor="Race">
-                    Rasse
-                    <input
-                      name="inputRace"
-                      type="text"
-                      className="input w-50 mr-3"
-                    />
+                  <label htmlFor="Race" className="ml-6 mr-3">
+                    Rasse:
                   </label>
+                  <input
+                    name="inputRace"
+                    type="text"
+                    className="input w-50 mr-3"
+                  />
                   <button type="submit" className="btn btn-neutral">
                     Tiere suchen
                   </button>
