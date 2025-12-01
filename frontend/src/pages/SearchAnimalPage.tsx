@@ -138,10 +138,10 @@ export default function SearchAnimalPage() {
           <form action={formAction}>
             <fieldset>
               <div className="w-full">
-                <div className="border border-amber-600">
-                  <legend className="fieldset-legend">
-                    Auswahl Characteristic
-                  </legend>
+                <div className="border p-8 rounded-xl">
+                  <h3 className="mb-3">
+                    Filter für angegebene Charaktereigenschaften des Tieres
+                  </h3>
                   {/* Checkboxen Characteristik */}
                   {!characteristics
                     ? ""
@@ -158,7 +158,10 @@ export default function SearchAnimalPage() {
                         </label>
                       ))}
                 </div>
-                <div className="border border-blue-600">
+                <div className="border p-8 my-6 rounded-xl">
+                  <h3 className="mb-3">
+                    Hier können sie nach einer Tierart filtern
+                  </h3>
                   {/* Auswahl Kategorien */}
                   <label htmlFor="Category" className="select w-20 mr-1 ">
                     Kategorie
