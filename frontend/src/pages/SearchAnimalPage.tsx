@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from "react-router";
 
 import MainImage from "../components/MainImage";
 import CardAnimal from "../components/CardAnimal";
+import AnimalsLocationMap from "../components/AnimalsLocationMap";
 
 export default function SearchAnimalPage() {
   const [animals, setAnimals] = useState<Animal[]>();
@@ -220,6 +221,11 @@ export default function SearchAnimalPage() {
               </div>
             </fieldset>
           </form>
+        </section>
+        <section>
+          <div className="h-120">
+            <AnimalsLocationMap />
+          </div>
         </section>
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
           {animals?.map((animal) => (
