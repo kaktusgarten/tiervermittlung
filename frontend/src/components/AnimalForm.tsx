@@ -23,6 +23,10 @@ export default function AnimalForm() {
   const navigate = useNavigate();
   const [images, setImages] = useState<File[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [characteristics, setCharacteristics] = useState<string[]>([]);
+  const [selectedCharacteristics, setSelectedCharacteristics] = useState<
+    string[]
+  >([]);
 
   // ⭐ Controlled Form State
   const [formData, setFormData] = useState({
@@ -32,13 +36,25 @@ export default function AnimalForm() {
     age: "",
     sex: "",
     description: "",
-    characteristics: "",
+    characteristics: [],
     handycap: "",
   });
 
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const checked = e.target.checked;
+
+    setSelectedCharacteristics(
+      (prev) =>
+        checked
+          ? [...prev, value] // hinzufügen
+          : prev.filter((v) => v !== value) // entfernen
+    );
+  };
+
   // Kategorien laden
   useEffect(() => {
-    async function load() {
+    async function loadCategories() {
       try {
         const res = await fetch(
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/categories`
@@ -49,12 +65,25 @@ export default function AnimalForm() {
         console.error(error);
       }
     }
-    load();
+    async function loadCharacteristics() {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/characteristics`
+        );
+        const dataChar = await res.json();
+        setCharacteristics(dataChar);
+        console.log(dataChar);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    loadCategories();
+    loadCharacteristics();
   }, []);
 
   // FormAction Handler
   async function submitAction(_prevState: any, formDataSubmit: FormData) {
-    // Bilder an FormData anhängen
+    // Bilder hinzufügen
     images.forEach((img) => formDataSubmit.append("image", img));
 
     // Alter in Zahl umwandeln
@@ -63,18 +92,23 @@ export default function AnimalForm() {
       formDataSubmit.set("age", Number(ageStr).toString());
     }
 
+    //  NEU: Characteristics als reines String-Array senden
+    formDataSubmit.delete("characteristics");
+    selectedCharacteristics.forEach((c) =>
+      formDataSubmit.append("characteristics", c)
+    );
+
+    // FormData in Objekt für Validierung umwandeln
     const dataObj = Object.fromEntries(formDataSubmit.entries()) as Record<
       string,
       string
     >;
 
-    // Validieren
     const validationErrors = validateRegistration(dataObj);
     if (Object.keys(validationErrors).length > 0) {
       return { errors: validationErrors, input: dataObj };
     }
 
-    // API Request
     try {
       const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/animals`, {
         method: "POST",
@@ -145,13 +179,16 @@ export default function AnimalForm() {
           }
           disabled={isPending}
         >
-          <option value="">-- bitte auswählen --</option>
-          {categories.map((cat) => (
-            <option key={cat._id} value={cat.categoryName}>
-              {cat.categoryName}
-            </option>
-          ))}
+          <div className="border border-[#000]">
+            <option value="">-- bitte auswählen --</option>
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat.categoryName}>
+                {cat.categoryName}
+              </option>
+            ))}
+          </div>
         </select>
+
         {formState.errors?.category && (
           <p className="text-sm text-red-400 mt-1">
             {formState.errors.category}
@@ -194,10 +231,12 @@ export default function AnimalForm() {
           onChange={(e) => setFormData({ ...formData, sex: e.target.value })}
           disabled={isPending}
         >
-          <option value="">-- bitte auswählen --</option>
-          <option value="männlich">Männlich</option>
-          <option value="weiblich">Weiblich</option>
-          <option value="unbekannt">Unbekannt</option>
+          <div className="border border-[#000]">
+            <option value="">-- bitte auswählen --</option>
+            <option value="männlich">Männlich</option>
+            <option value="weiblich">Weiblich</option>
+            <option value="unbekannt">Unbekannt</option>
+          </div>
         </select>
         {formState.errors?.sex && (
           <p className="text-sm text-red-400 mt-1">{formState.errors.sex}</p>
@@ -221,21 +260,25 @@ export default function AnimalForm() {
         )}
 
         {/* Characteristics */}
-        <label className="label mt-2">Eigenschaften</label>
-        <input
-          name="characteristics"
-          className="input w-full"
-          value={formData.characteristics}
-          onChange={(e) =>
-            setFormData({ ...formData, characteristics: e.target.value })
-          }
-          disabled={isPending}
-        />
-        {formState.errors?.characteristics && (
-          <p className="text-sm text-red-400 mt-1">
-            {formState.errors.characteristics}
-          </p>
-        )}
+        <p className="label mt-2">Bitte wähle zutreffende Eigenschaften aus:</p>
+        <div className="py-3">
+          {characteristics.map((char) => (
+            <div key={char._id} className="mb-2">
+              <label className="flex items-center gap-3">
+                <input
+                  className="checkbox"
+                  type="checkbox"
+                  value={char.characteristic}
+                  checked={selectedCharacteristics.includes(
+                    char.characteristic
+                  )}
+                  onChange={handleCheck}
+                />
+                {char.characteristic}
+              </label>
+            </div>
+          ))}
+        </div>
 
         {/* Handicap */}
         <label className="label mt-2">Handicap</label>
@@ -248,9 +291,11 @@ export default function AnimalForm() {
           }
           disabled={isPending}
         >
-          <option value="">-- bitte auswählen --</option>
-          <option value="true">Ja</option>
-          <option value="false">Nein</option>
+          <div className="border border-[#000]">
+            <option value="">-- bitte auswählen --</option>
+            <option value="true">Ja</option>
+            <option value="false">Nein</option>
+          </div>
         </select>
 
         {formState.errors?.handycap && (
