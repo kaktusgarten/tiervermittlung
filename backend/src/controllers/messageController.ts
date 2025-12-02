@@ -1,6 +1,6 @@
 import { type RequestHandler } from "express";
 import { Document, Types, type DefaultSchemaOptions } from "mongoose";
-import { Animal, Message } from "#models";
+import { Message } from "#models";
 import { messageInputSchema } from "#schemas";
 import type z from "zod";
 
@@ -119,7 +119,7 @@ export const getMessagesByOwnerId: RequestHandler<
       select: "_id name category race age image_url",
     })
     .populate({ path: "sender", select: "firstName lastName email phone _id" })
-    .sort({ createdAt: -1 })
+    .sort({ animal: 1, createdAt: -1 })
     .lean();
 
   if (!senderMessages)

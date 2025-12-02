@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { Animal } from "#models";
+import { Animal, Message } from "#models";
 import type { z } from "zod";
 import type { animalInputSchema } from "#schemas";
 import {
@@ -8,6 +8,7 @@ import {
   type Document,
   type Types,
 } from "mongoose";
+import { deleteMultipleFromCloudinary } from "#middlewares";
 
 type AnimalInputDTO = z.infer<typeof animalInputSchema>;
 type AnimalDTO = Document<
@@ -226,15 +227,22 @@ export const updateAnimal: RequestHandler<
 // DELETE SINGLE ANIMAL
 export const deleteAnimal: RequestHandler<
   { id: string },
-  AnimalDTO,
+  AnimalDTO | { message: string },
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
-
+  const animal = await Animal.findById(id).select("image_url").lean();
+  if (animal) {
+    await deleteMultipleFromCloudinary(animal.image_url);
+  }
+  const deleteMessages = await Message.deleteMany({ animal: id });
+  if (deleteMessages.deletedCount === 0) {
+    console.log("No messages to delete for this animal.");
+  }
   const deletedAnimal = await Animal.findByIdAndDelete(id, {
     new: true,
     runValidators: true,
   });
 
-  res.status(201).json(deletedAnimal);
+  res.status(200).json(deletedAnimal);
 };

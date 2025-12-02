@@ -25,15 +25,8 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
         }
         const data = await res.json();
 
-        // data.map((msg: Message) => {
-        //   if (msg.animal === animal._id) {
-        //     setMessage(msg.message);
-        //     setExistingMessage(msg._id);
-        //     console.log(msg);
-        //   }
-        // });
-        // find message matching current animal
         const found = data.find((msg: Message) => {
+          if (!msg.animal) return false;
           const animalId =
             typeof msg.animal === "string" ? msg.animal : msg.animal._id;
           return animalId === animal._id;
@@ -138,6 +131,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
           if (res.ok) {
             const data = await res.json();
             const found = data.find((msg: Message) => {
+              if (!msg.animal) return false;
               const animalId =
                 typeof msg.animal === "string" ? msg.animal : msg.animal._id;
               return animalId === animal._id;
@@ -267,14 +261,6 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
               )}
             </>
           )}
-          {/* <button
-            type="submit"
-            className={` ${loading ? "loading" : ""} btn-primary
-            bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold`}
-            disabled={loading}
-          >
-            {existingMessage ? "Bearbeiten" : "Senden"}
-          </button> */}
         </div>
       </div>
     </form>

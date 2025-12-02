@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context";
+import { Link } from "react-router";
 
 export default function ProfileMessagesSent({
   msg,
@@ -9,8 +10,6 @@ export default function ProfileMessagesSent({
   setSentMessages: React.Dispatch<React.SetStateAction<Message[]>>;
 }) {
   const { user, signedIn } = useAuth();
-
-  //const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState(msg.message);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -63,8 +62,7 @@ export default function ProfileMessagesSent({
       );
 
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Fehler beim Senden der Nachricht");
+        throw new Error("Fehler beim Senden der Nachricht");
       }
       const updated = await res.json();
 
@@ -72,7 +70,7 @@ export default function ProfileMessagesSent({
       setIsEditing(false);
       setSuccess("Nachricht erfolgreich gesendet.");
     } catch (err: unknown) {
-      setError((err as Error).message || "Unbekannter Fehler");
+      setError("Unbekannter Fehler");
     } finally {
       setLoading(false);
       setTimeout(() => setSuccess(null), 4000);
@@ -119,8 +117,7 @@ export default function ProfileMessagesSent({
       );
 
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || "Fehler beim Löschen der Nachricht");
+        throw new Error("Fehler beim Löschen der Nachricht");
       }
 
       setMessage("");
@@ -129,7 +126,7 @@ export default function ProfileMessagesSent({
       setSentMessages((prev) => prev.filter((m) => m._id !== msg._id));
       setSuccess("Nachricht erfolgreich gelöscht.");
     } catch (err: unknown) {
-      setError((err as Error).message || "Unbekannter Fehler");
+      setError("Unbekannter Fehler");
     } finally {
       setLoading(false);
       setTimeout(() => setSuccess(null), 4000);
@@ -142,17 +139,19 @@ export default function ProfileMessagesSent({
         key={msg._id}
         className="card p-4 bg-base-200 dark:bg-base-300 position-relative mt-4"
       >
-        <h3 className="text-center">{animal?.name}</h3>
+        <h3 className="max-md:text-center">{animal?.name}</h3>
         <div className="flex max-md:flex-col flex-row gap-5 mb-2 text-sm text-muted">
           <div className="my-6 flex flex-row flex-wrap max-md:flex-col gap-2">
             <div className="flex justify-center ">
-              <figure className="w-40 h-40">
-                <img
-                  src={animal?.image_url?.[0] || "/placeholder-animal.png"}
-                  alt={animal?.name || "Tierbild"}
-                  className="w-full h-full object-cover"
-                />
-              </figure>
+              <Link to={`/details/${animal?._id}`}>
+                <figure className="w-40 h-40">
+                  <img
+                    src={animal?.image_url?.[0] || "/placeholder-animal.png"}
+                    alt={animal?.name || "Tierbild"}
+                    className="w-full h-full object-cover"
+                  />
+                </figure>
+              </Link>
             </div>
             <div className="max-md:hidden flex flex-col gap-2 text-sm text-muted">
               <span className="font-bold"> Alter:</span>
@@ -174,7 +173,6 @@ export default function ProfileMessagesSent({
           >
             <div className="card-body">
               <h3 className="card-title">
-                Ihre Nachricht an: <br />{" "}
                 {owner?.firstName + " " + owner?.lastName}
               </h3>
 
@@ -182,12 +180,11 @@ export default function ProfileMessagesSent({
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Deine Nachricht an den Tierbesitzer"
-                className="textarea textarea-bordered w-full resize-y bg-base-100 dark:bg-base-100 text-base-content max-md:text-xs"
-                rows={5}
+                className="textarea textarea-bordered w-full resize-y bg-base-100 dark:bg-base-100 text-base-content max-md:text-xs overflow-auto"
+                rows={10}
                 aria-label="Nachricht"
                 disabled={loading || !isEditing}
               />
-
               {error && (
                 <div
                   className="text-red-600 font-semibold text-sm mt-2"
@@ -204,7 +201,6 @@ export default function ProfileMessagesSent({
                   {success}
                 </div>
               )}
-
               <div className="card-actions max-sm:flex-col mt-4">
                 {!isEditing && (
                   <>
@@ -251,6 +247,16 @@ export default function ProfileMessagesSent({
                   </>
                 )}
               </div>
+              {msg.status === "declined" ? (
+                <p className="text-red-600 font-semibold text-sm mt-2 text-center">
+                  Ihre Anfrage wurde vom Tierbesitzer abgelehnt.
+                </p>
+              ) : (
+                <p className="text-green-600 font-semibold text-sm mt-2 text-center">
+                  Der Tierbesitzer hat Ihre Anfrage erhalten und wird sich mit
+                  Ihnen in Verbindung setzen.
+                </p>
+              )}
             </div>
           </form>
         </div>

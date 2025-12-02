@@ -3,11 +3,18 @@ import FormChangeUserData from "../components/FormChangeUserData";
 import ProfileMessagesReceived from "../components/ProfileMessagesReceived";
 import ProfileMessagesSent from "../components/ProfileMessagesSent";
 import { useAuth } from "../context";
+import { Link } from "react-router";
 
 export default function UserProfilePage() {
   const { user } = useAuth();
   const [sentMessages, setSentMessages] = useState<Message[]>([]);
   const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
+  const [userAnimals, setUserAnimals] = useState<Animal[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSentMessages = async () => {
@@ -41,58 +48,217 @@ export default function UserProfilePage() {
         console.log(error);
       }
     };
+
+    const fetchUserAnimals = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/animals`);
+        if (!res.ok) {
+          throw new Error("Fehler beim Laden der Tiere");
+        }
+        const data = await res.json();
+        setUserAnimals(
+          data.filter((animal: Animal) => {
+            const owner =
+              typeof animal.owner === "string" ? animal.owner : null;
+            return owner === user?._id;
+          })
+        );
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchSentMessages();
     fetchReceivedMessages();
+    fetchUserAnimals();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    if (confirmDelete !== id) {
+      setConfirmDelete(id);
+      setTimeout(() => setConfirmDelete(null), 3000);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/animals/${id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Fehler beim Löschen der Tieranzeige");
+      }
+
+      setReceivedMessages((prev) => prev.filter((msg) => msg.animal !== id));
+
+      setUserAnimals((prev) => prev.filter((animal) => animal._id !== id));
+      setIsEditing(true);
+      setConfirmDelete(null);
+      setSentMessages((prev) => prev.filter((m) => m._id !== id));
+      setSuccess("Nachricht erfolgreich gelöscht.");
+    } catch (err: unknown) {
+      setError("Unbekannter Fehler");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const activeReceivedMessages = receivedMessages.filter(
+    (msg) => msg.status === "active"
+  );
+
   return (
-    <>
-      <main className="p-4 mb-12">
-        <h1 className="mt-6 mb-10">Mein Konto</h1>
+    <main className="p-4 mb-12">
+      <h1 className="mt-6 mb-10">Mein Konto</h1>
 
-        {/* Kontobox */}
+      {/* Kontobox */}
 
-        <div className="grid lg:grid-cols-3 gap-10 border rounded-2xl p-7 ">
-          {/* MEINE KONTO DATAN ######################################### */}
-          <div className="lg:col-span-1 col-span-2">
-            <h3 className="mt-6">Meine Kontodaten:</h3>
-            <FormChangeUserData />
+      <div className="grid lg:grid-cols-3 gap-10 border rounded-2xl p-7 ">
+        {/* MEINE KONTO DATAN ######################################### */}
+        <div className="lg:col-span-1 col-span-2">
+          <h3 className="mt-6">Meine Kontodaten:</h3>
+          <FormChangeUserData />
+        </div>
+        <section className="col-span-2">
+          {/* Interessenten Nachrichten ################################# */}
+          <div className="">
+            <h3 className="mb-4 my-6">Meine Tiere</h3>
+            <section className="border p-2">
+              {userAnimals.length > 0 ? (
+                userAnimals.map((animal) => (
+                  <section
+                    key={animal._id}
+                    className="grid grid-cols-1 gap-9 mb-10"
+                  >
+                    <article className="card p-4 bg-base-300 position-relative mt-4">
+                      <div className="flex flex-row text-sm text-muted gap-x-5 max-md:flex-col justify-center">
+                        <div className="flex flex-col text-sm text-muted">
+                          <h3 className="">{animal?.name}</h3>
+                          <figure className="max-md:w-full w-40 max-md:max-w-xs my-5 aspect-square">
+                            <Link to={`/details/${animal._id}`}>
+                              <img
+                                src={
+                                  animal?.image_url?.[0] ||
+                                  "/placeholder-animal.png"
+                                }
+                                alt={animal?.name || "Tierbild"}
+                                className="w-full h-full object-cover"
+                              />
+                            </Link>
+                          </figure>
+                          <div className="flex-row gap-2">
+                            <p className="text-sm">
+                              <span className="font-bold"> Alter:</span>
+                              <span> {animal?.age} Jahre </span>
+                            </p>
+                            <p className="text-sm">
+                              <span className="font-bold"> Tierart:</span>
+                              <span> {animal?.category} </span>
+                            </p>
+                            <p className="text-sm">
+                              <span className="font-bold"> Rasse:</span>
+                              <span> {animal?.race} </span>
+                            </p>
+                            <div className="mt-5">
+                              <button
+                                id={`delete-button-${animal._id}`}
+                                type="button"
+                                onClick={() => handleDelete(animal._id)}
+                                className={`p-2 text-white flex-1 font-semibold w-full ${
+                                  confirmDelete === animal._id
+                                    ? "bg-red-600"
+                                    : "bg-red-500"
+                                }`}
+                                disabled={loading}
+                              >
+                                {confirmDelete === animal._id
+                                  ? "Sicher?"
+                                  : "Löschen"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          {activeReceivedMessages.filter((msg) => {
+                            const msgAnimalId =
+                              typeof msg.animal === "string"
+                                ? msg.animal
+                                : msg.animal?._id;
+                            return msgAnimalId === animal._id;
+                          }).length > 0 ? (
+                            activeReceivedMessages
+                              .filter((msg) => {
+                                const msgAnimalId =
+                                  typeof msg.animal === "string"
+                                    ? msg.animal
+                                    : msg.animal?._id;
+                                return msgAnimalId === animal._id;
+                              })
+                              .map((receivedMessage) => (
+                                <div
+                                  key={receivedMessage._id}
+                                  className="border-b last:border-0 p-2"
+                                >
+                                  <ProfileMessagesReceived
+                                    msg={receivedMessage}
+                                    setReceivedMessages={setReceivedMessages}
+                                    animalId={animal._id}
+                                  />
+                                </div>
+                              ))
+                          ) : (
+                            <div className="bg-base-200 p-5 my-16 max-md:my-5">
+                              <p className="text-center">
+                                😿Noch keine Nachrichten erhalten😿
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  </section>
+                ))
+              ) : (
+                <div className="bg-base-200 p-5 my-16 max-md:my-5">
+                  <p className="text-center">
+                    😿Noch keine Tiere hinzugefügt😿
+                  </p>
+                </div>
+              )}
+            </section>
+            {/* <AntwortenUebersicht /> */}
           </div>
-          <section className="col-span-2">
-            {/* Interessenten Nachrichten ################################# */}
-            <div className="">
-              <h3 className="mb-4 my-6">Meine Tiere</h3>
-              <section className="border p-2">
-                <ProfileMessagesReceived />
-              </section>
-              {/* <AntwortenUebersicht /> */}
-            </div>
-            {/* Meine Anfragen ############################################ */}
-            <div className="mb-10">
-              <h3 className="mb-4 mt-6">Gesendete Anfragen:</h3>
-              <section className="border p-2">
-                {sentMessages.length > 0 ? (
-                  sentMessages.map((message) => (
-                    <div
-                      key={message._id}
-                      className="border-b last:border-0 p-2"
-                    >
-                      <ProfileMessagesSent
-                        msg={message}
-                        setSentMessages={setSentMessages}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center mb-10">
+          {/* Meine Anfragen ############################################ */}
+          <div className="mb-10">
+            <h3 className="mb-4 mt-6">Gesendete Anfragen:</h3>
+            <section className="border p-2">
+              {sentMessages.length > 0 ? (
+                sentMessages.map((message) => (
+                  <div key={message._id} className="border-b last:border-0 p-2">
+                    <ProfileMessagesSent
+                      msg={message}
+                      setSentMessages={setSentMessages}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="bg-base-200 p-5 my-16 max-md:my-5">
+                  <p className="text-center ">
                     😿Noch keine Anfragen gesendet😿
                   </p>
-                )}
-                {/* <AnfragenUebersicht /> */}
-              </section>
-            </div>
-          </section>
-        </div>
-      </main>
-    </>
+                </div>
+              )}
+              {/* <AnfragenUebersicht /> */}
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
   );
 }
