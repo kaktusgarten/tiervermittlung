@@ -114,12 +114,12 @@ export default function UserProfilePage() {
   );
 
   return (
-    <main className="p-4 mb-12">
-      <h1 className="mt-6 mb-10">Mein Konto</h1>
+    <main className="md:p-4 mb-12">
+      <h1 className="mt-6 mb-10 max-md:text-center">Mein Konto</h1>
 
       {/* Kontobox */}
 
-      <div className="grid lg:grid-cols-3 gap-10 border rounded-2xl p-7 ">
+      <div className="grid lg:grid-cols-3 gap-10 rounded-2xl p-7 ">
         {/* MEINE KONTO DATAN ######################################### */}
         <div className="lg:col-span-1 col-span-2">
           <h3 className="mt-6">Meine Kontodaten:</h3>
@@ -129,7 +129,7 @@ export default function UserProfilePage() {
           {/* Interessenten Nachrichten ################################# */}
           <div className="">
             <h3 className="mb-4 my-6">Meine Tiere</h3>
-            <section className="border p-2">
+            <section className=" p-2">
               {userAnimals.length > 0 ? (
                 userAnimals.map((animal) => (
                   <section
@@ -237,7 +237,7 @@ export default function UserProfilePage() {
           {/* Meine Anfragen ############################################ */}
           <div className="mb-10">
             <h3 className="mb-4 mt-6">Gesendete Anfragen:</h3>
-            <section className="border p-2">
+            <section className=" p-2">
               {sentMessages.length > 0 ? (
                 sentMessages.map((message) => (
                   <div key={message._id} className="border-b last:border-0 p-2">
