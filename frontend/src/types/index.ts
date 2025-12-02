@@ -54,7 +54,7 @@ declare global {
     message: string;
     sender: User | string;
     animal: Animal | string;
-    owner: string;
+    owner: User | string;
     status: "active" | "declined";
     createdAt?: string;
     updatedAt?: string;

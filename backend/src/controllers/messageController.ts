@@ -13,7 +13,7 @@ type MessageOutputDTO =
         message: string;
         sender: Types.ObjectId;
         animal: Types.ObjectId;
-        status: "active" | "revoked" | "declined" | "archived";
+        status: "active" | "declined";
       },
       {},
       DefaultSchemaOptions
@@ -21,7 +21,7 @@ type MessageOutputDTO =
       message: string;
       sender: Types.ObjectId;
       animal: Types.ObjectId;
-      status: "active" | "revoked" | "declined" | "archived";
+      status: "active" | "declined";
     } & {
       _id: Types.ObjectId;
     } & {
@@ -40,12 +40,19 @@ export const getAllMessages: RequestHandler<
 
 export const getMessageById: RequestHandler<
   { id: string },
-  MessageOutputDTO,
+  unknown,
   unknown
 > = async (req, res) => {
   const { id } = req.params;
 
-  const message = await Message.findById(id);
+  const message = await Message.findById(id)
+    .populate({
+      path: "animal",
+      select: "_id name category race age image_url owner",
+    })
+    .populate({ path: "owner", select: "firstName lastName city _id" })
+    .sort({ createdAt: -1 })
+    .lean();
 
   if (!message)
     throw new Error("Nachricht nicht gefunden", { cause: { status: 404 } });
@@ -83,7 +90,35 @@ export const getMessagesBySenderId: RequestHandler<
   const senderMessages = await Message.find()
     .where("sender")
     .equals(id)
-    .populate({ path: "animal", select: "_id owner" })
+    .populate({
+      path: "animal",
+      select: "_id name category race age image_url owner",
+    })
+    .populate({ path: "owner", select: "firstName lastName city _id" })
+    .sort({ createdAt: -1 })
+    .lean();
+
+  if (!senderMessages)
+    throw new Error("Nachricht nicht gefunden", { cause: { status: 404 } });
+
+  return res.status(200).json(senderMessages);
+};
+
+export const getMessagesByOwnerId: RequestHandler<
+  { id: string },
+  unknown[],
+  unknown
+> = async (req, res) => {
+  const { id } = req.params;
+
+  const senderMessages = await Message.find()
+    .where("owner")
+    .equals(id)
+    .populate({
+      path: "animal",
+      select: "_id name category race age image_url",
+    })
+    .populate({ path: "sender", select: "firstName lastName email phone _id" })
     .sort({ createdAt: -1 })
     .lean();
 

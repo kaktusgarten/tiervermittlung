@@ -19,55 +19,62 @@ export const userInputSchema = z
 export const userInputSchema2 = z
   .object({
     firstName: z
-      .string({ error: "firstName must be a string" })
-      .min(2, { message: "firstName must be at least 2 chars long" }),
+      .string({ error: "Vorname muss ein String sein" })
+      .min(2, { message: "Vorname muss mindestens 2 Zeichen lang sein" }),
 
     lastName: z
-      .string({ error: "lastName must be a string" })
-      .min(2, { message: "lastName must be at least 2 chars long" }),
+      .string({ error: "Nachname muss ein String sein" })
+      .min(2, { message: "Nachname muss mindestens 2 Zeichen lang sein" }),
     street: z
-      .string({ error: "street must be a string" })
-      .min(2, { message: "street must be at least 2 chars long" }),
+      .string({ error: "Straße muss ein String sein" })
+      .min(2, { message: "Straße muss mindestens 2 Zeichen lang sein" }),
     streetNumber: z
-      .string({ error: "streetNumber must be a string" })
-      .min(1, { message: "streetNumber must be at least 1 chars long" }),
+      .string({ error: "Hausnummer muss ein String sein" })
+      .min(1, { message: "Hausnummer muss mindestens 1 Zeichen lang sein" }),
     city: z
-      .string({ error: "city must be a string" })
-      .min(2, { message: "city must be at least 2 chars long" }),
+      .string({ error: "Stadt muss ein String sein" })
+      .min(2, { message: "Stadt muss mindestens 2 Zeichen lang sein" }),
     postalCode: z
-      .string({ error: "postalCode must be a string" })
-      .min(5, { message: "postalCode must be at least 5 chars long" })
-      .max(5, { message: "postalCode must be at most 5 chars long" }),
+      .string({ error: "PLZ muss ein String sein" })
+      .min(4, { message: "PLZ muss mindestens 4 Ziffern lang sein" })
+      .max(5, { message: "PLZ darf höchstens 5 Ziffern lang sein" }),
     phone: z
-      .string({ error: "phone number must be a string of numbers" })
-      .min(7, { message: "phone must be at least 7 numbers long" }),
+      .string({ error: "Telefonnummer muss ein String aus Zahlen sein" })
+      .min(7, { message: "Telefonnummer muss mindestens 7 Ziffern lang sein" })
+      .optional(),
     email: z
-      .string({ error: "email must me a string" })
-      .email({ message: "email must be a valid email address" }),
+      .string({ error: "E-Mail muss ein String sein" })
+      .email({ message: "E-Mail muss eine gültige E-Mail-Adresse sein" }),
   })
   .strict();
 
 export const changePasswordSchema = z
   .object({
     currentPassword: z
-      .string({ error: "password must be a string" })
-      .min(1, { message: "current password is required" }),
+      .string({ error: "Passwort muss ein String sein" })
+      .min(1, { message: "aktuelles Passwort ist erforderlich" }),
     newPassword: z
-      .string({ error: "password must be a string" })
-      .min(8, { message: "password must be at least 8 characters long" })
-      .max(64, { message: "password must be at most 64 characters long" })
-      .regex(/[a-z]/, { message: "password must include a lowercase letter" })
-      .regex(/[A-Z]/, { message: "password must include an uppercase letter" })
-      .regex(/\d/, { message: "password must include a number" })
+      .string({ error: "Passwort muss ein String sein" })
+      .min(8, { message: "Neues Passwort muss mindestens 8 Zeichen lang sein" })
+      .max(64, {
+        message: "Neues Passwort darf höchstens 64 Zeichen lang sein",
+      })
+      .regex(/[a-z]/, {
+        message: "Neues Passwort muss einen Kleinbuchstaben enthalten",
+      })
+      .regex(/[A-Z]/, {
+        message: "Neues Passwort muss einen Großbuchstaben enthalten",
+      })
+      .regex(/\d/, { message: "Neues Passwort muss eine Zahl enthalten" })
       .regex(/[^A-Za-z0-9\s]/, {
-        message: "password must include a special character",
+        message: "Neues Passwort muss ein Sonderzeichen enthalten",
       }),
     confirmNewPassword: z
-      .string({ error: "password must be a string" })
-      .min(1, { message: "confirm new password is required" }),
+      .string({ error: "Passwort muss ein String sein" })
+      .min(1, { message: "Bestätigung des neuen Passworts ist erforderlich" }),
   })
   .refine((d) => d.newPassword === d.confirmNewPassword, {
     path: ["confirmNewPassword"],
-    message: "passwords must match",
+    message: "Passwörter müssen übereinstimmen",
   })
   .strict();
