@@ -29,8 +29,8 @@ const animalSchema = new Schema(
 
     // Wird Array
     characteristics: {
-      type: String,
-      required: true,
+      type: Array,
+      required: false,
     },
     description: {
       type: String,
