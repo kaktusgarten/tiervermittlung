@@ -32,6 +32,10 @@
     font-size: 1.25rem; /* text-xl */
     line-height: 1.75rem;
   }
+  label,
+  legend {
+    font-size: 1rem; /* text-xl */
+  }
   h1 {
     font-size: 3rem;
     line-height: 4rem;
