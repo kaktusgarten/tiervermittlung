@@ -25,20 +25,22 @@ export default function SearchAnimalPage() {
         //   ? `?category=${searchParms.get("category")}`
         //   : searchString;
 
-        let fullSearch = "";
+        const hasSearchParams = [...searchParms.keys()].length > 0;
 
-        if (searchString) {
-          fullSearch = searchString;
-        } else if (searchParms.has("category")) {
-          fullSearch = `?category=${searchParms.get("category")}`;
-        }
+        const fullSearch = !searchString
+          ? hasSearchParams
+            ? `?${searchParms.toString()}`
+            : "" // <--- Wichtig: keine Query → alle Tiere laden
+          : searchString;
 
         const res = await fetch(
-          //          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
+          //     `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`
         );
+
         const data = await res.json();
         setAnimals(data);
+
         // Letzte Auswahl zurücksetzen
         if (!searchString) {
           setSearchString("");
@@ -147,10 +149,10 @@ export default function SearchAnimalPage() {
           <form action={formAction}>
             <fieldset>
               <div className="w-full">
-                <div className="border border-amber-600">
-                  <legend className="fieldset-legend">
-                    Auswahl Characteristic
-                  </legend>
+                <div className="border p-8 rounded-xl">
+                  <h3 className="mb-3">
+                    Filter für eingegebene Charaktereigenschaften des Tieres
+                  </h3>
                   {/* Checkboxen Characteristik */}
                   {!characteristics
                     ? ""
@@ -167,10 +169,13 @@ export default function SearchAnimalPage() {
                         </label>
                       ))}
                 </div>
-                <div className="border border-blue-600">
+                <div className="border p-8 my-6 rounded-xl">
+                  <h3 className="mb-3">
+                    Hier können sie nach einer Tierart filtern
+                  </h3>
                   {/* Auswahl Kategorien */}
-                  <label htmlFor="Category" className="select w-20 mr-1 ">
-                    Kategorie
+                  <label htmlFor="Category" className="pl-5 pr-3">
+                    Kategorie:
                   </label>
 
                   <select
@@ -186,11 +191,8 @@ export default function SearchAnimalPage() {
                         ))}
                   </select>
                   {/* Auswahl Geschlecht */}
-                  <label
-                    htmlFor="Sex"
-                    className="input border border-amber-500 w-24 mr-1"
-                  >
-                    Geschlecht
+                  <label htmlFor="Sex" className="pl-5 pr-3">
+                    Geschlecht:
                   </label>
                   <select
                     name="selectedSex"
@@ -203,25 +205,25 @@ export default function SearchAnimalPage() {
                     <option key="egal">egal</option>
                   </select>
                   {/* Eingabe Alter */}
-                  <label htmlFor="Age">
-                    Alter
-                    <input
-                      name="inputAge"
-                      type="text"
-                      value={value}
-                      onChange={handleChange}
-                      className="input w-18 mr-3"
-                    />
+                  <label htmlFor="Age" className="pl-5 pr-3">
+                    Alter:
                   </label>
+                  <input
+                    name="inputAge"
+                    type="text"
+                    value={value}
+                    onChange={handleChange}
+                    className="input w-18 mr-3"
+                  />
                   {/* Eingabe Rasse */}
-                  <label htmlFor="Race">
-                    Rasse
-                    <input
-                      name="inputRace"
-                      type="text"
-                      className="input w-50 mr-3"
-                    />
+                  <label htmlFor="Race" className="pl-5 pr-3">
+                    Rasse:
                   </label>
+                  <input
+                    name="inputRace"
+                    type="text"
+                    className="input w-50 mr-3"
+                  />
                   <button type="submit" className="btn btn-neutral">
                     Tiere suchen
                   </button>

@@ -13,9 +13,7 @@ export default function AddAnimalPage() {
             <AnimalForm></AnimalForm>
           </div>
           <div>
-            <h3 className="text-xl py-5 font-bold">
-              Info´s zur Tier Einstellung
-            </h3>
+            <h2 className="py-5 font-bold">Info´s zur Tiervermittlung</h2>
             <p className="mb-5 text-xl">
               Fülle bitte alle Felder aus, damit wir dein Tier schnell und
               unkompliziert an einen Interessenten vermitteln können.

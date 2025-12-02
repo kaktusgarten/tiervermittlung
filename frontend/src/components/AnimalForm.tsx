@@ -1,52 +1,90 @@
+import { useEffect, useState } from "react";
 import { useActionState } from "react";
 import { useNavigate } from "react-router";
 
-//  Validierungs-Funktion
+// Validierungs-Funktion
 function validateRegistration(data: Record<string, string>) {
   const errors: Record<string, string> = {};
 
-  if (!data.animalName)
-    errors.animalName = "Der Name des Tieres ist erforderlich";
-  if (!data.animalSpezies)
-    errors.animalSpezies = "Tierspezies ist erforderlich";
-  // TODO: UND SO WEITER, hier Felder eintragen....
+  if (!data.name) errors.name = "Der Name des Tieres ist erforderlich";
+  if (!data.category) errors.category = "Spezies ist erforderlich";
+  if (!data.sex) errors.sex = "Geschlecht ist erforderlich";
+  if (!data.description) errors.description = "Beschreibung ist erforderlich";
+  if (!data.age) errors.age = "Ungefähres Alter des Tieres angeben";
+  if (!data.race) errors.race = "Welche Tierrasse?";
+  if (!data.characteristics)
+    errors.characteristics = "Eigenschaften des Tieres?";
+  if (!data.handycap) errors.handycap = "Hat das Tier eine Behinderung?";
 
   return errors;
 }
 
 export default function AnimalForm() {
   const navigate = useNavigate();
+  const [images, setImages] = useState<File[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  async function submitAction(_prevState: any, formData: FormData) {
-    const data = Object.fromEntries(formData.entries()) as Record<
+  // ⭐ Controlled Form State
+  const [formData, setFormData] = useState({
+    name: "",
+    category: "",
+    race: "",
+    age: "",
+    sex: "",
+    description: "",
+    characteristics: "",
+    handycap: "",
+  });
+
+  // Kategorien laden
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/categories`
+        );
+        const data = await res.json();
+        setCategories(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    load();
+  }, []);
+
+  // FormAction Handler
+  async function submitAction(_prevState: any, formDataSubmit: FormData) {
+    // Bilder an FormData anhängen
+    images.forEach((img) => formDataSubmit.append("image", img));
+
+    // Alter in Zahl umwandeln
+    const ageStr = formDataSubmit.get("age") as string | null;
+    if (ageStr) {
+      formDataSubmit.set("age", Number(ageStr).toString());
+    }
+
+    const dataObj = Object.fromEntries(formDataSubmit.entries()) as Record<
       string,
       string
     >;
 
-    const validationErrors = validateRegistration(data);
+    // Validieren
+    const validationErrors = validateRegistration(dataObj);
     if (Object.keys(validationErrors).length > 0) {
-      return { errors: validationErrors, input: data };
+      return { errors: validationErrors, input: dataObj };
     }
 
+    // API Request
     try {
-      console.log("Tier-Daten zur Registrierung:", data);
-
-      // POST-Request an Backend ###############################################################
-
-      const res = await fetch("http://localhost:3000/animals", {
+      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/animals`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formDataSubmit,
+        credentials: "include",
       });
 
-      console.log("Animal-Registrierungs-Response ist: ");
-      console.log(res);
-      if (!res.ok) throw new Error("Anmeldung des Tieres fehlgeschlagen");
+      if (!res.ok) throw new Error("Tier-Registrierung fehlgeschlagen");
 
-      const result = await res.json();
-      console.log("Tier-Registrierung erfolgreich:", result);
-
-      // NACH LOGIN WEITERLEITEN ##############################
+      await res.json();
       navigate("/");
       return {};
     } catch (error) {
@@ -56,99 +94,200 @@ export default function AnimalForm() {
           button:
             "Tier-Registrierung fehlgeschlagen. Bitte überprüfe deine Eingaben.",
         },
-        input: data,
+        input: dataObj,
       };
     }
   }
 
   const [formState, formAction, isPending] = useActionState(submitAction, {});
 
+  // ⭐ Wenn Fehler → FormData aktualisieren
+  useEffect(() => {
+    if (formState.input) {
+      setFormData((prev) => ({ ...prev, ...formState.input }));
+    }
+  }, [formState.input]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImages(Array.from(e.target.files));
+    }
+  };
+
   return (
-    <form action={formAction}>
+    <form action={formAction} encType="multipart/form-data">
       <fieldset className="fieldset bg-base-100 border-base rounded-box border p-4">
         <legend className="fieldset-legend">
           Registrierungsdaten eingeben:
         </legend>
 
-        {/* Tier Name */}
+        {/* Name */}
         <label className="label">Tiername</label>
         <input
-          defaultValue={formState.input?.animalName}
-          name="animalName"
+          name="name"
           className="input w-full"
-          placeholder="Name deines Tieres"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           disabled={isPending}
         />
-        {formState.errors?.animalName && (
-          <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalName}
-          </p>
+        {formState.errors?.name && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.name}</p>
         )}
 
-        {/* Speziel / Tierart */}
+        {/* Kategorie */}
         <label className="label mt-2">Spezies</label>
-        <input
-          defaultValue={formState.input?.animalSpezies}
-          name="animalSpezies"
-          className="input w-full"
-          placeholder="Tier Spezies (Hund, Katze, Maus)"
+        <select
+          name="category"
+          className="select w-full"
+          value={formData.category}
+          onChange={(e) =>
+            setFormData({ ...formData, category: e.target.value })
+          }
           disabled={isPending}
-        />
-        {formState.errors?.spezies && (
+        >
+          <option value="">-- bitte auswählen --</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat.categoryName}>
+              {cat.categoryName}
+            </option>
+          ))}
+        </select>
+        {formState.errors?.category && (
           <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalSpezies}
+            {formState.errors.category}
           </p>
         )}
 
         {/* Rasse */}
         <label className="label mt-2">Rasse</label>
         <input
-          defaultValue={formState.input?.animalRasse}
-          name="animalRasse"
+          name="race"
           className="input w-full"
-          placeholder="Rasse"
+          value={formData.race}
+          onChange={(e) => setFormData({ ...formData, race: e.target.value })}
           disabled={isPending}
         />
-        {formState.errors?.spezies && (
-          <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalRasse}
-          </p>
+        {formState.errors?.race && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.race}</p>
         )}
 
         {/* Alter */}
         <label className="label mt-2">Alter</label>
         <input
-          defaultValue={formState.input?.animalAge}
-          name="animalAge"
+          type="number"
+          name="age"
           className="input w-full"
-          placeholder="Alter"
+          value={formData.age}
+          onChange={(e) => setFormData({ ...formData, age: e.target.value })}
           disabled={isPending}
         />
-        {formState.errors?.spezies && (
-          <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalAge}
-          </p>
+        {formState.errors?.age && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.age}</p>
         )}
 
         {/* Geschlecht */}
         <label className="label mt-2">Geschlecht</label>
-        <input
-          defaultValue={formState.input?.animalSex}
-          name="animalSex"
-          className="input w-full"
-          placeholder="Geschlecht"
+        <select
+          name="sex"
+          className="select w-full"
+          value={formData.sex}
+          onChange={(e) => setFormData({ ...formData, sex: e.target.value })}
+          disabled={isPending}
+        >
+          <option value="">-- bitte auswählen --</option>
+          <option value="männlich">Männlich</option>
+          <option value="weiblich">Weiblich</option>
+          <option value="unbekannt">Unbekannt</option>
+        </select>
+        {formState.errors?.sex && (
+          <p className="text-sm text-red-400 mt-1">{formState.errors.sex}</p>
+        )}
+
+        {/* Beschreibung */}
+        <label className="label mt-2">Beschreibung</label>
+        <textarea
+          name="description"
+          className="textarea w-full"
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
           disabled={isPending}
         />
-        {formState.errors?.animalSex && (
+        {formState.errors?.description && (
           <p className="text-sm text-red-400 mt-1">
-            {formState.errors.animalSex}
+            {formState.errors.description}
           </p>
         )}
 
-        {/* ########################################################## */}
-        {/* TODO: Beschreibung, Eigenschaften-[], Bilderupload-[], Besitzer-User-ID */}
-        {/* ########################################################## */}
+        {/* Characteristics */}
+        <label className="label mt-2">Eigenschaften</label>
+        <input
+          name="characteristics"
+          className="input w-full"
+          value={formData.characteristics}
+          onChange={(e) =>
+            setFormData({ ...formData, characteristics: e.target.value })
+          }
+          disabled={isPending}
+        />
+        {formState.errors?.characteristics && (
+          <p className="text-sm text-red-400 mt-1">
+            {formState.errors.characteristics}
+          </p>
+        )}
 
+        {/* Handicap */}
+        <label className="label mt-2">Handicap</label>
+        <select
+          name="handycap"
+          className="select w-full"
+          value={formData.handycap}
+          onChange={(e) =>
+            setFormData({ ...formData, handycap: e.target.value })
+          }
+          disabled={isPending}
+        >
+          <option value="">-- bitte auswählen --</option>
+          <option value="true">Ja</option>
+          <option value="false">Nein</option>
+        </select>
+
+        {formState.errors?.handycap && (
+          <p className="text-sm text-red-400 mt-1">
+            {formState.errors.handycap}
+          </p>
+        )}
+
+        {/* Bilder */}
+        <fieldset className="fieldset mt-4">
+          <legend className="fieldset-legend">Bilder hochladen</legend>
+
+          <input
+            type="file"
+            name="image"
+            className="file-input"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+            disabled={isPending}
+          />
+
+          {images.length > 0 && (
+            <div className="mt-3 flex gap-2 flex-wrap">
+              {images.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={URL.createObjectURL(img)}
+                  alt="preview"
+                  className="w-24 h-24 object-cover rounded"
+                />
+              ))}
+            </div>
+          )}
+        </fieldset>
+
+        {/* Submit */}
         <button
           type="submit"
           className="btn btn-primary mt-4 w-full"
@@ -156,6 +295,7 @@ export default function AnimalForm() {
         >
           {isPending ? "Tier registrieren..." : "Tier registrieren"}
         </button>
+
         {formState.errors?.button && (
           <p className="text-sm text-red-400 mt-1">{formState.errors.button}</p>
         )}

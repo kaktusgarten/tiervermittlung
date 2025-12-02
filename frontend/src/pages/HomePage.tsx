@@ -2,6 +2,7 @@ import CardAnimal from "../components/CardAnimal";
 import MainImageHomePage from "../components/MainImageHomePage";
 import MainImage from "../components/MainImage";
 import { useEffect, useState } from "react";
+import StepsToAdopt from "../components/StepsToAdopt";
 
 export default function HomePage() {
   const [animals, setAnimals] = useState<Animal[]>();
@@ -78,6 +79,8 @@ export default function HomePage() {
             )}
           </div>
         </section>
+
+        <StepsToAdopt></StepsToAdopt>
 
         {/* FOOTER Image ############################################ */}
         <section className="mt-20">
