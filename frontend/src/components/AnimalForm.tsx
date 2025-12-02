@@ -179,7 +179,7 @@ export default function AnimalForm() {
           }
           disabled={isPending}
         >
-          <div className="border border-[#000]">
+          <div className="border border-[#525252]">
             <option value="">-- bitte auswählen --</option>
             {categories.map((cat) => (
               <option key={cat._id} value={cat.categoryName}>
@@ -231,7 +231,7 @@ export default function AnimalForm() {
           onChange={(e) => setFormData({ ...formData, sex: e.target.value })}
           disabled={isPending}
         >
-          <div className="border border-[#000]">
+          <div className="border border-[#525252]">
             <option value="">-- bitte auswählen --</option>
             <option value="männlich">Männlich</option>
             <option value="weiblich">Weiblich</option>
@@ -291,7 +291,7 @@ export default function AnimalForm() {
           }
           disabled={isPending}
         >
-          <div className="border border-[#000]">
+          <div className="border border-[#525252]">
             <option value="">-- bitte auswählen --</option>
             <option value="true">Ja</option>
             <option value="false">Nein</option>
