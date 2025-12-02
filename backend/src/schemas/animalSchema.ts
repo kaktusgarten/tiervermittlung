@@ -3,17 +3,16 @@ import { z } from "zod";
 export const animalInputSchema = z
   .object({
     name: z
-      .string({ error: "name must be a string" })
-      .min(2, { message: "name must be at least 2 characters long" }),
+      .string({ error: "Name muss ein String sein" })
+      .min(2, { message: "Name muss mindestens 2 Zeichen lang sein" }),
 
     category: z
-      .string({ error: "category must be a string" })
-      .min(2, { message: "category must be at least 2 characters long" }),
+      .string({ error: "Kategorie muss ein String sein" })
+      .min(2, { message: "Kategorie muss mindestens 2 Zeichen lang sein" }),
 
     race: z
-      .string({ error: "race must be a string" })
-      .min(2, { message: "race must be at least 2 characters long" }),
-
+      .string({ error: "Rasse muss ein String sein" })
+      .min(2, { message: "Rasse muss mindestens 2 Zeichen lang sein" }),
     // age: z
     //   .number({ error: "age must be a number" })
     //   .regex(/[a-z]/, { message: "password must include a lowercase letter" }),
@@ -25,14 +24,14 @@ export const animalInputSchema = z
 
     age: z.preprocess(
       (a) => parseInt(z.string().parse(a), 10),
-      z.number({ error: "age must be a number" })
+      z.number({ error: "Alter muss eine Zahl sein" })
     ),
 
-    sex: z.string({ error: "sex must be a string" }),
+    sex: z.string({ error: "Geschlecht muss ein String sein" }),
 
-    characteristics: z.string({ error: "characteristics must be a string" }),
+    characteristics: z.string({ error: "Merkmale müssen ein String sein" }),
 
-    description: z.string({ error: "description must be a string" }),
+    description: z.string({ error: "Beschreibung muss ein String sein" }),
 
     // Kommt aus request
     // owner: z
@@ -40,7 +39,7 @@ export const animalInputSchema = z
     //   .min(5, { message: "owner must be at least 5 characters long" }),
 
     //    handycap: z.boolean({ error: "handycap must be a boolean" }),
-    handycap: z.stringbool({ error: "handycap must be a boolean" }),
+    handycap: z.stringbool({ error: "Handicap muss ein Boolean sein" }),
     image_url: z.array(z.string()).optional(), // multiple
   })
   .strict();

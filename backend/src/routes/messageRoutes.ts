@@ -8,6 +8,7 @@ import {
   // revokeMessage,
   getMessagesByAnimalId,
   getMessagesBySenderId,
+  getMessagesByOwnerId,
 } from "#controllers";
 import { authenticate, authorize, validateBodyZod } from "#middlewares";
 import { Message } from "#models";
@@ -20,6 +21,8 @@ messageRoutes.get("/", getAllMessages);
 messageRoutes.get("/:id", getMessageById);
 messageRoutes.get("/animal/:id", getMessagesByAnimalId);
 messageRoutes.get("/sender/:id", getMessagesBySenderId);
+messageRoutes.get("/owner/:id", getMessagesByOwnerId);
+
 messageRoutes.post(
   "/",
   authenticate,
