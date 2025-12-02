@@ -11,7 +11,7 @@ export default function MainImageHomePage({
 }) {
   return (
     <div
-      className="md:-mx-8 sm:-mx-3 -mx-4 border-[#c7c0ca] md:px-10 py-3 min-h-[300px] overflow-hidden"
+      className="md:-mx-8 sm:-mx-3 -mx-4 border-[#c7c0ca] md:px-10 py-3 min-h-[300px] overflow-hidden flex"
       style={{
         backgroundImage: `url("${image}")`,
         backgroundPosition: "center",
@@ -25,7 +25,7 @@ export default function MainImageHomePage({
           {" "}
           <img
             src="./img/logo-rund-transparent.png"
-            className="w-[250px] object-contain p-4"
+            className="w-[250px] object-contain sm:pl-4"
           />
         </div>
 
