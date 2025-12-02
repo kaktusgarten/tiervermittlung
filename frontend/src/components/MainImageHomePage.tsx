@@ -20,25 +20,25 @@ export default function MainImageHomePage({
         backgroundColor: "black",
       }}
     >
-      <section className="flex items-center">
-        <div>
+      <section className="flex items-center sm:flex-nowrap flex-wrap">
+        <div className="sm:w-auto w-[100%] flex sm:content-start content-center">
           {" "}
           <img
             src="./img/logo-rund-transparent.png"
-            className="w-[250px] object-contain m-7"
+            className="w-[250px] object-contain p-4"
           />
         </div>
 
         <div>
           <h1
-            className={`mb-5 text-${textColor} text-6xl`}
+            className={`mb-5 px-5 text-${textColor} text-6xl`}
             style={{ textShadow: "1px 1px 2px black" }}
           >
             {headline}
           </h1>
 
           <p
-            className={`italic mb-6 text-3xl text-${textColor}`}
+            className={`italic mb-6 px-5 text-3xl text-${textColor}`}
             style={{ textShadow: "1px 1px 2px black" }}
           >
             {text}
