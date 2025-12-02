@@ -15,6 +15,11 @@ interface OwnerPosition {
   lng: number;
 }
 
+interface AnimalsLocationMapProps {
+  category: string;
+  url: string;
+}
+
 const ComponentResize = () => {
   const map = useMap();
 
@@ -25,7 +30,7 @@ const ComponentResize = () => {
   return null;
 };
 
-const AnimalsLocationMap = () => {
+const AnimalsLocationMap = ({ category, url }: AnimalsLocationMapProps) => {
   // Prüfen ob sich Seite geändert hat
   const location = useLocation();
   // die Status
@@ -33,8 +38,11 @@ const AnimalsLocationMap = () => {
   const [ownerPos, setOwnerPosForMap] = useState<OwnerPosition | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
 
-  const query = new URLSearchParams(location.search);
-  const category = query.get("category") ?? "";
+  console.log("category: ", category);
+  console.log("url: ", url);
+
+  //  const query = new URLSearchParams(location.search);
+  //            const category = query.get("category") ?? "";
 
   // Daten des angemeldeten Users holen
   useEffect(() => {
@@ -59,11 +67,19 @@ const AnimalsLocationMap = () => {
     const fetchAnimalsForMap = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animalsformap`
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animalsmap`
         );
         const data = await res.json();
-        console.log("animalsformap: ", data);
-        setAnimalsForMap(data);
+        const categoryFiltered = data.filter(
+          (Tier: Animal) => Tier.category.toLowerCase() === category
+        );
+        if (categoryFiltered.length > 0) {
+          console.log("if !category(else): ", categoryFiltered);
+          setAnimalsForMap(categoryFiltered);
+        } else {
+          console.log("if !category: ", data);
+          setAnimalsForMap(data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -79,11 +95,9 @@ const AnimalsLocationMap = () => {
     }
 
     const fetchOwnerPosForMap = async () => {
-      console.log("fetchOwnerPosForMap started.");
+      //      console.log("fetchOwnerPosForMap started.");
       try {
-        const params = new URLSearchParams({ id: userData._id });
-        console.log("##id:", userData.user._id);
-
+        //        const params = new URLSearchParams({ id: userData._id });
         const res = await fetch(
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/ownerformap`,
           { credentials: "include" }
@@ -106,9 +120,9 @@ const AnimalsLocationMap = () => {
   //   : [48.81615, 8.74748];
 
   const position: LatLngExpression = [ownerPos?.lat, ownerPos?.lng];
-  const animalpos: LatLngExpression = [48.81345, 8.74758];
+  //  const animalpos: LatLngExpression = [48.81345, 8.74758];
 
-  console.log("animalspos: ", animalspos);
+  // console.log("animalspos: ", animalspos);
 
   const dogIcon = L.icon({
     iconUrl: "../img/Icon_Dog.png",
@@ -130,7 +144,7 @@ const AnimalsLocationMap = () => {
     popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
   });
 
-  console.log("Zentrum: ", position);
+  //  console.log("Zentrum: ", position);
 
   return (
     ownerPos && (
@@ -166,12 +180,13 @@ const AnimalsLocationMap = () => {
             <Popup> Test</Popup>
           </Marker>
         ))}
-
+        {/**
         <Marker position={animalpos} icon={dogIcon}>
           <Popup>
             Position animal 1. <br />
           </Popup>
-        </Marker>
+        </Marker> 
+ */}
       </MapContainer>
     )
   );

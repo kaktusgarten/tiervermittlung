@@ -21,9 +21,17 @@ export default function SearchAnimalPage() {
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        const fullSearch = !searchString
-          ? `?category=${searchParms.get("category")}`
-          : searchString;
+        // const fullSearch = !searchString
+        //   ? `?category=${searchParms.get("category")}`
+        //   : searchString;
+
+        let fullSearch = "";
+
+        if (searchString) {
+          fullSearch = searchString;
+        } else if (searchParms.has("category")) {
+          fullSearch = `?category=${searchParms.get("category")}`;
+        }
 
         const res = await fetch(
           //          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
@@ -224,7 +232,10 @@ export default function SearchAnimalPage() {
         </section>
         <section>
           <div className="h-120">
-            <AnimalsLocationMap />
+            <AnimalsLocationMap
+              category={searchParms.get("category") ?? ""}
+              url={searchString}
+            />
           </div>
         </section>
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
