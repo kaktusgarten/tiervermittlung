@@ -29,7 +29,9 @@ export const animalInputSchema = z
 
     sex: z.string({ error: "Geschlecht muss ein String sein" }),
 
-    characteristics: z.string({ error: "Merkmale müssen ein String sein" }),
+    characteristics: z.array(
+      z.string({ error: "Merkmale müssen ein String sein" })
+    ),
 
     description: z.string({ error: "Beschreibung muss ein String sein" }),
 
