@@ -13,7 +13,6 @@ export default function UserProfilePage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   useEffect(() => {
@@ -68,19 +67,21 @@ export default function UserProfilePage() {
         console.log(error);
       }
     };
-
+    // Lade alle gesendeten und erhaltenen Nachrichten sowie die Tiere des Users
     fetchSentMessages();
     fetchReceivedMessages();
     fetchUserAnimals();
   }, []);
 
+  // Lösche Tieranzeige und zugehörige Nachrichten, so wie Bilder in Cloudinary
   const handleDelete = async (id: string) => {
+    // Erster Klick: Frage nach Bestätigung
     if (confirmDelete !== id) {
       setConfirmDelete(id);
       setTimeout(() => setConfirmDelete(null), 3000);
       return;
     }
-
+    // Zweiter Klick: Lösche die Tieranzeige
     setLoading(true);
     try {
       const res = await fetch(
@@ -94,11 +95,9 @@ export default function UserProfilePage() {
       if (!res.ok) {
         throw new Error("Fehler beim Löschen der Tieranzeige");
       }
-
+      // Entferne die gelöschte Tieranzeige und zugehörige Nachrichten aus dem State
       setReceivedMessages((prev) => prev.filter((msg) => msg.animal !== id));
-
       setUserAnimals((prev) => prev.filter((animal) => animal._id !== id));
-      setIsEditing(true);
       setConfirmDelete(null);
       setSentMessages((prev) => prev.filter((m) => m._id !== id));
       setSuccess("Nachricht erfolgreich gelöscht.");
@@ -108,7 +107,7 @@ export default function UserProfilePage() {
       setLoading(false);
     }
   };
-
+  // Filtere nur die aktiven erhaltenen Nachrichten
   const activeReceivedMessages = receivedMessages.filter(
     (msg) => msg.status === "active"
   );
@@ -120,18 +119,19 @@ export default function UserProfilePage() {
       {/* Kontobox */}
 
       <div className="grid lg:grid-cols-3 gap-10 rounded-2xl p-7 ">
-        {/* MEINE KONTO DATAN ######################################### */}
+        {/* Meine Kontodaten */}
         <div className="lg:col-span-1 col-span-2">
           <h3 className="mt-6">Meine Kontodaten:</h3>
           <FormChangeUserData />
         </div>
+        {/* Meine Tiere und erhaltene Nachrichten von Interessenten */}
         <section className="col-span-2">
-          {/* Interessenten Nachrichten ################################# */}
           <div className="">
             <h3 className="mb-4 my-6">Meine Tiere</h3>
             <section className=" p-2">
               {userAnimals.length > 0 ? (
                 userAnimals.map((animal) => (
+                  /* Iterriere über jedes Tier, das der User eingestellt hat */
                   <section
                     key={animal._id}
                     className="grid grid-cols-1 gap-9 mb-10"
@@ -140,6 +140,7 @@ export default function UserProfilePage() {
                       <div className="flex flex-row text-sm text-muted gap-x-5 max-md:flex-col justify-center">
                         <div className="flex flex-col text-sm text-muted">
                           <h3 className="">{animal?.name}</h3>
+                          {/* Tierbild */}
                           <figure className="max-md:w-full w-40 max-md:max-w-xs my-5 aspect-square">
                             <Link to={`/details/${animal._id}`}>
                               <img
@@ -152,6 +153,7 @@ export default function UserProfilePage() {
                               />
                             </Link>
                           </figure>
+                          {/* Tierinformationen */}
                           <div className="flex-row gap-2">
                             <p className="text-sm">
                               <span className="font-bold"> Alter:</span>
@@ -165,6 +167,7 @@ export default function UserProfilePage() {
                               <span className="font-bold"> Rasse:</span>
                               <span> {animal?.race} </span>
                             </p>
+                            {/* Tieranzeige löschen Button */}
                             <div className="mt-5">
                               <button
                                 id={`delete-button-${animal._id}`}
@@ -186,6 +189,8 @@ export default function UserProfilePage() {
                         </div>
                         <div className="flex-1">
                           {activeReceivedMessages.filter((msg) => {
+                            /* Iterriere über alle Nachrichten, die der Besitzer erhalten hat
+                            und gib jede aus, die für das Tier bestimmt ist */
                             const msgAnimalId =
                               typeof msg.animal === "string"
                                 ? msg.animal
@@ -213,6 +218,7 @@ export default function UserProfilePage() {
                                 </div>
                               ))
                           ) : (
+                            /* Anzeige, wenn das Tier noch keine Nachrichten erhalten hat */
                             <div className="bg-base-200 p-5 my-16 max-md:my-5">
                               <p className="text-center">
                                 😿Noch keine Nachrichten erhalten😿
@@ -225,6 +231,7 @@ export default function UserProfilePage() {
                   </section>
                 ))
               ) : (
+                /* Anzeige, wenn der User noch keine Tiere hinzugefügt hat */
                 <div className="bg-base-200 p-5 my-16 max-md:my-5">
                   <p className="text-center">
                     😿Noch keine Tiere hinzugefügt😿
@@ -232,14 +239,14 @@ export default function UserProfilePage() {
                 </div>
               )}
             </section>
-            {/* <AntwortenUebersicht /> */}
           </div>
-          {/* Meine Anfragen ############################################ */}
+          {/* Meine Anfragen */}
           <div className="mb-10">
             <h3 className="mb-4 mt-6">Gesendete Anfragen:</h3>
             <section className=" p-2">
               {sentMessages.length > 0 ? (
                 sentMessages.map((message) => (
+                  /* Iterriere über alle gesendeten Nachrichten */
                   <div key={message._id} className="border-b last:border-0 p-2">
                     <ProfileMessagesSent
                       msg={message}
@@ -248,13 +255,13 @@ export default function UserProfilePage() {
                   </div>
                 ))
               ) : (
+                /* Anzeige, wenn der User noch keine Anfragen gesendet hat */
                 <div className="bg-base-200 p-5 my-16 max-md:my-5">
                   <p className="text-center ">
                     😿Noch keine Anfragen gesendet😿
                   </p>
                 </div>
               )}
-              {/* <AnfragenUebersicht /> */}
             </section>
           </div>
         </section>

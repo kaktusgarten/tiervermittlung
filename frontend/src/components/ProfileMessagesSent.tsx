@@ -16,7 +16,7 @@ export default function ProfileMessagesSent({
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
-
+  // Extrahiere Besitzer und Tier-Objekte
   const owner = typeof msg.owner === "string" ? null : msg.owner;
   const animal = typeof msg.animal === "string" ? null : msg.animal;
 
@@ -36,11 +36,13 @@ export default function ProfileMessagesSent({
 
     setLoading(true);
     try {
+      // Stelle sicher, dass Tier-ID und Besitzer-ID vorhanden sind
       const animalId =
         typeof msg.animal === "string" ? msg.animal : msg.animal?._id;
       if (!msg.owner) {
         throw new Error("Besitzer-ID fehlt");
       }
+      // Bereite die Payload für die Aktualisierung vor
       const payload = {
         message: message.trim(),
         sender: user._id,
@@ -48,7 +50,7 @@ export default function ProfileMessagesSent({
         owner: owner?._id,
         status: "active",
       };
-
+      // Sende die Aktualisierungsanfrage an die API
       const res = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/messages/${msg._id}`,
         {
@@ -65,7 +67,7 @@ export default function ProfileMessagesSent({
         throw new Error("Fehler beim Senden der Nachricht");
       }
       const updated = await res.json();
-
+      // Aktualisiere den lokalen Zustand mit der neuen Nachricht
       setMessage(updated.message);
       setIsEditing(false);
       setSuccess("Nachricht erfolgreich gesendet.");
@@ -79,9 +81,10 @@ export default function ProfileMessagesSent({
 
   const handleEditToggle = () => {
     if (isEditing) {
-      // Cancel edit - reload original message
+      // Brichte den Bearbeitungsmodus ab und lade die ursprüngliche Nachricht neu
       const fetchMyMessage = async () => {
         if (!user?._id) return;
+        // Lade die ursprüngliche Nachricht vom Server
         try {
           const res = await fetch(
             `${import.meta.env.VITE_APP_API_URL}/messages/${msg._id}`
@@ -100,14 +103,16 @@ export default function ProfileMessagesSent({
   };
 
   const handleDelete = async () => {
+    // Erster Klick: Frage nach Bestätigung
     if (!confirmDelete) {
       setConfirmDelete(true);
       setTimeout(() => setConfirmDelete(false), 3000);
       return;
     }
-
+    // Zweiter Klick: Lösche die Nachricht
     setLoading(true);
     try {
+      // Sende die Löschanfrage an die API
       const res = await fetch(
         `${import.meta.env.VITE_APP_API_URL}/messages/${msg._id}`,
         {
@@ -119,7 +124,7 @@ export default function ProfileMessagesSent({
       if (!res.ok) {
         throw new Error("Fehler beim Löschen der Nachricht");
       }
-
+      // Entferne die Nachricht aus dem lokalen Zustand
       setMessage("");
       setIsEditing(true);
       setConfirmDelete(false);
@@ -135,12 +140,14 @@ export default function ProfileMessagesSent({
 
   return (
     <>
+      {/* Anzeige der gesendeten Nachricht im Profil des Absenders */}
       <article
         key={msg._id}
         className="card p-4 bg-base-200 dark:bg-base-300 position-relative mt-4"
       >
         <h3 className="max-md:text-center">{animal?.name}</h3>
         <div className="flex max-md:flex-col flex-row gap-5 mb-2 text-sm text-muted">
+          {/* Tierbild und Details */}
           <div className="my-6 flex flex-row flex-wrap max-md:flex-col gap-2">
             <div className="flex justify-center ">
               <Link to={`/details/${animal?._id}`}>
@@ -167,6 +174,7 @@ export default function ProfileMessagesSent({
               <span> {owner?.city} </span>
             </div>
           </div>
+          {/* Formular zum Bearbeiten der Nachricht */}
           <form
             onSubmit={handleSubmit}
             className="card bg-base-200 my-5 shadow-sm w-full"
@@ -175,7 +183,6 @@ export default function ProfileMessagesSent({
               <h3 className="card-title">
                 {owner?.firstName + " " + owner?.lastName}
               </h3>
-
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
@@ -185,6 +192,7 @@ export default function ProfileMessagesSent({
                 aria-label="Nachricht"
                 disabled={loading || !isEditing}
               />
+              {/* Anzeige von Fehler- oder Erfolgsmeldungen */}
               {error && (
                 <div
                   className="text-red-600 font-semibold text-sm mt-2"
@@ -201,6 +209,7 @@ export default function ProfileMessagesSent({
                   {success}
                 </div>
               )}
+              {/* Buttons zum Bearbeiten, Löschen oder Speichern der Nachricht */}
               <div className="card-actions max-sm:flex-col mt-4">
                 {!isEditing && (
                   <>
@@ -224,6 +233,7 @@ export default function ProfileMessagesSent({
                     </button>
                   </>
                 )}
+                {/* Buttons zum Speichern oder Abbrechen der Bearbeitung */}
                 {isEditing && (
                   <>
                     <button
@@ -247,6 +257,7 @@ export default function ProfileMessagesSent({
                   </>
                 )}
               </div>
+              {/* Anzeige des Status der Nachricht */}
               {msg.status === "declined" ? (
                 <p className="text-red-600 font-semibold text-sm mt-2 text-center">
                   Ihre Anfrage wurde vom Tierbesitzer abgelehnt.

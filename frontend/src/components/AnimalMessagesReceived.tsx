@@ -22,7 +22,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
     };
     fetchMessages();
   }, []);
-
+  // Nachricht ablehnen
   async function handleDecline(messageId: string) {
     // Erster Klick: Frage nach Bestätigung
     if (!confirmDecline) {
@@ -46,6 +46,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
       if (!res.ok) {
         throw new Error("Fehler beim Ablehnen der Nachricht");
       }
+      // Entferne die Nachricht aus dem Zustand
       const updatedMessages = messages.filter(
         (message) => message._id !== messageId
       );
@@ -56,16 +57,17 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
       setConfirmDecline(null);
     }
   }
-
+  // Filtere nur aktive Nachrichten
   const activeMessages = messages.filter((msg) => msg.status === "active");
 
   return (
     <>
-      {" "}
       <h2 className="mt-10 text-center">
         {`Diese Personen interessieren sich für ${animal.name}`}
       </h2>
+      {/* Anzeige der aktiven Nachrichten */}
       <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
+        {/* Durchlaufe aktive Nachrichten */}
         {activeMessages?.map((message) => {
           const sender =
             typeof message.sender === "string" ? null : message.sender;
@@ -76,6 +78,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
               key={message._id}
               className="card p-4 bg-base-200 dark:bg-base-300 position-relative mt-4"
             >
+              {/* Anzeige des Absenders und der Nachricht */}
               <h3 className="font-bold mb-2">
                 {`${sender?.firstName} ${sender?.lastName ?? ""}`}
               </h3>
@@ -84,6 +87,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
                 {sender?.email && <div>{sender.email}</div>}
                 {sender?.phone && <div>{sender.phone}</div>}
               </div>
+              {/* Aktionsbuttons Ablehnen, E-Mail, Anrufen */}
               <div className="flex place-content-around gap-4 position-absolute bottom-0">
                 <button
                   onClick={() => handleDecline(message._id)}
@@ -95,6 +99,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
                 >
                   {confirmDecline === message._id ? "Sicher?" : "Ablehnen"}
                 </button>
+                {/* Anzeige des E-Mail-Buttons, wenn E-Mail vorhanden */}
                 {sender?.email && (
                   <>
                     <button
@@ -107,6 +112,8 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
                     </button>{" "}
                   </>
                 )}
+                /* Anzeige des Anruf-Buttons, wenn eine Telefonnummer vorhanden
+                ist*/
                 {sender?.phone && (
                   <>
                     <button
@@ -124,6 +131,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
           );
         })}
       </section>
+      {/* Anzeige, wenn keine aktiven Nachrichten vorhanden sind */}
       {activeMessages.length === 0 && (
         <p className="text-center mb-10">
           😿Noch keine Anfragen für {animal.name} erhalten😿
