@@ -69,7 +69,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="pt-2 pb-2 sticky top-0 border-b z-100 bg-[#1D3349] text-white shadow-[0_0_20px_#000] border-[#000]">
+      <header className="pt-2 pb-2 sticky top-0 border-b z-1000 bg-[#1D3349] text-white shadow-[0_0_20px_#000] border-[#000]">
         <div className="container m-auto flex items-center justify-between">
           {/* MOBILE NAVIGATION */}
           <div className="relative min-[768px]:hidden mobile-menu-area">
