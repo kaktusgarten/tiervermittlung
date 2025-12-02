@@ -144,7 +144,7 @@ export default function ProfileMessagesSent({
       >
         <h3 className="text-center">{animal?.name}</h3>
         <div className="flex max-md:flex-col flex-row gap-5 mb-2 text-sm text-muted">
-          <div className="my-6 flex flex-row max-md:flex-col gap-2">
+          <div className="my-6 flex flex-row flex-wrap max-md:flex-col gap-2">
             <div className="flex justify-center ">
               <figure className="w-40 h-40">
                 <img
@@ -205,13 +205,13 @@ export default function ProfileMessagesSent({
                 </div>
               )}
 
-              <div className="card-actions mt-4">
+              <div className="card-actions max-sm:flex-col mt-4">
                 {!isEditing && (
                   <>
                     <button
                       type="button"
                       onClick={handleEditToggle}
-                      className="btn-secondary bg-gray-600 p-2 text-white flex-1 font-semibold"
+                      className="btn-secondary bg-gray-600 p-2 text-white flex-1 font-semibold w-full"
                       disabled={loading}
                     >
                       Bearbeiten
@@ -219,7 +219,7 @@ export default function ProfileMessagesSent({
                     <button
                       type="button"
                       onClick={handleDelete}
-                      className={`p-2 text-white flex-1 font-semibold ${
+                      className={`p-2 text-white flex-1 font-semibold w-full ${
                         confirmDelete ? "bg-red-600" : "bg-red-500"
                       }`}
                       disabled={loading}

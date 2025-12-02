@@ -58,6 +58,14 @@ export default function UserProfilePage() {
             <FormChangeUserData />
           </div>
           <section className="col-span-2">
+            {/* Interessenten Nachrichten ################################# */}
+            <div className="">
+              <h3 className="mb-4 my-6">Meine Tiere</h3>
+              <section className="border p-2">
+                <ProfileMessagesReceived />
+              </section>
+              {/* <AntwortenUebersicht /> */}
+            </div>
             {/* Meine Anfragen ############################################ */}
             <div className="mb-10">
               <h3 className="mb-4 mt-6">Gesendete Anfragen:</h3>
@@ -81,15 +89,6 @@ export default function UserProfilePage() {
                 )}
                 {/* <AnfragenUebersicht /> */}
               </section>
-            </div>
-
-            {/* Interessenten Nachrichten ################################# */}
-            <div className="">
-              <h3 className="mb-4 my-6">Erhaltene Anfragen:</h3>
-              <section className="border p-2">
-                <ProfileMessagesReceived />
-              </section>
-              {/* <AntwortenUebersicht /> */}
             </div>
           </section>
         </div>
