@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from "react-router";
 
 import MainImage from "../components/MainImage";
 import CardAnimal from "../components/CardAnimal";
+import AnimalsLocationMap from "../components/AnimalsLocationMap";
 
 export default function SearchAnimalPage() {
   const [animals, setAnimals] = useState<Animal[]>();
@@ -33,7 +34,7 @@ export default function SearchAnimalPage() {
           : searchString;
 
         const res = await fetch(
-        //     `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
+          //     `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`
         );
 
@@ -51,7 +52,7 @@ export default function SearchAnimalPage() {
     };
 
     fetchAnimals();
-  }, [searchString, searchParms])
+  }, [searchString, searchParms]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -231,7 +232,14 @@ export default function SearchAnimalPage() {
             </fieldset>
           </form>
         </section>
-
+        <section>
+          <div className="h-120">
+            <AnimalsLocationMap
+              category={searchParms.get("category") ?? ""}
+              url={searchString}
+            />
+          </div>
+        </section>
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
           {animals?.map((animal) => (
             <CardAnimal key={animal._id} animal={animal}></CardAnimal>
