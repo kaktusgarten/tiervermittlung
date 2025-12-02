@@ -20,16 +20,26 @@ export default function SearchAnimalPage() {
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
+        // const fullSearch = !searchString
+        //   ? `?category=${searchParms.get("category")}`
+        //   : searchString;
+
+        const hasSearchParams = [...searchParms.keys()].length > 0;
+
         const fullSearch = !searchString
-          ? `?category=${searchParms.get("category")}`
+          ? hasSearchParams
+            ? `?${searchParms.toString()}`
+            : "" // <--- Wichtig: keine Query → alle Tiere laden
           : searchString;
 
         const res = await fetch(
-          //          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
+        //     `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`
         );
+
         const data = await res.json();
         setAnimals(data);
+
         // Letzte Auswahl zurücksetzen
         if (!searchString) {
           setSearchString("");
@@ -41,7 +51,7 @@ export default function SearchAnimalPage() {
     };
 
     fetchAnimals();
-  }, [searchString, searchParms]);
+  }, [searchString, searchParms])
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -221,6 +231,7 @@ export default function SearchAnimalPage() {
             </fieldset>
           </form>
         </section>
+
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
           {animals?.map((animal) => (
             <CardAnimal key={animal._id} animal={animal}></CardAnimal>
