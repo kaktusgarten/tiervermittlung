@@ -233,7 +233,7 @@ export default function SearchAnimalPage() {
                   <label htmlFor="Sex" className="pl-5 pr-3">
                     Geschlecht:
                   </label>
-              
+
                   <select
                     name="sex"
                     className="select w-44"
@@ -260,7 +260,7 @@ export default function SearchAnimalPage() {
                     className="input w-18 mr-3"
                   />
                   {/* Eingabe Rasse */}
-                 
+
                   <label htmlFor="Race" className="pl-5 pr-3">
                     Rasse:
                   </label>
@@ -287,15 +287,14 @@ export default function SearchAnimalPage() {
             </fieldset>
           </form>
         </section>
-        
+
         {/* KARTE ############################################################# */}
         <section>
-         
-          {/* <AnimalsLocationMap
+          <AnimalsLocationMap
             key={location.search}
             search={location.search}
             url={searchString}
-          /> */}
+          />
         </section>
 
         {/* TIER CARDS ######################################################## */}
