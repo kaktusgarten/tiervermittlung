@@ -32,7 +32,7 @@ export default function AnimalDetailPage() {
   return (
     <>
       <main className="">
-        <h1 className="my-4">Unser Schützling</h1>
+        <h1 className="mt-4 mb-10 pb-3">Unser Schützling {animal?.name}</h1>
         {animal ? (
           <>
             <DetailAnimal animal={animal} />
