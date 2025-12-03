@@ -11,11 +11,35 @@ export default function DetailAnimal({ animal }) {
       <article className="grid grid-cols-1 lg:[grid-template-columns:1fr_2fr_auto] md:[grid-template-columns:1fr_1fr] gap-4 mb-10">
         {/* 1. BLOCK ################################### */}
         <div className="pb-8">
-          <img
+          {/* Einzelimage #########: */}
+          {/* <img
             src={animal.image_url[0]}
             alt="Tier sucht Zuhause"
             className="object-cover object-center w-[100%] aspect-square bg-base-300"
-          />
+          /> */}
+
+          {/* Gallerie ############: */}
+          <figure className="Image Gallery">
+            <div className="carousel w-full">
+              {animal.image_url.length &&
+                animal.image_url.map((image: any, index) => (
+                  <div id={`item${index}`} className="carousel-item w-full">
+                    <img
+                      src={image}
+                      className="object-cover object-top-left aspect-square bg-base-300 w-full"
+                    />
+                  </div>
+                ))}
+            </div>
+            <div className="flex w-full justify-center gap-2 py-2">
+              {animal.image_url.length &&
+                animal.image_url.map((image: any, index) => (
+                  <a href={`#item${index}`} className="btn btn-xs">
+                    Bild {index + 1}
+                  </a>
+                ))}
+            </div>
+          </figure>
         </div>
         {/* 2. BLOCK ################################### */}
         <div className="sm:px-8">
