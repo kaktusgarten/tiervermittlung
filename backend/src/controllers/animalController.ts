@@ -44,7 +44,7 @@ type AnimalDTO = Document<
 // GET ALL ANIMALS ####################################################
 
 export const getAllAnimals: RequestHandler = async (req, res) => {
-  let animals = {};
+  let animals = [];
   const query = req.query;
   const { category, race, age, sex, handycap, characteristics } = req.query;
 
@@ -104,7 +104,7 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
 // CREATE AN ANIMAL
 export const createAnimal: RequestHandler<
   unknown,
-  AnimalDTO,
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const {
@@ -182,7 +182,7 @@ export const getAnimalsByQuery: RequestHandler<
 // UPDATE SINGLE ANIMAL
 export const updateAnimal: RequestHandler<
   { id: string },
-  AnimalDTO,
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
@@ -227,7 +227,7 @@ export const updateAnimal: RequestHandler<
 // DELETE SINGLE ANIMAL
 export const deleteAnimal: RequestHandler<
   { id: string },
-  AnimalDTO | { message: string },
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
