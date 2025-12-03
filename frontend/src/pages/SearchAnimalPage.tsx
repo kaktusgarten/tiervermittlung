@@ -1,5 +1,5 @@
 import { useActionState, useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 
 import MainImage from "../components/MainImage";
 import CardAnimal from "../components/CardAnimal";
@@ -16,7 +16,7 @@ export default function SearchAnimalPage() {
   const { slug } = useParams<{ slug?: string }>();
   const [searchParms, setSearchParms] = useSearchParams();
 
-  //  let navigate = useNavigate();
+  let navigate = useNavigate();
 
   const updateParam = (key: string, value: string) => {
     const params = new URLSearchParams(searchParms);
@@ -191,23 +191,6 @@ export default function SearchAnimalPage() {
                   <h3 className="mb-3">
                     Filter für eingegebene Charaktereigenschaften des Tieres
                   </h3>
-                  {/* Checkboxen Characteristik */}
-                  {/**
-                    {!characteristics
-                    ? ""
-                    : characteristics?.map((char) => (
-                        <label className="label mr-1" key={char._id}>
-                          <input
-                            name="characteristics"
-                            value={char._id}
-                            type="checkbox"
-                            className="checkbox"
-                            id={char._id}
-                          />
-                          {char.characteristic}
-                        </label>
-                      ))}
-                  */}
                   {characteristics?.map((char) => (
                     <label className="label mr-1" key={char._id}>
                       <input
@@ -231,22 +214,6 @@ export default function SearchAnimalPage() {
                   <label htmlFor="Category" className="pl-5 pr-3">
                     Kategorie:
                   </label>
-                  {/**
- * 
-                  <select
-                    name="selectedCategory"
-                    defaultValue="Auswahl Kategorie"
-                    className="select w-44"
-                  >
-                    <option>-- Kategorie wählen --</option>
-                    {!categories
-                      ? ""
-                      : categories?.map((cat) => (
-                          <option key={cat._id}>{cat.categoryName}</option>
-                        ))}
-                  </select>  
- * 
- */}
 
                   <select
                     name="category"
@@ -266,21 +233,7 @@ export default function SearchAnimalPage() {
                   <label htmlFor="Sex" className="pl-5 pr-3">
                     Geschlecht:
                   </label>
-                  {/**
-                   * 
-                  <select
-                    name="selectedSex"
-                    defaultValue="Auswahl Geschlecht"
-                    className="select w-44"
-                  >
-                    <option>-- Bitte wählen --</option>
-                    <option key="männlich">männlich</option>
-                    <option key="weiblich">weiblich</option>
-                    <option key="egal">egal</option>
-                  </select>                   
-
-                   */}
-
+              
                   <select
                     name="sex"
                     className="select w-44"
@@ -293,20 +246,6 @@ export default function SearchAnimalPage() {
                   </select>
 
                   {/* Eingabe Alter */}
-                  {/**
- * 
-                  <label htmlFor="Age" className="pl-5 pr-3">
-                    Alter:
-                  </label>
-                  <input
-                    name="inputAge"
-                    type="text"
-                    value={value}
-                    onChange={handleChange}
-                    className="input w-18 mr-3"
-                  />
- * 
- */}
 
                   <label htmlFor="Age" className="pl-5 pr-3">
                     Alter:
@@ -321,18 +260,7 @@ export default function SearchAnimalPage() {
                     className="input w-18 mr-3"
                   />
                   {/* Eingabe Rasse */}
-                  {/**
-                   * 
-                  <label htmlFor="Race" className="pl-5 pr-3">
-                    Rasse:
-                  </label>
-                  <input
-                    name="inputRace"
-                    type="text"
-                    className="input w-50 mr-3"
-                  />                   
-                   * 
-                   */}
+                 
                   <label htmlFor="Race" className="pl-5 pr-3">
                     Rasse:
                   </label>
@@ -343,24 +271,34 @@ export default function SearchAnimalPage() {
                     value={searchParms.get("race") ?? ""}
                     onChange={(e) => updateParam("race", e.target.value)}
                   />
-                  <button type="submit" className="btn btn-neutral">
+                  <button type="submit" className="btn btn-neutral hidden">
                     Tiere suchen
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => navigate("/tier-suchen")}
+                    className="btn btn-neutral"
+                  >
+                    RESET
                   </button>
                 </div>
               </div>
             </fieldset>
           </form>
         </section>
+        
+        {/* KARTE ############################################################# */}
         <section>
-          {/**
-                          category={searchParms.get("category") ?? "".toLowerCase()}
-               */}
-          <AnimalsLocationMap
+         
+          {/* <AnimalsLocationMap
             key={location.search}
             search={location.search}
             url={searchString}
-          />
+          /> */}
         </section>
+
+        {/* TIER CARDS ######################################################## */}
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
           {animals?.map((animal) => (
             <CardAnimal key={animal._id} animal={animal}></CardAnimal>
