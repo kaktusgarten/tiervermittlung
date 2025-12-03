@@ -191,8 +191,7 @@ export default function SearchAnimalPage() {
                 {/* FILTER 1 von 2 - EIGENSCHAFTEN */}
                 <section className="px-8 pt-10 pb-3 bg-base-300">
                   <h3 className="mb-3">
-                    Weitere Filter für eingegebene Charaktereigenschaften des
-                    Tieres
+                    Filter Charaktereigenschaften des Tieres
                   </h3>
                   {characteristics?.map((char) => (
                     <label className="label mr-1" key={char._id}>
