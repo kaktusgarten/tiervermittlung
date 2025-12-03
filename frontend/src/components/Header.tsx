@@ -250,7 +250,7 @@ export default function Header() {
           <div className="pl-2 sm:pr-5">
             <NavLink to="/">
               <img
-                src="./img/logo-rund-weiss.png"
+                src="../img/logo-rund-weiss.png"
                 alt="HOME"
                 title="HOME"
                 className="w-16 min-w-16 object-contain"
