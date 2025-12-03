@@ -119,7 +119,7 @@ export default function AnimalForm() {
       if (!res.ok) throw new Error("Tier-Registrierung fehlgeschlagen");
 
       await res.json();
-      navigate("/");
+      navigate("/mein-konto");
       return {};
     } catch (error) {
       console.error(error);

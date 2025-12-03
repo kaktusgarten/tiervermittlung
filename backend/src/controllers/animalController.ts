@@ -51,11 +51,11 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
   // const animals = await Animal.find().select("name category race age sex");
 
   if (!category && !race && !age && !sex && !handycap && !characteristics) {
-    console.log("get all animals.");
-    animals = await Animal.find();
+    animals = await Animal.find()
+      .populate({ path: "owner", select: "city postalCode" })
+      .lean();
   } else {
-    console.log("have a query.");
-    //    animals = await Animal.find(req.query); Alle Spalten baer case sensitive!
+    // animals = await Animal.find(req.query); Alle Spalten baer case sensitive!
     // Eine Spalte case insensitive
     // animals = await Animal.find({
     //   category: {
@@ -63,6 +63,7 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
     //     $options: "i",
     //   },
     // });
+
     let newQuery = [];
     if (category) {
       newQuery.push({ category: { $regex: category, $options: "i" } });
@@ -155,7 +156,12 @@ export const getAnimalById: RequestHandler<
     });
   }
 
-  const animal = await Animal.findById(id).populate("owner", "_id");
+  // Frank, das haben wir geändert. Deine Version:
+  // const animal = await Animal.findById(id).populate("owner", "_id");
+  // Neue Version:
+  const animal = await Animal.findById(id)
+    .populate({ path: "owner", select: "city postalCode _id" })
+    .lean();
   if (!animal) {
     throw new Error("Tier nicht gefunden", { cause: { status: 404 } });
   }

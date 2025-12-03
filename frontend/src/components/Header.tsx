@@ -143,7 +143,7 @@ export default function Header() {
                       onClick={handleLinkClick}
                       className="font-semibold hover:bg-[#182a3b]"
                     >
-                      Meine Kontodaten
+                      Meine Konto
                     </NavLink>
                   </li>
 
@@ -302,7 +302,7 @@ export default function Header() {
               </li>
 
               <li>
-                <NavLink to="/mein-konto">Meine Kontodaten</NavLink>
+                <NavLink to="/mein-konto">Meine Konto</NavLink>
               </li>
 
               {signedIn ? (

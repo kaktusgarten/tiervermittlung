@@ -58,7 +58,7 @@ export default function UserProfilePage() {
         setUserAnimals(
           data.filter((animal: Animal) => {
             const owner =
-              typeof animal.owner === "string" ? animal.owner : null;
+              typeof animal.owner._id === "string" ? animal.owner._id : null;
             return owner === user?._id;
           })
         );
