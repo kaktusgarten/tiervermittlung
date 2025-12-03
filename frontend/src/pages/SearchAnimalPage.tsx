@@ -183,13 +183,16 @@ export default function SearchAnimalPage() {
           Wir suchen ein Zuhause {slug && `- Rubrik: ${slug.toUpperCase()}`}
         </h1>
 
-        <section id="Auswahl" className="mb-2">
+        {/* FILTER MODUL WRAPPER ############################################## */}
+        <section id="Auswahl" className="mb-10">
           <form>
             <fieldset>
               <div className="w-full">
-                <div className="border p-8 rounded-xl">
+                {/* FILTER 1 von 2 - EIGENSCHAFTEN */}
+                <section className="px-8 pt-10 pb-3 bg-base-300">
                   <h3 className="mb-3">
-                    Filter für eingegebene Charaktereigenschaften des Tieres
+                    Weitere Filter für eingegebene Charaktereigenschaften des
+                    Tieres
                   </h3>
                   {characteristics?.map((char) => (
                     <label className="label mr-1" key={char._id}>
@@ -204,107 +207,126 @@ export default function SearchAnimalPage() {
                       {char.characteristic}
                     </label>
                   ))}
-                </div>
-
-                <div className="border p-8 my-6 rounded-xl">
+                </section>
+                {/* FILTER 2 von 2 - KATEGORIE */}
+                <section className="px-8 pt-4 pb-4 bg-base-300">
                   <h3 className="mb-3">
                     Hier können sie nach einer Tierart filtern
                   </h3>
-                  {/* Auswahl Kategorien */}
-                  <label htmlFor="Category" className="pl-5 pr-3">
-                    Kategorie:
-                  </label>
 
-                  <select
-                    name="category"
-                    className="select w-44"
-                    value={searchParms.get("category") ?? ""}
-                    onChange={(e) => updateParam("category", e.target.value)}
-                  >
-                    <option value="">-- Kategorie wählen --</option>
-                    {categories?.map((cat) => (
-                      <option key={cat._id} value={cat.categoryName}>
-                        {cat.categoryName}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="flex flex-wrap">
+                    {/* Auswahl Kategorien */}
+                    <div className="mb-3">
+                      <label htmlFor="Category" className="pl-5 pr-3">
+                        Kategorie:
+                      </label>
 
-                  {/* Auswahl Geschlecht */}
-                  <label htmlFor="Sex" className="pl-5 pr-3">
-                    Geschlecht:
-                  </label>
+                      <select
+                        name="category"
+                        className="select w-44"
+                        value={searchParms.get("category") ?? ""}
+                        onChange={(e) =>
+                          updateParam("category", e.target.value)
+                        }
+                      >
+                        <option value="">-- Kategorie wählen --</option>
+                        {categories?.map((cat) => (
+                          <option key={cat._id} value={cat.categoryName}>
+                            {cat.categoryName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
 
-                  <select
-                    name="sex"
-                    className="select w-44"
-                    value={searchParms.get("sex") ?? ""}
-                    onChange={(e) => updateParam("sex", e.target.value)}
-                  >
-                    <option>-- Bitte wählen --</option>
-                    <option key="männlich">männlich</option>
-                    <option key="weiblich">weiblich</option>
-                  </select>
+                    {/* Auswahl Geschlecht */}
+                    <div className="mb-3">
+                      <label htmlFor="Sex" className="pl-5 pr-3">
+                        Geschlecht:
+                      </label>
 
-                  {/* Eingabe Alter */}
+                      <select
+                        name="sex"
+                        className="select w-44"
+                        value={searchParms.get("sex") ?? ""}
+                        onChange={(e) => updateParam("sex", e.target.value)}
+                      >
+                        <option>-- Bitte wählen --</option>
+                        <option key="männlich">männlich</option>
+                        <option key="weiblich">weiblich</option>
+                      </select>
+                    </div>
 
-                  <label htmlFor="Age" className="pl-5 pr-3">
-                    Alter:
-                  </label>
-                  <input
-                    name="Age"
-                    type="text"
-                    value={searchParms.get("age") ?? ""}
-                    onChange={(e) =>
-                      updateParam("age", e.target.value.replace(/\D/g, ""))
-                    }
-                    className="input w-18 mr-3"
-                  />
-                  {/* Eingabe Rasse */}
+                    {/* Eingabe Alter */}
+                    <div className="mb-3">
+                      <label htmlFor="Age" className="pl-5 pr-3">
+                        Alter:
+                      </label>
+                      <input
+                        name="Age"
+                        type="text"
+                        value={searchParms.get("age") ?? ""}
+                        onChange={(e) =>
+                          updateParam("age", e.target.value.replace(/\D/g, ""))
+                        }
+                        className="input w-18 mr-3"
+                      />
+                    </div>
 
-                  <label htmlFor="Race" className="pl-5 pr-3">
-                    Rasse:
-                  </label>
-                  <input
-                    name="race"
-                    type="text"
-                    className="input w-50 mr-3"
-                    value={searchParms.get("race") ?? ""}
-                    onChange={(e) => updateParam("race", e.target.value)}
-                  />
-                  <button type="submit" className="btn btn-neutral hidden">
-                    Tiere suchen
-                  </button>
-
+                    {/* Eingabe Rasse */}
+                    <div className="mb-3 mr-6">
+                      <label htmlFor="Race" className="pl-5 pr-3">
+                        Rasse:
+                      </label>
+                      <input
+                        name="race"
+                        type="text"
+                        className="input w-50 mr-3"
+                        value={searchParms.get("race") ?? ""}
+                        onChange={(e) => updateParam("race", e.target.value)}
+                      />
+                    </div>
+                  </div>
                   <button
                     type="button"
                     onClick={() => navigate("/tier-suchen")}
-                    className="btn btn-neutral"
+                    className="btn btn-neutral my-10"
                   >
-                    RESET
+                    ALLE FILTER ZURÜCK SETZEN
                   </button>
-                </div>
+                </section>
+
+                {/* KOMISCHER SUBMIT BUTTON DEN MAN NICHT LÖSCHEN DARF :-/ */}
+                <button type="submit" className="btn btn-neutral hidden">
+                  Tiere suchen
+                </button>
               </div>
             </fieldset>
           </form>
         </section>
 
-        {/* KARTE ############################################################# */}
-        <section>
-          <AnimalsLocationMap
-            key={location.search}
-            search={location.search}
-            url={searchString}
-          />
-        </section>
-
         {/* TIER CARDS ######################################################## */}
-        <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
+        <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10 ">
           {animals?.map((animal) => (
-            <CardAnimal key={animal._id} animal={animal}></CardAnimal>
+            <CardAnimal
+              key={animal._id}
+              animal={animal}
+            ></CardAnimal>
           ))}
         </section>
 
-        <div className="mt-10">
+        {/* KARTE ############################################################# */}
+        <section>
+          <h2 className="my-10 pt-5">Standortkarte der Tiere</h2>
+          <div className="sm:px-0 px-10 pb-10">
+            <AnimalsLocationMap
+              key={location.search}
+              search={location.search}
+              url={searchString}
+            />
+          </div>
+        </section>
+
+        <div className="my-10">
           <MainImage
             image="./img/Maeuse.jpg"
             headline="Tier vermitteln, Tier ein zu Hause geben"
