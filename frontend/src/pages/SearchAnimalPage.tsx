@@ -257,7 +257,14 @@ export default function SearchAnimalPage() {
 
         {/* KARTE ############################################################# */}
         <section>
-          <h2 className="my-10 pt-5">Standortkarte der Tiere</h2>
+          <h2 className="mt-10 pt-5 mb-3">
+            Standortkarte Tiere mit und ohne Filterauswahl
+          </h2>
+          <p className="mb-8">
+            Wenn der Filter verwendet wurde, werden hier nur die passenden Tiere
+            angezeigt. Ohne Filter zeigen wir auf der Karte alle Standorte
+            unsere Schützlinge.
+          </p>
           <div className="sm:px-0 px-10 pb-10">
             <AnimalsLocationMap search={location.search} />
           </div>
