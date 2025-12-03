@@ -51,8 +51,6 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
   const params = useMemo(() => new URLSearchParams(search), [search]);
   const navigate = useNavigate();
 
-  console.log("AnimalsLocationMap render");
-
   const fetchMe = useCallback(async () => {
     try {
       if (!signedIn) {
@@ -63,7 +61,7 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
           { credentials: "include" }
         );
         const data = await res.json();
-        setUserData(data); // data.user._id)
+        setUserData(data);
       }
     } catch (error) {
       console.log(error);
@@ -115,12 +113,6 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
   useEffect(() => {
     fetchOwnerPosForMap();
   }, [fetchOwnerPosForMap]);
-
-  // MarkerProps.position: LatLngExpression
-  //  const position: LatLngExpression = [48.81615, 8.74748];
-  // const position: LatLngExpression = ownerPos
-  //   ? [ownerPos.lat, ownerPos.lng]
-  //   : [48.81615, 8.74748];
 
   const position: LatLngExpression | undefined = useMemo(() => {
     if (!ownerPos) {
@@ -201,7 +193,6 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
       >
         <ComponentResize />
         <TileLayer
-          // className={'ion-hide'}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
