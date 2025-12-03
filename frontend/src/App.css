@@ -32,6 +32,10 @@
     font-size: 1.25rem; /* text-xl */
     line-height: 1.75rem;
   }
+  label,
+  legend {
+    font-size: 1rem; /* text-xl */
+  }
   h1 {
     font-size: 3rem;
     line-height: 4rem;
@@ -81,5 +85,25 @@ header li {
   h1 {
     font-size: 2.5rem; /* statt 2% */
     line-height: 3rem;
+  }
+}
+
+/* Custom scrollbar styles for mobile menu */
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thumb-base-300::-webkit-scrollbar-thumb {
+    background: hsl(var(--bc) / 0.2);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thumb-base-300::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--bc) / 0.3);
   }
 }

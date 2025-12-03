@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 
-export default function CardAnimal({ animal }) {
+export default function DetailAnimal({ animal }) {
+  console.log(animal);
   const navigate = useNavigate();
   const handleDetailsClick = () => {
     navigate(`/details/${animal._id}`);
@@ -28,7 +29,7 @@ export default function CardAnimal({ animal }) {
             {/*  Rasse ################################  */}
             <div className="flex">
               <img
-                src="./img/icon-rasse.png"
+                src="img/icon-rasse.png"
                 className="mr-2 w-[25px] object-contain"
               />
               <span>Rasse: {animal.race}</span>
@@ -57,7 +58,7 @@ export default function CardAnimal({ animal }) {
                 src="./img/icon-standort.svg"
                 className="mr-2 w-[20px] object-contain"
               />
-              <strong>Standort: {animal.owner.city}</strong>
+              <strong>Standort: xxxxx</strong>
             </div>
           </div>
         </div>

@@ -69,7 +69,7 @@ export default function Footer() {
           <div className="container m-auto grid grid-cols-[1fr_auto] gap-4">
             <div className="p-2">
               <nav className="">
-                <ul className="flex gap-5 text-white">
+                <ul className="flex gap-5 text-white flex-wrap">
                   <li>
                     <NavLink to="/">Home</NavLink>
                   </li>

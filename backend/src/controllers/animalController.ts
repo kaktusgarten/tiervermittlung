@@ -1,5 +1,5 @@
 import type { RequestHandler } from "express";
-import { Animal } from "#models";
+import { Animal, Message } from "#models";
 import type { z } from "zod";
 import type { animalInputSchema } from "#schemas";
 import {
@@ -8,6 +8,7 @@ import {
   type Document,
   type Types,
 } from "mongoose";
+import { deleteMultipleFromCloudinary } from "#middlewares";
 
 type AnimalInputDTO = z.infer<typeof animalInputSchema>;
 type AnimalDTO = Document<
@@ -43,18 +44,18 @@ type AnimalDTO = Document<
 // GET ALL ANIMALS ####################################################
 
 export const getAllAnimals: RequestHandler = async (req, res) => {
-  let animals = {};
+  let animals = [];
   const query = req.query;
-  const { category, race, age, sex, handycap } = req.query;
+  const { category, race, age, sex, handycap, characteristics } = req.query;
 
   // const animals = await Animal.find().select("name category race age sex");
 
-  if (!category && !race && !age && !sex && !handycap) {
-    console.log("get all animals.");
-    animals = await Animal.find();
+  if (!category && !race && !age && !sex && !handycap && !characteristics) {
+    animals = await Animal.find()
+      .populate({ path: "owner", select: "city postalCode" })
+      .lean();
   } else {
-    console.log("have a query.");
-    //    animals = await Animal.find(req.query); Alle Spalten baer case sensitive!
+    // animals = await Animal.find(req.query); Alle Spalten baer case sensitive!
     // Eine Spalte case insensitive
     // animals = await Animal.find({
     //   category: {
@@ -62,6 +63,7 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
     //     $options: "i",
     //   },
     // });
+
     let newQuery = [];
     if (category) {
       newQuery.push({ category: { $regex: category, $options: "i" } });
@@ -77,6 +79,9 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
     }
     if (handycap) {
       newQuery.push({ handycap: handycap });
+    }
+    if (characteristics) {
+      newQuery.push({ characteristics: characteristics });
     }
 
     console.log("newQuery: ", newQuery);
@@ -100,7 +105,7 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
 // CREATE AN ANIMAL
 export const createAnimal: RequestHandler<
   unknown,
-  AnimalDTO,
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const {
@@ -140,7 +145,7 @@ export const createAnimal: RequestHandler<
 // GET SINGLE ANIMAL
 export const getAnimalById: RequestHandler<
   { id: string },
-  AnimalDTO,
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
@@ -151,7 +156,12 @@ export const getAnimalById: RequestHandler<
     });
   }
 
-  const animal = await Animal.findById(id);
+  // Frank, das haben wir geändert. Deine Version:
+  // const animal = await Animal.findById(id).populate("owner", "_id");
+  // Neue Version:
+  const animal = await Animal.findById(id)
+    .populate({ path: "owner", select: "city postalCode _id" })
+    .lean();
   if (!animal) {
     throw new Error("Tier nicht gefunden", { cause: { status: 404 } });
   }
@@ -178,7 +188,7 @@ export const getAnimalsByQuery: RequestHandler<
 // UPDATE SINGLE ANIMAL
 export const updateAnimal: RequestHandler<
   { id: string },
-  AnimalDTO,
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
@@ -223,15 +233,22 @@ export const updateAnimal: RequestHandler<
 // DELETE SINGLE ANIMAL
 export const deleteAnimal: RequestHandler<
   { id: string },
-  AnimalDTO,
+  unknown,
   AnimalInputDTO
 > = async (req, res) => {
   const { id } = req.params;
-
+  const animal = await Animal.findById(id).select("image_url").lean();
+  if (animal) {
+    await deleteMultipleFromCloudinary(animal.image_url);
+  }
+  const deleteMessages = await Message.deleteMany({ animal: id });
+  if (deleteMessages.deletedCount === 0) {
+    console.log("No messages to delete for this animal.");
+  }
   const deletedAnimal = await Animal.findByIdAndDelete(id, {
     new: true,
     runValidators: true,
   });
 
-  res.status(201).json(deletedAnimal);
+  res.status(200).json(deletedAnimal);
 };

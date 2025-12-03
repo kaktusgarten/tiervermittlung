@@ -53,8 +53,13 @@ const authorize = (Model: any): RequestHandler => {
     if (Model.modelName === "Message") {
       if (model) {
         const senderId = model.sender.toString();
-        const ownerId = model.animal.owner.toString();
+        const ownerId = model.owner.toString();
         const userId = req.user?.id;
+        console.log(
+          "Sender ID: " + senderId,
+          "Owner ID: " + ownerId,
+          "User ID :" + userId
+        );
 
         if (senderId === userId || ownerId === userId) return next();
       } else {
