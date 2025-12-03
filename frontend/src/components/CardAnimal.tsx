@@ -57,7 +57,7 @@ export default function CardAnimal({ animal }) {
                 src="./img/icon-standort.svg"
                 className="mr-2 w-[20px] object-contain"
               />
-              <strong>Standort: xxxxx</strong>
+              <strong>Standort: {animal.owner.city}</strong>
             </div>
           </div>
         </div>

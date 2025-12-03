@@ -29,7 +29,7 @@ export default function DetailAnimal({ animal }) {
             {/*  Rasse ################################  */}
             <div className="flex">
               <img
-                src="./img/icon-rasse.png"
+                src="img/icon-rasse.png"
                 className="mr-2 w-[25px] object-contain"
               />
               <span>Rasse: {animal.race}</span>
