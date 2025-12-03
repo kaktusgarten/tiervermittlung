@@ -190,11 +190,9 @@ export default function SearchAnimalPage() {
               <div className="w-full">
                 {/* FILTER 1 von 2 - EIGENSCHAFTEN */}
                 <section className="px-8 pt-10 pb-3 bg-base-300">
-                  <h3 className="mb-3">
-                    Filter Charaktereigenschaften des Tieres
-                  </h3>
+                  <h3 className="mb-3">Filter nach Charaktereigenschaften</h3>
                   {characteristics?.map((char) => (
-                    <label className="label mr-1" key={char._id}>
+                    <label className="label m-3" key={char._id}>
                       <input
                         type="checkbox"
                         className="checkbox"
@@ -209,7 +207,7 @@ export default function SearchAnimalPage() {
                 </section>
                 {/* FILTER 2 von 2 - KATEGORIE */}
                 <section className="px-8 pt-4 pb-4 bg-base-300">
-                  <h3 className="mb-3">
+                  <h3 className="mb-4">
                     Hier können sie nach einer Tierart filtern
                   </h3>
 
@@ -306,10 +304,7 @@ export default function SearchAnimalPage() {
         {/* TIER CARDS ######################################################## */}
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10 ">
           {animals?.map((animal) => (
-            <CardAnimal
-              key={animal._id}
-              animal={animal}
-            ></CardAnimal>
+            <CardAnimal key={animal._id} animal={animal}></CardAnimal>
           ))}
         </section>
 
