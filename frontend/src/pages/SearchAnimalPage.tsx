@@ -248,11 +248,6 @@ export default function SearchAnimalPage() {
           </form>
         </section>
 
-        {/* MAP ############################################################# */}
-        <section>
-          <AnimalsLocationMap search={location.search} />
-        </section>
-
         {/* TIER CARDS ######################################################## */}
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10 ">
           {animals?.map((animal) => (
@@ -264,11 +259,7 @@ export default function SearchAnimalPage() {
         <section>
           <h2 className="my-10 pt-5">Standortkarte der Tiere</h2>
           <div className="sm:px-0 px-10 pb-10">
-            <AnimalsLocationMap
-              key={location.search}
-              search={location.search}
-              url={searchString}
-            />
+            <AnimalsLocationMap search={location.search} />
           </div>
         </section>
 
