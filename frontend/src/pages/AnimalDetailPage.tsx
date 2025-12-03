@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import AnimalMessageSend from "../components/AnimalMessageSend";
 import { baseURL } from "../data";
 import { useEffect, useState } from "react";
-import CardAnimal from "../components/CardAnimal";
+import DetailAnimal from "../components/DetailAnimal";
 import { useAuth } from "../context";
 import AnimalMessagesReceived from "../components/AnimalMessagesReceived";
 
@@ -35,7 +35,8 @@ export default function AnimalDetailPage() {
         <h1 className="my-4">Unser Schützling</h1>
         {animal ? (
           <>
-            <CardAnimal animal={animal} />
+            <DetailAnimal animal={animal} />
+
             {signedIn &&
               user?._id.toString() !== animal.owner?._id.toString() && (
                 <AnimalMessageSend animal={animal} />
