@@ -189,14 +189,13 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
   };
 
   return (
-    // Formular zum Senden einer Nachricht an den Tierbesitzer
     <form onSubmit={handleSubmit} className="card bg-[#C7C0CA] my-5 shadow-sm">
       <div className="card-body">
         <h3 className="card-title">Nachricht an Besitzer senden</h3>
         <label className="label">
           <span className="label-text">Nachricht</span>
         </label>
-        // Textbereich für die Nachrichteneingabe
+        {/* Textbereich für die Nachrichteneingabe */}
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -206,7 +205,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
           aria-label="Nachricht"
           disabled={loading || !isEditing}
         />
-        // Anzeige von Fehler- oder Erfolgsmeldungen
+        {/* Anzeige von Fehler- oder Erfolgsmeldungen */}
         {error && (
           <div className="text-red-600 font-semibold text-sm mt-2" role="alert">
             {error}
@@ -220,7 +219,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
             {success}
           </div>
         )}
-        // Buttons zum Bearbeiten, Löschen oder Senden der Nachricht
+        {/* Buttons zum Bearbeiten, Löschen oder Senden der Nachricht */}
         <div className="card-actions mt-4">
           {existingMessage && !isEditing && (
             <>
@@ -243,7 +242,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
               </button>
             </>
           )}
-          // Buttons zum Speichern oder Abbrechen der Bearbeitung
+          {/* Buttons zum Speichern oder Abbrechen der Bearbeitung */}
           {isEditing && (
             <>
               <button

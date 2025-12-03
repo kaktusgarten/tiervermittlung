@@ -112,8 +112,8 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
                     </button>{" "}
                   </>
                 )}
-                /* Anzeige des Anruf-Buttons, wenn eine Telefonnummer vorhanden
-                ist*/
+                {/* Anzeige des Anruf-Buttons, wenn eine Telefonnummer vorhanden
+                ist*/}
                 {sender?.phone && (
                   <>
                     <button
