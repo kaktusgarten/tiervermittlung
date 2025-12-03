@@ -39,10 +39,18 @@ export const getAnimalsForMap: RequestHandler = async (req, res) => {
   if (handycap) {
     match.handycap = { $regex: handycap as string, $options: "i" };
   }
+  console.log("getAnimalsForMap chara...: ", characteristics);
   if (characteristics) {
+    let chars = characteristics;
+    if (!Array.isArray(chars)) {
+      chars = [chars];
+    }
+
     match.characteristics = {
-      $regex: characteristics as string,
-      $options: "i",
+      // $regex: characteristics as string,
+      // $options: "i",
+      $all: chars.map((c) => RegExp(c, "i")),
+      // $in: chars.map((c) => new RegExp(c, "i")),       // Eine characteristic muss zutreffen.
     };
   }
 

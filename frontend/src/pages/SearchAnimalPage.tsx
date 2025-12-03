@@ -63,6 +63,8 @@ export default function SearchAnimalPage() {
             : "" // <--- Wichtig: keine Query → alle Tiere laden
           : searchString;
 
+        console.log("Suche: ", fullSearch);
+
         const res = await fetch(
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`,
           { credentials: "include" }
