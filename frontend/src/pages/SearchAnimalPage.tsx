@@ -254,7 +254,7 @@ export default function SearchAnimalPage() {
                     </div>
 
                     {/* Eingabe Alter */}
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                       <label htmlFor="Age" className="pl-5 pr-3">
                         Alter:
                       </label>
@@ -267,7 +267,7 @@ export default function SearchAnimalPage() {
                         }
                         className="input w-18 mr-3"
                       />
-                    </div>
+                    </div> */}
 
                     {/* Eingabe Rasse */}
                     <div className="mb-3 mr-6">
