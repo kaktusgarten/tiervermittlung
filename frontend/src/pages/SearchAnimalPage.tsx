@@ -9,7 +9,7 @@ export default function SearchAnimalPage() {
   const [animals, setAnimals] = useState<Animal[]>();
   const [categories, setCategories] = useState<Category[]>();
   const [characteristics, setCharacteristics] = useState<Characteristic[]>();
-  const [value, setValue] = useState("");
+  //  const [value, setValue] = useState("");
   const [searchString, setSearchString] = useState("");
   //  const [state, formAction] = useActionState(action, null);
 
@@ -55,10 +55,6 @@ export default function SearchAnimalPage() {
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        // const fullSearch = !searchString
-        //   ? `?category=${searchParms.get("category")}`
-        //   : searchString;
-
         const hasSearchParams = [...searchParms.keys()].length > 0;
 
         const fullSearch = !searchString
@@ -67,8 +63,9 @@ export default function SearchAnimalPage() {
             : "" // <--- Wichtig: keine Query → alle Tiere laden
           : searchString;
 
+        console.log("Suche: ", fullSearch);
+
         const res = await fetch(
-          //     `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
           `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`,
           { credentials: "include" }
         );
@@ -121,60 +118,10 @@ export default function SearchAnimalPage() {
     fetchCharacteristics();
   }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const result = event.target?.value.replace(/\D/g, "");
-
-    setValue(result);
-  };
-  {
-    /**
-  async function action(previousState, formData: FormData) {
-    let resultString = "?";
-    const selectedCharacteristics = formData.getAll("characteristics");
-    const category = formData.get("selectedCategory");
-    const sex = formData.get("selectedSex");
-    const age = formData.get("inputAge");
-    const race = formData.get("inputRace");
-
-    if (selectedCharacteristics.length > 0) {
-      selectedCharacteristics.forEach((Char) => {
-        const Chara = characteristics?.find((c) => c._id === Char.toString());
-        resultString = resultString.concat(
-          "characteristics=",
-          Chara?.characteristic,
-          "&"
-        );
-      });
-      resultString = resultString.substring(0, resultString.length - 1);
-    }
-    if (!(category.substring(0, 2) === "--")) {
-      if (resultString.length > 1) {
-        resultString = resultString.concat("&");
-      }
-      resultString = resultString.concat("category=", category);
-    }
-    if (!(sex.substring(0, 2) === "--")) {
-      if (resultString.length > 1) {
-        resultString = resultString.concat("&");
-      }
-      resultString = resultString.concat("sex=", sex);
-    }
-    if (age.length > 0) {
-      if (resultString.length > 1) {
-        resultString = resultString.concat("&");
-      }
-      resultString = resultString.concat("age=", age);
-    }
-    if (race.length > 0) {
-      if (resultString.length > 1) {
-        resultString = resultString.concat("&");
-      }
-      resultString = resultString.concat("race=", race);
-    }
-    setSearchString(resultString);
-  }
-  */
-  }
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const result = event.target?.value.replace(/\D/g, "");
+  //   setValue(result);
+  // };
 
   return (
     <>
@@ -299,6 +246,11 @@ export default function SearchAnimalPage() {
               </div>
             </fieldset>
           </form>
+        </section>
+
+        {/* MAP ############################################################# */}
+        <section>
+          <AnimalsLocationMap search={location.search} />
         </section>
 
         {/* TIER CARDS ######################################################## */}
