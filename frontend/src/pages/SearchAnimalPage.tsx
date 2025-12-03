@@ -256,7 +256,7 @@ export default function SearchAnimalPage() {
             ))
           ) : (
             <div className="col-span-3 text-center px-6 py-10 border text-5xl">
-              Leider kein Tiere mit dieser Auswahl gefunden gefunden.
+              Leider kein Tiere mit dieser Auswahl gefunden.
             </div>
           )}
         </section>
