@@ -250,9 +250,15 @@ export default function SearchAnimalPage() {
 
         {/* TIER CARDS ######################################################## */}
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10 ">
-          {animals?.map((animal) => (
-            <CardAnimal key={animal._id} animal={animal}></CardAnimal>
-          ))}
+          {animals?.length > 0 ? (
+            animals.map((animal) => (
+              <CardAnimal key={animal._id} animal={animal} />
+            ))
+          ) : (
+            <div className="col-span-3 text-center px-6 py-10 border text-5xl">
+              Leider kein Tiere mit dieser Auswahl gefunden gefunden.
+            </div>
+          )}
         </section>
 
         {/* KARTE ############################################################# */}
