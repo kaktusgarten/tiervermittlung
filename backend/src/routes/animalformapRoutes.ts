@@ -5,6 +5,6 @@ import { Router } from "express";
 const animalformapRoutes = Router();
 
 // PUBLIC
-animalformapRoutes.get("/", authenticate, getAnimalsForMap);
+animalformapRoutes.get("/", getAnimalsForMap);
 
 export default animalformapRoutes;

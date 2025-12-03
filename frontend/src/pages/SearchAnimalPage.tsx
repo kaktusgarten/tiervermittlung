@@ -11,12 +11,46 @@ export default function SearchAnimalPage() {
   const [characteristics, setCharacteristics] = useState<Characteristic[]>();
   const [value, setValue] = useState("");
   const [searchString, setSearchString] = useState("");
-  const [state, formAction] = useActionState(action, null);
+  //  const [state, formAction] = useActionState(action, null);
 
   const { slug } = useParams<{ slug?: string }>();
   const [searchParms, setSearchParms] = useSearchParams();
 
   //  let navigate = useNavigate();
+
+  const updateParam = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParms);
+
+    if (!value || value.startsWith("--")) {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+
+    setSearchParms(params);
+  };
+
+  const toggleCharacteristic = (id: string) => {
+    const params = new URLSearchParams(searchParms);
+
+    const char = characteristics?.find((c) => c._id === id);
+    if (!char) return;
+
+    const name = char.characteristic;
+    const list = params.getAll("characteristics");
+
+    if (list.includes(name)) {
+      // löschen
+      const newList = list.filter((x) => x !== name);
+      params.delete("characteristics");
+      newList.forEach((x) => params.append("characteristics", x));
+    } else {
+      // hinzufügen
+      params.append("characteristics", name);
+    }
+
+    setSearchParms(params);
+  };
 
   useEffect(() => {
     const fetchAnimals = async () => {
@@ -35,7 +69,8 @@ export default function SearchAnimalPage() {
 
         const res = await fetch(
           //     `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${searchString}`
-          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals${fullSearch}`,
+          { credentials: "include" }
         );
 
         const data = await res.json();
@@ -91,7 +126,8 @@ export default function SearchAnimalPage() {
 
     setValue(result);
   };
-
+  {
+    /**
   async function action(previousState, formData: FormData) {
     let resultString = "?";
     const selectedCharacteristics = formData.getAll("characteristics");
@@ -137,6 +173,8 @@ export default function SearchAnimalPage() {
     }
     setSearchString(resultString);
   }
+  */
+  }
 
   return (
     <>
@@ -146,7 +184,7 @@ export default function SearchAnimalPage() {
         </h1>
 
         <section id="Auswahl" className="mb-2">
-          <form action={formAction}>
+          <form>
             <fieldset>
               <div className="w-full">
                 <div className="border p-8 rounded-xl">
@@ -154,7 +192,8 @@ export default function SearchAnimalPage() {
                     Filter für eingegebene Charaktereigenschaften des Tieres
                   </h3>
                   {/* Checkboxen Characteristik */}
-                  {!characteristics
+                  {/**
+                    {!characteristics
                     ? ""
                     : characteristics?.map((char) => (
                         <label className="label mr-1" key={char._id}>
@@ -168,7 +207,22 @@ export default function SearchAnimalPage() {
                           {char.characteristic}
                         </label>
                       ))}
+                  */}
+                  {characteristics?.map((char) => (
+                    <label className="label mr-1" key={char._id}>
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={searchParms
+                          .getAll("characteristics")
+                          .includes(char.characteristic)}
+                        onChange={() => toggleCharacteristic(char._id)}
+                      />
+                      {char.characteristic}
+                    </label>
+                  ))}
                 </div>
+
                 <div className="border p-8 my-6 rounded-xl">
                   <h3 className="mb-3">
                     Hier können sie nach einer Tierart filtern
@@ -177,7 +231,8 @@ export default function SearchAnimalPage() {
                   <label htmlFor="Category" className="pl-5 pr-3">
                     Kategorie:
                   </label>
-
+                  {/**
+ * 
                   <select
                     name="selectedCategory"
                     defaultValue="Auswahl Kategorie"
@@ -189,11 +244,30 @@ export default function SearchAnimalPage() {
                       : categories?.map((cat) => (
                           <option key={cat._id}>{cat.categoryName}</option>
                         ))}
+                  </select>  
+ * 
+ */}
+
+                  <select
+                    name="category"
+                    className="select w-44"
+                    value={searchParms.get("category") ?? ""}
+                    onChange={(e) => updateParam("category", e.target.value)}
+                  >
+                    <option value="">-- Kategorie wählen --</option>
+                    {categories?.map((cat) => (
+                      <option key={cat._id} value={cat.categoryName}>
+                        {cat.categoryName}
+                      </option>
+                    ))}
                   </select>
+
                   {/* Auswahl Geschlecht */}
                   <label htmlFor="Sex" className="pl-5 pr-3">
                     Geschlecht:
                   </label>
+                  {/**
+                   * 
                   <select
                     name="selectedSex"
                     defaultValue="Auswahl Geschlecht"
@@ -203,8 +277,24 @@ export default function SearchAnimalPage() {
                     <option key="männlich">männlich</option>
                     <option key="weiblich">weiblich</option>
                     <option key="egal">egal</option>
+                  </select>                   
+
+                   */}
+
+                  <select
+                    name="sex"
+                    className="select w-44"
+                    value={searchParms.get("sex") ?? ""}
+                    onChange={(e) => updateParam("sex", e.target.value)}
+                  >
+                    <option>-- Bitte wählen --</option>
+                    <option key="männlich">männlich</option>
+                    <option key="weiblich">weiblich</option>
                   </select>
+
                   {/* Eingabe Alter */}
+                  {/**
+ * 
                   <label htmlFor="Age" className="pl-5 pr-3">
                     Alter:
                   </label>
@@ -215,7 +305,24 @@ export default function SearchAnimalPage() {
                     onChange={handleChange}
                     className="input w-18 mr-3"
                   />
+ * 
+ */}
+
+                  <label htmlFor="Age" className="pl-5 pr-3">
+                    Alter:
+                  </label>
+                  <input
+                    name="Age"
+                    type="text"
+                    value={searchParms.get("age") ?? ""}
+                    onChange={(e) =>
+                      updateParam("age", e.target.value.replace(/\D/g, ""))
+                    }
+                    className="input w-18 mr-3"
+                  />
                   {/* Eingabe Rasse */}
+                  {/**
+                   * 
                   <label htmlFor="Race" className="pl-5 pr-3">
                     Rasse:
                   </label>
@@ -223,6 +330,18 @@ export default function SearchAnimalPage() {
                     name="inputRace"
                     type="text"
                     className="input w-50 mr-3"
+                  />                   
+                   * 
+                   */}
+                  <label htmlFor="Race" className="pl-5 pr-3">
+                    Rasse:
+                  </label>
+                  <input
+                    name="race"
+                    type="text"
+                    className="input w-50 mr-3"
+                    value={searchParms.get("race") ?? ""}
+                    onChange={(e) => updateParam("race", e.target.value)}
                   />
                   <button type="submit" className="btn btn-neutral">
                     Tiere suchen
@@ -233,12 +352,14 @@ export default function SearchAnimalPage() {
           </form>
         </section>
         <section>
-          <div className="h-120">
-            <AnimalsLocationMap
-              category={searchParms.get("category") ?? ""}
-              url={searchString}
-            />
-          </div>
+          {/**
+                          category={searchParms.get("category") ?? "".toLowerCase()}
+               */}
+          <AnimalsLocationMap
+            key={location.search}
+            search={location.search}
+            url={searchString}
+          />
         </section>
         <section className="grid xl:grid-cols-3 md:grid-cols-2 gap-9 mb-10">
           {animals?.map((animal) => (
