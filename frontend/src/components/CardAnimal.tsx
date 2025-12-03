@@ -14,7 +14,7 @@ export default function CardAnimal({ animal }) {
         <img
           src={animal.image_url[0]}
           alt="Tier sucht Zuhause"
-          className="rounded-t-2xl object-cover h-[360px]"
+          className="rounded-t-2xl object-cover object-top h-[360px]"
         />
 
         <div className="p-5 font-medium">

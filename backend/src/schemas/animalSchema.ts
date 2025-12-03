@@ -32,7 +32,7 @@ export const animalInputSchema = z
     characteristics: z.array(
       z.string({ error: "Merkmale müssen ein String sein" })
     ),
-
+    // characteristics: z.string({ error: "Merkmale müssen ein String sein" }),
     description: z.string({ error: "Beschreibung muss ein String sein" }),
 
     // Kommt aus request

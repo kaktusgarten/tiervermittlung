@@ -9,15 +9,6 @@ export default function MainLayout() {
     <>
       <AuthProvider>
         <div className="page flex flex-col min-h-screen">
-          {/* HEADER Image ############################################ */}
-          {/* <section className="mb-10">
-            <MainImageHomePage
-              image="./img/mood-bild-1.png"
-              headline="Die Tierglück Vermittlung"
-              textColor="white"
-              text="Finde ein neues Zuhause für dein Tier - Wir helfen!"
-            />
-          </section> */}
           <Header></Header>
 
           <div className="container m-auto flex-1 mb-10 md:px-8 px-3 pt-8">

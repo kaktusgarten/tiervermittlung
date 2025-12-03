@@ -15,7 +15,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
   useEffect(() => {
     const fetchMyMessage = async () => {
       if (!user?._id) return;
-
+      // Fetch Nachrichten des angemeldeten Benutzers
       try {
         const res = await fetch(
           `${import.meta.env.VITE_APP_API_URL}/messages/sender/${user?._id}`
@@ -24,21 +24,14 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
           throw new Error("Fehler beim Laden der Nachrichten");
         }
         const data = await res.json();
-
-        // data.map((msg: Message) => {
-        //   if (msg.animal === animal._id) {
-        //     setMessage(msg.message);
-        //     setExistingMessage(msg._id);
-        //     console.log(msg);
-        //   }
-        // });
-        // find message matching current animal
+        // Suche nach einer Nachricht für das aktuelle Tier
         const found = data.find((msg: Message) => {
+          if (!msg.animal) return false;
           const animalId =
             typeof msg.animal === "string" ? msg.animal : msg.animal._id;
           return animalId === animal._id;
         });
-
+        // Wenn gefunden, setze Nachricht und vorhandene Nachrichten-ID
         if (found) {
           setMessage(found.message);
           setExistingMessage(found._id);
@@ -54,11 +47,12 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
     fetchMyMessage();
   }, [user?._id, animal._id]);
 
+  // Nachricht senden oder aktualisieren
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-
+    // Überprüfe, ob der Benutzer angemeldet ist
     if (!signedIn || !user) {
       setError("Bitte anmelden, um eine Nachricht zu senden.");
       return;
@@ -70,10 +64,10 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
 
     setLoading(true);
     try {
-      // Safe owner extraction: handle both string and populated object
+      // Sichere Besitzer-Extraktion: Behandle sowohl String als auch befülltes Objekt
       const ownerId =
         typeof animal.owner === "string" ? animal.owner : animal.owner?._id;
-
+      // Stelle sicher, dass die Besitzer-ID vorhanden ist
       if (!ownerId) {
         throw new Error("Besitzer-ID fehlt");
       }
@@ -86,7 +80,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
       };
 
       let res: Response;
-
+      // Wenn keine vorhandene Nachricht, erstelle eine neue, sonst aktualisiere die vorhandene
       if (!existingMessage) {
         res = await fetch(`${import.meta.env.VITE_APP_API_URL}/messages`, {
           method: "POST",
@@ -114,7 +108,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
         throw new Error(text || "Fehler beim Senden der Nachricht");
       }
       const updated = await res.json();
-
+      // Setze die Nachrichten-ID und beende den Bearbeitungsmodus
       setExistingMessage(updated._id);
       setIsEditing(false);
       setSuccess("Nachricht erfolgreich gesendet.");
@@ -128,7 +122,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
 
   const handleEditToggle = () => {
     if (isEditing) {
-      // Cancel edit - reload original message
+      // Brichte die Bearbeitung ab - lade die ursprüngliche Nachricht neu
       const fetchMyMessage = async () => {
         if (!user?._id) return;
         try {
@@ -137,11 +131,14 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
           );
           if (res.ok) {
             const data = await res.json();
+            // Suche nach der Nachricht für das aktuelle Tier
             const found = data.find((msg: Message) => {
+              if (!msg.animal) return false;
               const animalId =
                 typeof msg.animal === "string" ? msg.animal : msg.animal._id;
               return animalId === animal._id;
             });
+            // Wenn gefunden, setze die Nachricht in den Zustand ein
             if (found) setMessage(found.message);
           }
         } catch (error) {
@@ -154,12 +151,13 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
   };
 
   const handleDelete = async () => {
+    // Bestätigungsabfrage vor dem Löschen
     if (!confirmDelete) {
       setConfirmDelete(true);
       setTimeout(() => setConfirmDelete(false), 3000);
       return;
     }
-
+    // Wenn keine vorhandene Nachricht, tue nichts
     if (!existingMessage) return;
 
     setLoading(true);
@@ -176,7 +174,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
         const text = await res.text();
         throw new Error(text || "Fehler beim Löschen der Nachricht");
       }
-
+      // Nach dem Löschen, setze den Zustand zurück
       setMessage("");
       setExistingMessage(null);
       setIsEditing(true);
@@ -191,13 +189,14 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
   };
 
   return (
+    // Formular zum Senden einer Nachricht an den Tierbesitzer
     <form onSubmit={handleSubmit} className="card bg-[#C7C0CA] my-5 shadow-sm">
       <div className="card-body">
         <h3 className="card-title">Nachricht an Besitzer senden</h3>
-
         <label className="label">
           <span className="label-text">Nachricht</span>
         </label>
+        // Textbereich für die Nachrichteneingabe
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -207,7 +206,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
           aria-label="Nachricht"
           disabled={loading || !isEditing}
         />
-
+        // Anzeige von Fehler- oder Erfolgsmeldungen
         {error && (
           <div className="text-red-600 font-semibold text-sm mt-2" role="alert">
             {error}
@@ -221,7 +220,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
             {success}
           </div>
         )}
-
+        // Buttons zum Bearbeiten, Löschen oder Senden der Nachricht
         <div className="card-actions mt-4">
           {existingMessage && !isEditing && (
             <>
@@ -244,6 +243,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
               </button>
             </>
           )}
+          // Buttons zum Speichern oder Abbrechen der Bearbeitung
           {isEditing && (
             <>
               <button
@@ -267,14 +267,6 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
               )}
             </>
           )}
-          {/* <button
-            type="submit"
-            className={` ${loading ? "loading" : ""} btn-primary
-            bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold`}
-            disabled={loading}
-          >
-            {existingMessage ? "Bearbeiten" : "Senden"}
-          </button> */}
         </div>
       </div>
     </form>
