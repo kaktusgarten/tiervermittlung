@@ -3,7 +3,7 @@ import { useActionState } from "react";
 import { useNavigate } from "react-router";
 
 // Validierungs-Funktion
-function validateRegistration(data: Record<string, string>) {
+function validateEdit(data: Record<string, string>) {
   const errors: Record<string, string> = {};
 
   if (!data.name) errors.name = "Der Name des Tieres ist erforderlich";
@@ -19,7 +19,7 @@ function validateRegistration(data: Record<string, string>) {
   return errors;
 }
 
-export default function AnimalForm() {
+export default function AnimalEditForm({ animal } : { animal : any }) {
   const navigate = useNavigate();
   const [images, setImages] = useState<File[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -30,14 +30,14 @@ export default function AnimalForm() {
 
   // ⭐ Controlled Form State
   const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    race: "",
-    age: "",
-    sex: "",
-    description: "",
-    characteristics: [],
-    handycap: "",
+    name: animal.name || "",
+    category: animal.category || "",
+    race: animal.race || "",
+    age: animal.age || "",
+    sex: animal.sex || "",
+    description: animal.description || "",
+    characteristics: animal.characteristics || [],
+    handycap: animal.handycap || "",
   });
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +77,7 @@ export default function AnimalForm() {
         console.error(error);
       }
     }
+    setSelectedCharacteristics(animal.characteristics || []);
     loadCategories();
     loadCharacteristics();
   }, []);
@@ -104,19 +105,22 @@ export default function AnimalForm() {
       string
     >;
 
-    const validationErrors = validateRegistration(dataObj);
+    const validationErrors = validateEdit(dataObj);
     if (Object.keys(validationErrors).length > 0) {
       return { errors: validationErrors, input: dataObj };
     }
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/animals`, {
-        method: "POST",
-        body: formDataSubmit,
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/animals/${animal._id}`,
+        {
+          method: "PUT",
+          body: formDataSubmit,
+          credentials: "include",
+        }
+      );
 
-      if (!res.ok) throw new Error("Tier-Registrierung fehlgeschlagen");
+      if (!res.ok) throw new Error("Tier-Bearbeitung fehlgeschlagen");
 
       await res.json();
       navigate("/mein-konto");
@@ -126,7 +130,7 @@ export default function AnimalForm() {
       return {
         errors: {
           button:
-            "Tier-Registrierung fehlgeschlagen. Bitte überprüfe deine Eingaben.",
+            "Tier-Bearbeitung fehlgeschlagen. Bitte überprüfe deine Eingaben.",
         },
         input: dataObj,
       };
@@ -149,11 +153,9 @@ export default function AnimalForm() {
   };
   //encType="multipart/form-data"
   return (
-    <form action={formAction}>
+    <form action={formAction} className="userDataForm">
       <fieldset className="fieldset bg-base-300 border-base rounded-box border p-4">
-        <legend className="fieldset-legend">
-          Registrierungsdaten eingeben:
-        </legend>
+        <legend className="fieldset-legend">Neue Tierdaten eingeben:</legend>
 
         {/* Name */}
         <label className="label">Tiername</label>
@@ -222,7 +224,6 @@ export default function AnimalForm() {
 
         {/* Geschlecht */}
         <label className="label mt-2">Geschlecht</label>
-
         <select
           name="sex"
           className="select w-full"
@@ -235,7 +236,6 @@ export default function AnimalForm() {
           <option value="weiblich">Weiblich</option>
           <option value="unbekannt">Unbekannt</option>
         </select>
-
         {formState.errors?.sex && (
           <p className="text-sm text-red-400 mt-1">{formState.errors.sex}</p>
         )}
@@ -246,6 +246,7 @@ export default function AnimalForm() {
           name="description"
           className="textarea w-full"
           value={formData.description}
+          rows={10}
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
           }
@@ -258,7 +259,7 @@ export default function AnimalForm() {
         )}
 
         {/* Characteristics */}
-        <p className="label mt-2">Eigenschaften:</p>
+        <p className="label mt-2">Eigenschaften</p>
         <div className="py-3">
           {characteristics.map((char) => (
             <div key={char._id} className="mb-2">
@@ -271,6 +272,7 @@ export default function AnimalForm() {
                     char.characteristic
                   )}
                   onChange={handleCheck}
+                  disabled={isPending}
                 />
                 {char.characteristic}
               </label>
@@ -289,11 +291,9 @@ export default function AnimalForm() {
           }
           disabled={isPending}
         >
-          {/* <div className="border border-[#525252]"> */}
           <option value="">-- bitte auswählen --</option>
           <option value="true">Ja</option>
           <option value="false">Nein</option>
-          {/* </div> */}
         </select>
 
         {formState.errors?.handycap && (
@@ -305,11 +305,13 @@ export default function AnimalForm() {
         {/* Bilder */}
         <fieldset className="fieldset mt-4">
           <legend className="fieldset-legend">Bilder hochladen</legend>
-
+          <p className="text-sm">
+            Wenn du neue Bilder hochlädst, werden die alten Bilder gelöscht
+          </p>
           <input
             type="file"
             name="image"
-            className="file-input"
+            className="file-input w-full"
             accept="image/*"
             multiple
             onChange={handleFileChange}
@@ -317,7 +319,7 @@ export default function AnimalForm() {
           />
 
           {images.length > 0 && (
-            <div className="mt-3 flex gap-2 flex-wrap">
+            <div className="mt-3 flex gap-2 flex-wrap w-full">
               {images.map((img, idx) => (
                 <img
                   key={idx}
@@ -333,10 +335,10 @@ export default function AnimalForm() {
         {/* Submit */}
         <button
           type="submit"
-          className="btn btn-primary mt-4 w-full"
+          className="btn btn-primary mt-4"
           disabled={isPending}
         >
-          {isPending ? "Tier registrieren..." : "Tier registrieren"}
+          {isPending ? "Tier bearbeiten..." : "Absenden"}
         </button>
 
         {formState.errors?.button && (

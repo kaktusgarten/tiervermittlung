@@ -51,8 +51,6 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
   const params = useMemo(() => new URLSearchParams(search), [search]);
   const navigate = useNavigate();
 
-  console.log("AnimalsLocationMap render");
-
   const fetchMe = useCallback(async () => {
     try {
       if (!signedIn) {
@@ -63,7 +61,7 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
           { credentials: "include" }
         );
         const data = await res.json();
-        setUserData(data); // data.user._id)
+        setUserData(data);
       }
     } catch (error) {
       console.log(error);
@@ -116,12 +114,6 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
     fetchOwnerPosForMap();
   }, [fetchOwnerPosForMap]);
 
-  // MarkerProps.position: LatLngExpression
-  //  const position: LatLngExpression = [48.81615, 8.74748];
-  // const position: LatLngExpression = ownerPos
-  //   ? [ownerPos.lat, ownerPos.lng]
-  //   : [48.81615, 8.74748];
-
   const position: LatLngExpression | undefined = useMemo(() => {
     if (!ownerPos) {
       return [51.163, 10.447];
@@ -151,6 +143,19 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
         shadowSize: [50, 64], // size of the shadow
         iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
         shadowAnchor: [4, 62], // the same for the shadow
+        popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+      }),
+    []
+  );
+
+  const redIcon = useMemo(
+    () =>
+      L.icon({
+        iconUrl: "../img/marker-icons/marker-icon-red.png",
+        iconSize: [25, 41], // size of the icon
+        shadowSize: [15, 30], // size of the shadow
+        iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+        shadowAnchor: [14, 46], // the same for the shadow
         popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
       }),
     []
@@ -201,7 +206,6 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
       >
         <ComponentResize />
         <TileLayer
-          // className={'ion-hide'}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
@@ -212,6 +216,7 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
 
         {offsetMarkers.map((animal) => (
           <Marker
+            icon={redIcon}
             position={[animal.lat, animal.lng]}
             eventHandlers={{
               click: () => navigate(`/details/${animal._id}`),

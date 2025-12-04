@@ -12,6 +12,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import AnimalDetailPage from "./pages/AnimalDetailPage";
 import SearchAnimalPage from "./pages/SearchAnimalPage";
 import ImpressumAgbPage from "./pages/ImpressumAgbPage";
+import EditAnimalPage from "./pages/EditAnimalPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route element={<ProtectedLayout />}>
             <Route path="/admin-bereich" element={<AdminBereichPage />} />
             <Route path="/tier-einstellen" element={<AddAnimalPage />} />
+            <Route path="/tier-bearbeiten/:slug" element={<EditAnimalPage />} />
             <Route path="/mein-konto" element={<UserProfilePage />} />
           </Route>
         </Route>

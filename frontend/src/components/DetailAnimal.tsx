@@ -8,57 +8,94 @@ export default function DetailAnimal({ animal }) {
   };
   return (
     <>
-      <article
-        key={animal._id}
-        className="CARD rounded-2xl bg-[#c7c0ca] text-black flex flex-col"
-      >
-        <img
-          src={animal.image_url[0]}
-          alt="Tier sucht Zuhause"
-          className="rounded-t-2xl object-cover object-top h-[360px]"
-        />
+      <article className="grid grid-cols-1 lg:[grid-template-columns:1fr_2fr_auto] md:[grid-template-columns:1fr_1fr] gap-4 mb-10">
+        {/* 1. BLOCK ################################### */}
+        <div className="pb-8">
+          {/* Einzelimage #########: */}
+          {/* <img
+            src={animal.image_url[0]}
+            alt="Tier sucht Zuhause"
+            className="object-cover object-center w-[100%] aspect-square bg-base-300"
+          /> */}
 
-        <div className="p-5 font-medium">
-          <div className="flex items-center mb-7">
-            <h3 className="text-1xl font-bold inline">
-              ❤ Ich bin {animal.name}
-            </h3>
+          {/* Gallerie ############: */}
+          <figure className="Image Gallery">
+            <div className="carousel w-full">
+              {animal.image_url.length &&
+                animal.image_url.map((image: any, index) => (
+                  <div id={`item${index}`} className="carousel-item w-full">
+                    <img
+                      src={image}
+                      className="object-cover object-top-left aspect-square bg-base-300 w-full"
+                    />
+                  </div>
+                ))}
+            </div>
+            <div className="flex w-full justify-center gap-2 py-2">
+              {animal.image_url.length &&
+                animal.image_url.map((image: any, index) => (
+                  <a href={`#item${index}`} className="btn btn-xs">
+                    Bild {index + 1}
+                  </a>
+                ))}
+            </div>
+          </figure>
+        </div>
+        {/* 2. BLOCK ################################### */}
+        <div className="sm:px-8">
+          <h3>Über {animal.name}</h3>
+          <p className="mb-6">{animal.description}</p>
+
+          <h3>Eigenschaften von {animal.name} </h3>
+          <ul className="list-disc pl-8 text-xl">
+            {animal.characteristics.map((eigenschaft: any) => (
+              <li>{eigenschaft}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* 3. BLOCK ################################### */}
+        <div className="sm:px-4 sm:pl-8 pb-10">
+          {/* NAME #### */}
+          <div className="">
+            <h3 className="">❤ Ich bin {animal.name}</h3>
           </div>
 
-          <div className="mb-7 flex justify-between">
-            {/*  Rasse ################################  */}
-            <div className="flex">
+          <div className="">
+            {/*  Rasse ####  */}
+            <div className="flex mb-2">
               <img
-                src="img/icon-rasse.png"
+                src="/img/icon-age.svg"
                 className="mr-2 w-[25px] object-contain"
               />
-              <span>Rasse: {animal.race}</span>
+              <p>Rasse: {animal.race}</p>
             </div>
 
-            {/*  Alter ################################  */}
-            <div className="flex">
+            {/*  Alter ####  */}
+            <div className="flex mb-2">
               <img
-                src="./img/icon-age.svg"
+                src="/img/icon-age.svg"
                 className="mr-2 w-[20px] object-contain"
               />
-              <span>Alter: {animal.age} Jahre</span>
+              <p>Alter: {animal.age} Jahre</p>
             </div>
-          </div>
 
-          <div className="flex justify-between">
-            <button
-              className="rounded-md bg-[#2B1B12] text-white px-4 py-2 cursor-pointer"
-              onClick={handleDetailsClick}
-            >
-              Details
-            </button>
-
-            <div className="flex items-center">
+            {/*  Geschlecht #####  */}
+            <div className="flex mb-2">
               <img
-                src="./img/icon-standort.svg"
+                src="/img/icon-age.svg"
                 className="mr-2 w-[20px] object-contain"
               />
-              <strong>Standort: xxxxx</strong>
+              <p>Geschlecht: {animal.sex}</p>
+            </div>
+
+            {/*  Standort ####  */}
+            <div className="flex mb-2">
+              <img
+                src="/img/icon-standort.svg"
+                className="mr-2 w-[20px] object-contain"
+              />
+              <p>Standort: {animal.owner.city}</p>
             </div>
           </div>
         </div>

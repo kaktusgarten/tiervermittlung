@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import AnimalMessageSend from "../components/AnimalMessageSend";
 import { baseURL } from "../data";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ export default function AnimalDetailPage() {
   const { user, signedIn } = useAuth();
   const { slug } = useParams<{ slug?: string }>();
   const [animal, setAnimal] = useState<Animal | null>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchAnimal = async () => {
       try {
@@ -32,7 +32,7 @@ export default function AnimalDetailPage() {
   return (
     <>
       <main className="">
-        <h1 className="my-4">Unser Schützling</h1>
+        <h1 className="mt-4 mb-10 pb-3">Unser Schützling {animal?.name}</h1>
         {animal ? (
           <>
             <DetailAnimal animal={animal} />
@@ -45,6 +45,20 @@ export default function AnimalDetailPage() {
               user?._id.toString() === animal.owner?._id.toString() && (
                 <AnimalMessagesReceived animal={animal} />
               )}
+            {!signedIn && (
+              <div className="flex max-[370px]:flex-col mt-6 mb-10 p-4 bg-base-300 rounded-2xl gap-5 justify-center items-center">
+                <p className="">
+                  Bitte melde dich an, um dem Besitzer eine Nachricht zu senden.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => navigate("/login")}
+                  className="btn btn-primary max-[370px]:w-full"
+                >
+                  Anmelden
+                </button>
+              </div>
+            )}
           </>
         ) : (
           <p>Kein Tier gefunden.</p>

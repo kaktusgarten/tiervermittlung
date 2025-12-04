@@ -3,7 +3,7 @@ import FormChangeUserData from "../components/FormChangeUserData";
 import ProfileMessagesReceived from "../components/ProfileMessagesReceived";
 import ProfileMessagesSent from "../components/ProfileMessagesSent";
 import { useAuth } from "../context";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function UserProfilePage() {
   const { user } = useAuth();
@@ -14,7 +14,7 @@ export default function UserProfilePage() {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchSentMessages = async () => {
       try {
@@ -114,19 +114,22 @@ export default function UserProfilePage() {
 
   return (
     <main className="md:p-4 mb-12">
-      <h1 className="mt-6 mb-10 max-md:text-center">Mein Konto</h1>
-
+      <div className="bg-base-300 rounded-2xl p-4">
+        <h1 className="mt-6 mb-10 max-md:text-center">Mein Konto</h1>
+      </div>
       {/* Kontobox */}
 
-      <div className="grid lg:grid-cols-3 gap-10 rounded-2xl p-7 ">
+      <div className="grid lg:grid-cols-3 gap-10 rounded-2xl mt-10">
         {/* Meine Kontodaten */}
         <div className="lg:col-span-1 col-span-2">
-          <h3 className="mt-6">Meine Kontodaten:</h3>
-          <FormChangeUserData />
+          <div className=" bg-base-200 rounded-2xl p-4 mb-10">
+            <h3 className="mt-6">Meine Kontodaten:</h3>
+            <FormChangeUserData />
+          </div>
         </div>
         {/* Meine Tiere und erhaltene Nachrichten von Interessenten */}
         <section className="col-span-2">
-          <div className="">
+          <div className=" bg-base-200 rounded-2xl p-4 mb-10">
             <h3 className="mb-4 my-6">Meine Tiere</h3>
             <section className=" p-2">
               {userAnimals.length > 0 ? (
@@ -167,13 +170,27 @@ export default function UserProfilePage() {
                               <span className="font-bold"> Rasse:</span>
                               <span> {animal?.race} </span>
                             </p>
-                            {/* Tieranzeige löschen Button */}
-                            <div className="mt-5">
+                            {/* Tieranzeige bearbeiten Button */}
+                            <div className="flex flex-col gap-2 mt-5">
+                              <button
+                                id={`edit-button-${animal._id}`}
+                                type="button"
+                                onClick={() =>
+                                  navigate(`../tier-bearbeiten/${animal._id}`)
+                                }
+                                className={`btn bg-green-500 p-2 flex-1 font-semibold w-full`}
+                                disabled={loading}
+                              >
+                                Bearbeiten
+                              </button>
+
+                              {/* Tieranzeige löschen Button */}
+
                               <button
                                 id={`delete-button-${animal._id}`}
                                 type="button"
                                 onClick={() => handleDelete(animal._id)}
-                                className={`p-2 text-white flex-1 font-semibold w-full ${
+                                className={`btn p-2 text-white flex-1 font-semibold w-full ${
                                   confirmDelete === animal._id
                                     ? "bg-red-600"
                                     : "bg-red-500"
@@ -241,7 +258,7 @@ export default function UserProfilePage() {
             </section>
           </div>
           {/* Meine Anfragen */}
-          <div className="mb-10">
+          <div className="mb-10 bg-base-200 rounded-2xl p-4">
             <h3 className="mb-4 mt-6">Gesendete Anfragen:</h3>
             <section className=" p-2">
               {sentMessages.length > 0 ? (
