@@ -305,7 +305,9 @@ export default function AnimalEditForm({ animal }) {
         {/* Bilder */}
         <fieldset className="fieldset mt-4">
           <legend className="fieldset-legend">Bilder hochladen</legend>
-
+          <p className="text-sm">
+            Wenn du neue Bilder hochlädst, werden die alten Bilder gelöscht
+          </p>
           <input
             type="file"
             name="image"
