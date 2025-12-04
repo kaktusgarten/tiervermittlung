@@ -24,7 +24,7 @@ export default function ImpressumAgbPage() {
                 <p>Tiervermittlung – Tierglückvermittlung</p>
                 <p>c/o Ansprechpartner / Gründerteam</p>
                 <p>WDG 24 Tiervermittlungsteam</p>
-                <p>Musterstraße 1</p>
+                <p>Demoseite</p>
                 <p>12345 Musterstadt</p>
                 <p>Deutschland</p>
               </address>
@@ -250,6 +250,23 @@ export default function ImpressumAgbPage() {
               Nutzer werden über wesentliche Änderungen informiert. Die Nutzung
               der Website nach Änderung gilt als Zustimmung.
             </p>
+          </section>
+
+          <section className="mb-6 mt-6">
+            <h2 className="font-semibold">Das Entwicklerteam</h2>
+            <p className="mt-2 text-2xl mb-4">
+              Diese Website entstand im Rahmen unserer Weiterbildung als
+              Webentwicklerm, Mitwirkende:
+            </p>
+            <ul className="list text-2xl">
+              <li></li>
+              <li>
+                Marco Rehberg, B.Sc. Medieninformatik,{" "}
+                <a className="underline" href="https://www.raumbasis.com">
+                  www.raumbasis.com
+                </a>
+              </li>
+            </ul>
           </section>
         </div>
 
