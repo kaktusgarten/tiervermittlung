@@ -202,7 +202,10 @@ export const updateAnimal: RequestHandler<
     description,
     handycap,
   } = req.body;
-
+  const animal = await Animal.findById(id).select("image_url").lean();
+  if (animal) {
+    await deleteMultipleFromCloudinary(animal.image_url);
+  }
   const files = (req.files as Express.Multer.File[]) || [];
   let imageUrl: string[];
   if (files.length === 0) {

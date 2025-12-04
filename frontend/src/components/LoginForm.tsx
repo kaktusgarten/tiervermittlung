@@ -46,7 +46,7 @@ export default function LoginForm() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <fieldset className="fieldset bg-base-100 border-base rounded-box border p-4">
+        <fieldset className="fieldset bg-base-300 border-base rounded-box border p-4">
           <legend className="fieldset-legend">Login</legend>
 
           <label className="label">Email</label>

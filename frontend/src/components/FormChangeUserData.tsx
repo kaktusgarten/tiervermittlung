@@ -104,7 +104,7 @@ export default function FormChangeUserData() {
 
   return (
     <form action={formAction} className="userDataForm">
-      <fieldset className="fieldset bg-base-100 rounded-box border p-4">
+      <fieldset className="fieldset bg-base-300 rounded-box border p-4">
         <legend className="fieldset-legend">Deine Kontodaten</legend>
 
         <button
