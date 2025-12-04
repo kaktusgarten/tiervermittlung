@@ -19,7 +19,7 @@ function validateEdit(data: Record<string, string>) {
   return errors;
 }
 
-export default function AnimalEditForm({ animal }) {
+export default function AnimalEditForm({ animal } : { animal : any }) {
   const navigate = useNavigate();
   const [images, setImages] = useState<File[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
