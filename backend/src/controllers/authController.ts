@@ -209,6 +209,7 @@ export const refresh: RequestHandler<
   const newRefresh = signRefreshToken({
     jti: user._id.toString(),
     roles: user.roles,
+    ver: user.tokenVersion,
   });
 
   res
@@ -219,7 +220,7 @@ export const refresh: RequestHandler<
       accessToken: newAccess,
       refreshToken: newRefresh,
     });
-  console.log("authController Response für refresh Token ....................:");
+  console.log("authController Response für refresh Token:");
   console.log(res);
 };
 
