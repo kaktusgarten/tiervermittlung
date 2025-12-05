@@ -219,10 +219,23 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
             icon={redIcon}
             position={[animal.lat, animal.lng]}
             eventHandlers={{
+              mouseover: (e) => e.target.openPopup(),
+              mouseout: (e) => e.target.closePopup(),
               click: () => navigate(`/details/${animal._id}`),
             }}
           >
-            <Popup>{animal.category}</Popup>
+            <Popup>
+              <div>
+                <img
+                  src={animal.image_url[0]}
+                  style={{ width: "160px", borderRadius: "8px" }}
+                />
+                <h4>
+                  {" "}
+                  {animal.name} {animal.postalCode} {animal.city}{" "}
+                </h4>
+              </div>
+            </Popup>
           </Marker>
         ))}
       </MapContainer>

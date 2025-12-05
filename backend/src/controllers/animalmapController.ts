@@ -75,10 +75,15 @@ export const getAnimalsForMap: RequestHandler = async (req, res) => {
       },
     },
     // Nur _id, category, lat, lng zurückgeben
+    // 05.12.25 image_url dazu
     {
       $project: {
         _id: 1,
         category: 1,
+        image_url: 1,
+        name: 1,
+        postalCode: { $arrayElemAt: ["$animalsowners.postalCode", 0] },
+        city: { $arrayElemAt: ["$animalsowners.city", 0] },
         lat: { $arrayElemAt: ["$animalspos.lat", 0] },
         lng: { $arrayElemAt: ["$animalspos.lng", 0] },
       },
