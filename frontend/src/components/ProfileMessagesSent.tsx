@@ -216,7 +216,7 @@ export default function ProfileMessagesSent({
                     <button
                       type="button"
                       onClick={handleEditToggle}
-                      className="btn-secondary bg-gray-600 p-2 text-white flex-1 font-semibold w-full"
+                      className="btn-secondary bg-gray-600 p-2 text-white flex-1 font-semibold w-full cursor-pointer"
                       disabled={loading}
                     >
                       Bearbeiten
@@ -224,7 +224,7 @@ export default function ProfileMessagesSent({
                     <button
                       type="button"
                       onClick={handleDelete}
-                      className={`p-2 text-white flex-1 font-semibold w-full ${
+                      className={`p-2 text-white flex-1 font-semibold w-full cursor-pointer ${
                         confirmDelete ? "bg-red-600" : "bg-red-500"
                       }`}
                       disabled={loading}
@@ -240,7 +240,7 @@ export default function ProfileMessagesSent({
                       type="submit"
                       className={`${
                         loading ? "loading" : ""
-                      } btn-primary bg-[#2B1B12] p-2 text-white flex-1 font-semibold`}
+                      } btn-primary bg-[#2B1B12] p-2 text-white flex-1 font-semibold cursor-pointer`}
                       disabled={loading}
                     >
                       Speichern
@@ -249,7 +249,7 @@ export default function ProfileMessagesSent({
                     <button
                       type="button"
                       onClick={handleEditToggle}
-                      className="btn-secondary bg-gray-600 p-2 text-white flex-1 font-semibold"
+                      className="btn-secondary bg-gray-600 p-2 text-white flex-1 font-semibold cursor-pointer"
                       disabled={loading}
                     >
                       Abbrechen

@@ -94,7 +94,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
                   className={`btn-primary p-2 mt-4 text-white w-full font-semibold cursor-pointer ${
                     confirmDecline === message._id
                       ? "bg-red-600"
-                      : "bg-[#2B1B12]"
+                      : "bg-[#57241e]"
                   }`}
                 >
                   {confirmDecline === message._id ? "Sicher?" : "Ablehnen"}

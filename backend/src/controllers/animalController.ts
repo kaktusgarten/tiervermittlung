@@ -86,7 +86,9 @@ export const getAllAnimals: RequestHandler = async (req, res) => {
 
     console.log("newQuery: ", newQuery);
 
-    animals = await Animal.find({ $and: newQuery });
+    animals = await Animal.find({ $and: newQuery })
+      .populate({ path: "owner", select: "city postalCode _id" })
+      .lean();
 
     // animals = await Animal.find({
     //   $and: [

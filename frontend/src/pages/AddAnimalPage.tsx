@@ -37,11 +37,11 @@ export default function AddAnimalPage() {
             ></img>
             <article className="py-10 bg-base-300 rounded-2xl p-4 max-lg:text-center">
               <p className="pb-3">
-                Uns liegt das Interesse deines Tieres am herzen und wir hoffen
-                auf eine schnelle Vermittlung.
+                Uns liegt das Wohl deines Tieres am Herzen und wir hoffen auf
+                eine schnelle Vermittlung in liebevolle Hände.
               </p>
               <p className="font-bold text-xl">
-                Deine Team der Tiervermittlung
+                Dein Team der Tierglückvermittlung
               </p>
             </article>
           </div>

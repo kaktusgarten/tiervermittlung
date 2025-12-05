@@ -77,7 +77,7 @@ export default function ProfileMessagesReceived({
                     onClick={() =>
                       (window.location.href = `mailto:${sender.email}`)
                     }
-                    className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold"
+                    className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold cursor-pointer"
                   >
                     E-Mail
                   </button>{" "}
@@ -89,7 +89,7 @@ export default function ProfileMessagesReceived({
                     onClick={() =>
                       (window.location.href = `tel:${sender.phone}`)
                     }
-                    className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold"
+                    className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold cursor-pointer"
                   >
                     Anrufen
                   </button>{" "}
@@ -97,7 +97,7 @@ export default function ProfileMessagesReceived({
               )}
               <button
                 onClick={() => handleDecline(msg._id)}
-                className={`btn-primary p-2 mt-4 text-white w-full font-semibold ${
+                className={`btn-primary p-2 mt-4 text-white w-full font-semibold cursor-pointer ${
                   confirmDecline === msg._id ? "bg-red-600" : "bg-[#57241e]"
                 }`}
               >
