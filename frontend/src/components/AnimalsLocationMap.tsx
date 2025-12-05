@@ -201,7 +201,7 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
         }}
         center={position}
         zoom={0}
-        minZoom={5}
+        minZoom={6}
         scrollWheelZoom={true}
       >
         <ComponentResize />
