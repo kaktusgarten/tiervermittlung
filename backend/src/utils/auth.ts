@@ -23,14 +23,14 @@ const isProd = process.env.NODE_ENV === 'production';
 
 export const accessCookieOpts = {
   httpOnly: true,
-  sameSite: 'none' as const,
-  secure: isProd,
+  sameSite: 'lax' as const,
+  secure: true,
   maxAge: ACCESS_TTL_SEC * 1000,
 };
 
 export const refreshCookieOpts = {
   httpOnly: true,
-  sameSite: 'none' as const,
-  secure: isProd,
+  sameSite: 'lax' as const,
+  secure: true,
   maxAge: REFRESH_TTL_SEC * 1000,
 };
