@@ -219,6 +219,8 @@ export const refresh: RequestHandler<
       accessToken: newAccess,
       refreshToken: newRefresh,
     });
+  console.log("authController Response für refresh Token ....................:");
+  console.log(res);
 };
 
 // LOGOUT ####################################################

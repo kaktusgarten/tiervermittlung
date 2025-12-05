@@ -8,7 +8,9 @@ export async function refreshAccessToken(): Promise<boolean> {
       credentials: "include",
     });
     return res.ok;
-  } catch {
+  } catch (error) {
+    console.log("Refresh Catch error.....................:");
+    console.log(error);
     return false;
   }
 }
