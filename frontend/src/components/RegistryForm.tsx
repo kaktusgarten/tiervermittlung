@@ -54,7 +54,7 @@ export default function RegistryForm() {
 
       // POST-Request an Backend ###############################################################
       const { password2, ...sendData } = data; // password2 nicht speichern
-      const res = await fetch("http://localhost:3000/auth/register", {
+      const res = await fetch(`${import.meta.env.VITE_APP_AUTH_SERVER_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(sendData),
