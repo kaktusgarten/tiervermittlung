@@ -21,16 +21,33 @@ export const signRefreshToken = (payload: object) =>
 // Cookie options
 const isProd = process.env.NODE_ENV === 'production';
 
+// export const accessCookieOpts = {
+//   httpOnly: true,
+//   sameSite: 'lax' as const,
+//   secure: true,
+//   maxAge: ACCESS_TTL_SEC * 1000,
+// };
+
+// export const refreshCookieOpts = {
+//   httpOnly: true,
+//   sameSite: 'lax' as const,
+//   secure: true,
+//   maxAge: REFRESH_TTL_SEC * 1000,
+// };
+
 export const accessCookieOpts = {
   httpOnly: true,
-  sameSite: 'lax' as const,
-  secure: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   maxAge: ACCESS_TTL_SEC * 1000,
+  path: "/"
 };
 
 export const refreshCookieOpts = {
   httpOnly: true,
-  sameSite: 'lax' as const,
-  secure: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   maxAge: REFRESH_TTL_SEC * 1000,
+  path: "/"
 };
+
