@@ -46,7 +46,7 @@ app.use(cookieParser());
 // Alles erlaubt:
 app.use(
   cors({
-    origin: true,
+    origin: "https://tierglueck-vermittlung.onrender.com",
     credentials: true,
     exposedHeaders: ["WWW-Authenticate"],
   })
