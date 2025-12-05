@@ -28,14 +28,25 @@ app.use(cookieParser());
 //CORS POLICY
 // simple version when credentials not needed
 // app.use(cors());
+
+// Besser aber geht nicht:
+// app.use(
+//   cors({
+//     origin: [
+//       //process.env.CLIENT_BASE_URL!,
+//       "http://localhost:5173",
+//       "http://localhost:4173",
+//       "https://tierglueck-vermittlung.onrender.com"
+//     ],
+//     credentials: true,
+//     exposedHeaders: ["WWW-Authenticate"],
+//   })
+// );
+
+// Alles erlaubt:
 app.use(
   cors({
-    origin: [
-      //process.env.CLIENT_BASE_URL!,
-      "http://localhost:5173",
-      "http://localhost:4173",
-      "https://tierglueck-vermittlung.onrender.com"
-    ],
+    origin: true,
     credentials: true,
     exposedHeaders: ["WWW-Authenticate"],
   })
