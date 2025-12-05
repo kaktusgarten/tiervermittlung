@@ -73,7 +73,7 @@ export default function FormChangeUserData() {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/users/${userData?._id}`, {
+      const res = await fetch(`${process.env}/users/${userData?._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

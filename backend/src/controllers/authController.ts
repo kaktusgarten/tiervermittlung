@@ -178,7 +178,7 @@ export const refresh: RequestHandler<
   const token = req.cookies?.refreshToken;
 
   if (!token) {
-    throw (new Error("No refresh token"), { cause: { status: 401 } });
+    throw new Error("No refresh token", { cause: { status: 401 } });
   }
 
   let payload: jwt.JwtPayload & { jti: string; ver?: number };

@@ -11,7 +11,7 @@ export default function EditAnimalPage() {
   useEffect(() => {
     const fetchAnimal = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/animals/${slug}`);
+        const res = await fetch(`${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals/${slug}`);
         if (!res.ok) {
           throw new Error("Fehler beim Laden des Tieres");
         }
