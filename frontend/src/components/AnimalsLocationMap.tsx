@@ -175,6 +175,7 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
     return Object.values(grouped).flatMap((group) => {
       if (group.length === 1) return group;
 
+      //      const offsetRadius = 0.0001;
       const offsetRadius = 0.0001;
 
       return group.map((animal, index) => {
