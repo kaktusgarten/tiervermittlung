@@ -1,10 +1,10 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.ACCESS_JWT_SECRET!;
 const REFRESH_SECRET = process.env.REFRESH_JWT_SECRET!;
 const ACCESS_TTL_SEC = Number(process.env.ACCESS_TOKEN_TTL ?? 900);
 const REFRESH_TTL_SEC = Number(process.env.REFRESH_TOKEN_TTL ?? 1209600);
-const JWT_ISSUER = process.env.JWT_ISSUER ?? 'WDG024';
+const JWT_ISSUER = process.env.JWT_ISSUER ?? "WDG024";
 
 export const signAccessToken = (payload: object) =>
   jwt.sign(payload, JWT_SECRET, {
@@ -19,18 +19,33 @@ export const signRefreshToken = (payload: object) =>
   });
 
 // Cookie options
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === "production";
+
+// export const accessCookieOpts = {
+//   httpOnly: true,
+//   sameSite: isProd ? "none" : "lax",
+//   secure: isProd,
+//   maxAge: ACCESS_TTL_SEC * 1000,
+// };
+
+// export const refreshCookieOpts = {
+//   httpOnly: true,
+//   sameSite: isProd ? "none" : "lax",
+//   secure: isProd,
+//   maxAge: REFRESH_TTL_SEC * 1000,
+// };
+
 
 export const accessCookieOpts = {
   httpOnly: true,
-  sameSite: 'none' as const,
+  sameSite: "none" as const,
   secure: isProd,
   maxAge: ACCESS_TTL_SEC * 1000,
 };
 
 export const refreshCookieOpts = {
   httpOnly: true,
-  sameSite: 'none' as const,
+  sameSite: "none" as const,
   secure: isProd,
   maxAge: REFRESH_TTL_SEC * 1000,
 };

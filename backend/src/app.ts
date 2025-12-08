@@ -28,13 +28,28 @@ app.use(cookieParser());
 //CORS POLICY
 // simple version when credentials not needed
 // app.use(cors());
+
+// Besser aber geht nicht:
+// app.use(
+//   cors({
+//     origin: [
+//       //process.env.CLIENT_BASE_URL!,
+//       "http://localhost:5173",
+//       "http://localhost:4173",
+//       "https://tierglueck-vermittlung.onrender.com"
+//     ],
+//     credentials: true,
+//     exposedHeaders: ["WWW-Authenticate"],
+//   })
+// );
+
+// Alles erlaubt:
 app.use(
   cors({
     origin: [
-      //process.env.CLIENT_BASE_URL!,
       "http://localhost:5173",
-      "http://localhost:4173",
-      "https://tierglueck-vermittlung.onrender.com"
+      "https://tierglueck-vermittlung.onrender.com",
+      "https://tiervermittlung-deployment.onrender.com",
     ],
     credentials: true,
     exposedHeaders: ["WWW-Authenticate"],
@@ -58,8 +73,10 @@ app.use("/docs", swaggerUI.serve, swaggerUI.setup(openapiSpec));
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`\x1b[35mMain app listening at http://localhost:${port}\x1b`);
   console.log(
-    `\x1d[17mSwagger Docs available at:http://localhost:${port}/docs\x1b`
+    `\x1b[35mMain app listening at https://tiervermittlung-deployment-server.onrender.com/:${port}\x1b`
+  );
+  console.log(
+    `\x1d[17mSwagger Docs available at:https://tiervermittlung-deployment-server.onrender.com/:${port}/docs\x1b`
   );
 });

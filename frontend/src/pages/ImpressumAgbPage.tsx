@@ -65,6 +65,62 @@ export default function ImpressumAgbPage() {
             </p>
           </section>
 
+          {/* Mitwirkende */}
+          <section className="mb-6 mt-6">
+            <h2 className="font-semibold">Das Entwicklerteam</h2>
+            <p className="mt-2 text-2xl mb-4">
+              Diese Website entstand im Rahmen unserer Fortbildung zum Fullstack
+              Webdeveloper.
+            </p>
+            <p className="text-2xl mb-1">Teammitglieder:</p>
+            <ul className="list text-2xl font-semibold">
+              <li>
+                Kira Begau, B.A. Mediendesign,{" "}
+                <a
+                  className="underline"
+                  href="https://kira-begau.de/"
+                  target="_blank"
+                  title="www.kira-begau.de"
+                >
+                  www.kira-begau.de
+                </a>
+              </li>
+              <li>
+                Marco Rehberg, B.Sc. Medieninformatik,{" "}
+                <a
+                  className="underline"
+                  href="https://www.raumbasis.com"
+                  target="_blank"
+                  title="www.raumbasis.com"
+                >
+                  www.raumbasis.com
+                </a>
+              </li>
+              <li>
+                Frank Steinmetz, Fullstack Webdeveloper,{" "}
+                <a
+                  className="underline"
+                  href="https://www.steinmetz-it.de"
+                  target="_blank"
+                  title="www.steinmetz-it.de"
+                >
+                  www.steinmetz-it.de
+                </a>
+              </li>
+              <li>
+                Alexander Ulrich, Fachinformatiker für Anwendungsentwicklung,{" "}
+                <a
+                  className="underline"
+                  href="https://www.linkedin.com/in/alexander-ulrich-it/"
+                  target="_blank"
+                  title="https://www.linkedin.com/in/alexander-ulrich-it/"
+                >
+                  LinkedIn
+                </a>
+              </li>
+            </ul>
+          </section>
+
           <section className="mb-6">
             <h2 className="text-lg font-semibold ">Haftung für Inhalte</h2>
             <p className="mt-2  ">
@@ -250,23 +306,6 @@ export default function ImpressumAgbPage() {
               Nutzer werden über wesentliche Änderungen informiert. Die Nutzung
               der Website nach Änderung gilt als Zustimmung.
             </p>
-          </section>
-
-          <section className="mb-6 mt-6">
-            <h2 className="font-semibold">Das Entwicklerteam</h2>
-            <p className="mt-2 text-2xl mb-4">
-              Diese Website entstand im Rahmen unserer Weiterbildung als
-              Webentwicklerm, Mitwirkende:
-            </p>
-            <ul className="list text-2xl">
-              <li></li>
-              <li>
-                Marco Rehberg, B.Sc. Medieninformatik,{" "}
-                <a className="underline" href="https://www.raumbasis.com">
-                  www.raumbasis.com
-                </a>
-              </li>
-            </ul>
           </section>
         </div>
 

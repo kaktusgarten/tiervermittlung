@@ -20,6 +20,6 @@ authRoutes.post("/refresh", refresh);
 authRoutes.get("/me", authenticate, me);
 
 authRoutes.delete("/logout-all", authenticate, logoutAll);
-authRoutes.delete("/logout", logout);
+authRoutes.delete("/logout", authenticate, logout);
 
 export default authRoutes;

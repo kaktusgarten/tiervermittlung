@@ -1,4 +1,3 @@
-
 import { Link } from "react-router";
 export default function StepsToAdopt() {
   return (
@@ -7,7 +6,7 @@ export default function StepsToAdopt() {
 
       {/* Steps */}
       <ul
-        className="steps steps-vertical lg:steps-horizontal w-full mb-12"
+        className="steps steps-horizontal w-full mb-12"
         style={{
           ["--tw-step-color" as any]: "#3abf73", // Farbe der Kreise
           ["--tw-step-border" as any]: "#3abf73", // Farbe der Linie
@@ -60,5 +59,5 @@ export default function StepsToAdopt() {
         </div>
       </article>
     </section>
-  )
+  );
 }

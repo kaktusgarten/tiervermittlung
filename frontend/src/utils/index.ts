@@ -8,7 +8,9 @@ export async function refreshAccessToken(): Promise<boolean> {
       credentials: "include",
     });
     return res.ok;
-  } catch {
+  } catch (error) {
+    console.log("Refresh Catch error.....................:");
+    console.log(error);
     return false;
   }
 }
@@ -31,7 +33,7 @@ window.fetch = async (url, options, ...rest) => {
 
   if (authHeader?.includes("token_expired")) {
     console.log("ATTEMPT REFRESH");
-    const refreshRes = await originalFetch(`${authServiceURL}/refresh`, {
+    const refreshRes = await originalFetch(`${authServiceURL}/auth/refresh`, {
       method: "POST",
       credentials: "include",
     });

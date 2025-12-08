@@ -209,6 +209,7 @@ export const refresh: RequestHandler<
   const newRefresh = signRefreshToken({
     jti: user._id.toString(),
     roles: user.roles,
+    ver: user.tokenVersion,
   });
 
   res
@@ -219,14 +220,16 @@ export const refresh: RequestHandler<
       accessToken: newAccess,
       refreshToken: newRefresh,
     });
+  console.log("authController Response für refresh Token:");
+  console.log(res);
 };
 
 // LOGOUT ####################################################
 export const logout: RequestHandler = async (req, res) => {
   res
-    .clearCookie("accessToken")
-    .clearCookie("refreshToken")
-    .json({ message: "logged out" });
+    .clearCookie("accessToken", accessCookieOpts)
+    .clearCookie("refreshToken", refreshCookieOpts)
+    .json({ message: "Logout erfolgreich" });
 };
 
 // LOGOUT ALL ################################################
@@ -241,9 +244,9 @@ export const logoutAll: RequestHandler = async (req, res) => {
   await User.findByIdAndUpdate(id, { $inc: { tokenVersion: 1 } });
 
   res
-    .clearCookie("accessToken")
-    .clearCookie("refreshToken")
-    .json({ message: "logged out from all devices" });
+    .clearCookie("accessToken", accessCookieOpts)
+    .clearCookie("refreshToken", refreshCookieOpts)
+    .json({ message: "Logout von allen Geräten erfolgreich" });
 };
 
 // ME #######################################################
