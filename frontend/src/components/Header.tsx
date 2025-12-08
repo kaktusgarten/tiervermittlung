@@ -307,7 +307,7 @@ export default function Header() {
 
               {signedIn ? (
                 <li>
-                  <a onClick={logout}>Abmelden</a>
+                  <a onClick={() => logout()}>Abmelden</a>
                 </li>
               ) : (
                 <>
