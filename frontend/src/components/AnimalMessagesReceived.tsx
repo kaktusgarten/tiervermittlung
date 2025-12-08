@@ -82,7 +82,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
               <h3 className="font-bold mb-2">
                 {`${sender?.firstName} ${sender?.lastName ?? ""}`}
               </h3>
-              <p className="mb-2">{message.message}</p>
+              <p className="mb-2 h-full">{message.message}</p>
               <div className="text-sm text-muted">
                 {sender?.email && <div>{sender.email}</div>}
                 {sender?.phone && <div>{sender.phone}</div>}
@@ -91,7 +91,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
               <div className="flex place-content-around gap-4 position-absolute bottom-0">
                 <button
                   onClick={() => handleDecline(message._id)}
-                  className={`btn-primary p-2 mt-4 text-white w-full font-semibold ${
+                  className={`btn-primary p-2 mt-4 text-white w-full font-semibold cursor-pointer ${
                     confirmDecline === message._id
                       ? "bg-red-600"
                       : "bg-[#2B1B12]"
@@ -106,7 +106,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
                       onClick={() =>
                         (window.location.href = `mailto:${sender.email}`)
                       }
-                      className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold"
+                      className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold cursor-pointer"
                     >
                       E-Mail
                     </button>{" "}
@@ -120,7 +120,7 @@ export default function AnimalMessagesReceived({ animal }: { animal: Animal }) {
                       onClick={() =>
                         (window.location.href = `tel:${sender.phone}`)
                       }
-                      className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold"
+                      className="btn-primary bg-[#2B1B12] p-2 mt-4 text-white w-full font-semibold cursor-pointer"
                     >
                       Anrufen
                     </button>{" "}

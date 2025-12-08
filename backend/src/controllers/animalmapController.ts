@@ -49,7 +49,7 @@ export const getAnimalsForMap: RequestHandler = async (req, res) => {
     match.characteristics = {
       // $regex: characteristics as string,
       // $options: "i",
-      $all: chars.map((c) => RegExp(c, "i")),
+      $all: chars.map((c) => new RegExp(String(c), "i")),
       // $in: chars.map((c) => new RegExp(c, "i")),       // Eine characteristic muss zutreffen.
     };
   }

@@ -11,7 +11,7 @@ export default function MainImageHomePage({
 }) {
   return (
     <div
-      className="md:-mx-8 sm:-mx-3 -mx-4 border-[#c7c0ca] md:px-10 py-3 min-h-[300px] overflow-hidden flex"
+      className="md:px-10 py-3 min-h-[300px] overflow-hidden flex"
       style={{
         backgroundImage: `url("${image}")`,
         backgroundPosition: "center",

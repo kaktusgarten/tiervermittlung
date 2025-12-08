@@ -34,6 +34,7 @@ app.use(
       //process.env.CLIENT_BASE_URL!,
       "http://localhost:5173",
       "http://localhost:4173",
+      "https://tierglueck-vermittlung.onrender.com"
     ],
     credentials: true,
     exposedHeaders: ["WWW-Authenticate"],
