@@ -65,7 +65,7 @@ export default function DetailAnimal({ animal }) {
             {/*  Rasse ####  */}
             <div className="flex mb-2">
               <img
-                src="/img/icon-age.svg"
+                src="/img/icon-rasse.png"
                 className="mr-2 w-[25px] object-contain"
               />
               <p>Rasse: {animal.race}</p>
@@ -77,13 +77,19 @@ export default function DetailAnimal({ animal }) {
                 src="/img/icon-age.svg"
                 className="mr-2 w-[20px] object-contain"
               />
-              <p>Alter: {animal.age} Jahre</p>
+              <p>Alter: {animal.age} Jahr(e)</p>
             </div>
 
             {/*  Geschlecht #####  */}
             <div className="flex mb-2">
               <img
-                src="/img/icon-age.svg"
+                src={
+                  animal.sex === "männlich"
+                    ? "/img/gender_male_icon.svg"
+                    : animal.sex === "weiblich"
+                    ? "/img/gender_female_icon.svg"
+                    : "/img/questionmark.svg"
+                }
                 className="mr-2 w-[20px] object-contain"
               />
               <p>Geschlecht: {animal.sex}</p>
@@ -92,7 +98,7 @@ export default function DetailAnimal({ animal }) {
             {/*  Standort ####  */}
             <div className="flex mb-2">
               <img
-                src="/img/icon-standort.svg"
+                src="/img/location_pin.svg"
                 className="mr-2 w-[20px] object-contain"
               />
               <p>Standort: {animal.owner.city}</p>

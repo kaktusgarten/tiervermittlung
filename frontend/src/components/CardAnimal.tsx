@@ -9,10 +9,10 @@ export default function CardAnimal({ animal }) {
     <>
       <article
         key={animal._id}
-        className="CARD rounded-2xl bg-[#c7c0ca] text-black flex flex-col"
+        className="CARD rounded-2xl bg-base-200 flex flex-col border border-gray-300 shadow-md hover:shadow-lg transition-shadow duration-300"
       >
         <img
-          src={animal.image_url[0]}
+          src={animal.image_url[0] || "../img/placeholder-animals.jpg"}
           alt="Tier sucht Zuhause"
           className="rounded-t-2xl object-cover object-top h-[360px]"
         />
@@ -40,13 +40,13 @@ export default function CardAnimal({ animal }) {
                 src="./img/icon-age.svg"
                 className="mr-2 w-[20px] object-contain"
               />
-              <span>Alter: {animal.age} Jahre</span>
+              <span>Alter: {animal.age} Jahr(e)</span>
             </div>
           </div>
 
           <div className="flex justify-between">
             <button
-              className="rounded-md bg-[#2B1B12] text-white px-4 py-2 cursor-pointer"
+              className="btn btn-primary rounded-md px-4 py-2 cursor-pointer"
               onClick={handleDetailsClick}
             >
               Details
@@ -54,7 +54,7 @@ export default function CardAnimal({ animal }) {
 
             <div className="flex items-center">
               <img
-                src="./img/icon-standort.svg"
+                src="./img/location_pin.svg"
                 className="mr-2 w-[20px] object-contain"
               />
               <strong>Standort: {animal.owner.city}</strong>

@@ -84,7 +84,7 @@ export default function AnimalForm() {
   // FormAction Handler
   async function submitAction(_prevState: any, formDataSubmit: FormData) {
     // Bilder hinzufügen
-    images.forEach((img) => formDataSubmit.append("image", img));
+    //images.forEach((img) => formDataSubmit.append("image", img));
 
     // Alter in Zahl umwandeln
     const ageStr = formDataSubmit.get("age") as string | null;
@@ -291,8 +291,8 @@ export default function AnimalForm() {
         >
           {/* <div className="border border-[#525252]"> */}
           <option value="">-- bitte auswählen --</option>
-          <option value="true">Ja</option>
-          <option value="false">Nein</option>
+          <option value="1">Ja</option>
+          <option value="0">Nein</option>
           {/* </div> */}
         </select>
 

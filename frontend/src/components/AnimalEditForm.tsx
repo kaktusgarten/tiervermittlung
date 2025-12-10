@@ -19,7 +19,7 @@ function validateEdit(data: Record<string, string>) {
   return errors;
 }
 
-export default function AnimalEditForm({ animal } : { animal : any }) {
+export default function AnimalEditForm({ animal }: { animal: any }) {
   const navigate = useNavigate();
   const [images, setImages] = useState<File[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -37,7 +37,7 @@ export default function AnimalEditForm({ animal } : { animal : any }) {
     sex: animal.sex || "",
     description: animal.description || "",
     characteristics: animal.characteristics || [],
-    handycap: animal.handycap || "",
+    handycap: String(animal.handycap || ""),
   });
 
   const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +85,7 @@ export default function AnimalEditForm({ animal } : { animal : any }) {
   // FormAction Handler
   async function submitAction(_prevState: any, formDataSubmit: FormData) {
     // Bilder hinzufügen
-    images.forEach((img) => formDataSubmit.append("image", img));
+    //images.forEach((img) => formDataSubmit.append("image", img));
 
     // Alter in Zahl umwandeln
     const ageStr = formDataSubmit.get("age") as string | null;
@@ -292,8 +292,8 @@ export default function AnimalEditForm({ animal } : { animal : any }) {
           disabled={isPending}
         >
           <option value="">-- bitte auswählen --</option>
-          <option value="true">Ja</option>
-          <option value="false">Nein</option>
+          <option value="1">Ja</option>
+          <option value="0">Nein</option>
         </select>
 
         {formState.errors?.handycap && (

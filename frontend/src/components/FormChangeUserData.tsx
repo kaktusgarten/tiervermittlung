@@ -73,7 +73,7 @@ export default function FormChangeUserData() {
     }
 
     try {
-      const res = await fetch(`${process.env}/users/${userData?._id}`, {
+      const res = await fetch(`${import.meta.env.VITE_APP_AUTH_SERVER_URL}/users/${userData?._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

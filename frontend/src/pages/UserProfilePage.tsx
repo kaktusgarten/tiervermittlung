@@ -148,8 +148,8 @@ export default function UserProfilePage() {
                             <Link to={`/details/${animal._id}`}>
                               <img
                                 src={
-                                  animal?.image_url?.[0] ||
-                                  "/placeholder-animal.png"
+                                  animal?.image_url?.[0] ??
+                                  "../img/placeholder-animals.jpg"
                                 }
                                 alt={animal?.name || "Tierbild"}
                                 className="w-full h-full object-cover"
@@ -160,7 +160,7 @@ export default function UserProfilePage() {
                           <div className="flex-row gap-2">
                             <p className="text-sm">
                               <span className="font-bold"> Alter:</span>
-                              <span> {animal?.age} Jahre </span>
+                              <span> {animal?.age} Jahr(e) </span>
                             </p>
                             <p className="text-sm">
                               <span className="font-bold"> Tierart:</span>

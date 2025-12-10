@@ -11,7 +11,9 @@ export default function EditAnimalPage() {
   useEffect(() => {
     const fetchAnimal = async () => {
       try {
-        const res = await fetch(`${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals/${slug}`);
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_AUTH_SERVER_URL}/animals/${slug}`
+        );
         if (!res.ok) {
           throw new Error("Fehler beim Laden des Tieres");
         }
@@ -40,7 +42,7 @@ export default function EditAnimalPage() {
           </p>
         ) : (
           <>
-            <div className="bg-base-300 rounded-2xl p-4">
+            <div className="bg-base-300 rounded-2xl p-10">
               <h1 className="mt-10 mb-4">{animal?.name} bearbeiten</h1>
               <p className="mt-10 mb-5 text-xl">
                 Hier kannst Du die Informationen über dein Tier aktualisieren.
@@ -61,7 +63,7 @@ export default function EditAnimalPage() {
                     }`}
                   >
                     <img
-                      src={url}
+                      src={url || "../img/placeholder-animals.jpg"}
                       alt={animal?.name + index}
                       className="w-full rounded-2xl border-base-200 border"
                     />

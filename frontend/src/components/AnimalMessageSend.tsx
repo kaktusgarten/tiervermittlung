@@ -189,7 +189,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card bg-[#C7C0CA] my-5 shadow-sm">
+    <form onSubmit={handleSubmit} className="card bg-base-300 my-5 shadow-sm">
       <div className="card-body">
         <h3 className="card-title">Nachricht an Besitzer senden</h3>
         <label className="label">
@@ -200,7 +200,7 @@ export default function AnimalMessage({ animal }: { animal: Animal }) {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Deine Nachricht an den Tierbesitzer"
-          className="textarea textarea-bordered w-full resize-y bg-base-200 dark:bg-base-300 text-base-content"
+          className="textarea textarea-bordered w-full resize-y bg-base-200 text-base-content"
           rows={5}
           aria-label="Nachricht"
           disabled={loading || !isEditing}

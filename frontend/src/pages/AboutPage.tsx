@@ -68,7 +68,7 @@ export default function AboutPage() {
 
           {/* Steps */}
           <ul
-            className="steps steps-vertical lg:steps-horizontal w-full mb-12"
+            className="steps steps-horizontal w-full mb-12"
             style={{
               ["--tw-step-color" as any]: "#3abf73", // Farbe der Kreise
               ["--tw-step-border" as any]: "#3abf73", // Farbe der Linie

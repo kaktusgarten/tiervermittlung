@@ -175,6 +175,7 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
     return Object.values(grouped).flatMap((group) => {
       if (group.length === 1) return group;
 
+      //      const offsetRadius = 0.0001;
       const offsetRadius = 0.0001;
 
       return group.map((animal, index) => {
@@ -201,7 +202,7 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
         }}
         center={position}
         zoom={0}
-        minZoom={5}
+        minZoom={6}
         scrollWheelZoom={true}
       >
         <ComponentResize />
@@ -219,10 +220,23 @@ const AnimalsLocationMap = ({ search }: AnimalsLocationMapProps) => {
             icon={redIcon}
             position={[animal.lat, animal.lng]}
             eventHandlers={{
+              mouseover: (e) => e.target.openPopup(),
+              mouseout: (e) => e.target.closePopup(),
               click: () => navigate(`/details/${animal._id}`),
             }}
           >
-            <Popup>{animal.category}</Popup>
+            <Popup>
+              <div>
+                <img
+                  src={animal.image_url[0] || "./img/placeholder-animals.jpg"}
+                  style={{ width: "160px", borderRadius: "8px" }}
+                />
+                <h4 className="mt-0.5 font-semibold">
+                  {" "}
+                  {animal.name} {animal.postalCode} {animal.city}{" "}
+                </h4>
+              </div>
+            </Popup>
           </Marker>
         ))}
       </MapContainer>

@@ -48,7 +48,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://tierglueck-vermittlung.onrender.com",
+      "https://tiervermittlung-backup.onrender.com",
       "https://tiervermittlung-deployment.onrender.com",
     ],
     credentials: true,
@@ -74,9 +74,9 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(
-    `\x1b[35mMain app listening at https://tiervermittlung-deployment-server.onrender.com/:${port}\x1b`
+    `\x1b[35mMain app listening at https://tiervermittlung-backup-server.onrender.com/:${port}\x1b`
   );
   console.log(
-    `\x1d[17mSwagger Docs available at:https://tiervermittlung-deployment-server.onrender.com/:${port}/docs\x1b`
+    `\x1d[17mSwagger Docs available at:https://tiervermittlung-backup-server.onrender.com/:${port}/docs\x1b`
   );
 });
